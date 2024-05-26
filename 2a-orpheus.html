@@ -8,6 +8,7 @@
         margin: 0;
         height: 100vh;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         background: #000;
@@ -35,16 +36,33 @@
         z-index: 0; /* Ensure image is below the light */
         position: relative; /* To ensure z-index takes effect */
     }
+    .Btn {
+        padding: 10px 20px;
+        font-family: "Courier New", monospace;
+        font-size: 16px;
+        color: white;
+        background-color: black;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        display: none; /* Initially hidden */
+        margin-top: 20px;
+    }
+    .Btn:hover {
+        background-color: grey;
+    }
 </style>
 </head>
 <body>
 <div id="light"></div>
 <img id="image" src="assets/image1.png" onclick="changeImage()">
+<button class="Btn" id="submitButton" onclick="location.href='2c-deny.html'">Submit</button>
 <script>
     let currentImage = 1;
     const totalImages = 4;
     const imageElement = document.getElementById('image');
     const lightElement = document.getElementById('light');
+    const submitButton = document.getElementById('submitButton');
     let isTransitioning = false;
 
     function changeImage() {
@@ -60,6 +78,9 @@
                 if (currentImage === 4) {
                     lightElement.style.display = 'block';
                     lightElement.style.opacity = '1';
+                    setTimeout(() => {
+                        submitButton.style.display = 'block';
+                    }, 2000); // Wait for light transition before showing button
                 }
             }, 3000);
         }

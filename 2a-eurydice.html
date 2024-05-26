@@ -13,6 +13,7 @@
         }
         #container {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -34,21 +35,46 @@
             transition: opacity 2s;
             pointer-events: none;
         }
+        #submitBtn {
+            display: none;
+            padding: 10px 20px;
+            font-family: "Courier New", monospace;
+            font-size: 16px;
+            color: white;
+            background-color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #submitBtn:hover {
+            background-color: grey;
+        }
     </style>
 </head>
 <body>
     <div id="container">
         <img id="image" src="assets/Eurydice.png" alt="Image" />
+        <button id="submitBtn">Submit</button>
     </div>
     <div class="light" id="light"></div>
 
     <script>
         const image = document.getElementById('image');
         const light = document.getElementById('light');
+        const submitBtn = document.getElementById('submitBtn');
 
         image.addEventListener('click', () => {
             image.style.opacity = '0';
             light.style.opacity = '1';
+
+            // Wait for the transitions to complete before showing the button
+            setTimeout(() => {
+                submitBtn.style.display = 'block';
+            }, 20000); // Match the duration of the image transition
+        });
+
+        submitBtn.addEventListener('click', () => {
+            window.location.href = '2c-deny.html'; // Update this path to your new page
         });
     </script>
 </body>
