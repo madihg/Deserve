@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Candidate evaluation</title>
+    <style>
+      body {
+        background-color: black;
+        font-family: "Courier New", Courier, monospace;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .container {
+        margin-top: 20px;
+        width: 80%;
+        max-width: 800px;
+        text-align: center;
+      }
+      .input-field,
+      .text-area {
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 10px;
+        font-size: 16px;
+        box-sizing: border-box;
+        background-color: black;
+        color: white;
+        border: 1px solid grey;
+        font-family: "Courier New", monospace;
+      }
+      .text-area {
+        height: 150px;
+        font-family: "Courier New", monospace;
+      }
+      .submit-button {
+        width: 100%;
+        max-width: 200px;
+        padding: 10px 20px;
+        font-family: "Courier New", monospace;
+        font-size: 16px;
+        color: white;
+        background-color: black;
+        border: 1px solid white; /* Added white border */
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 0 auto; /* Centers the button horizontally */
+      }
+      .submit-button:hover {
+        background-color: grey;
+      }
+      .submission {
+        border-top: 1px solid white;
+        margin-top: 10px;
+        padding-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <input
+        type="text"
+        class="input-field"
+        id="candidateNumber"
+        placeholder="Candidate number"
+      />
+      <textarea
+        class="text-area"
+        id="additionalText"
+        placeholder="Type here..."
+      ></textarea>
+      <button class="submit-button" id="applyBtn" onclick="submitText()">
+        Submit
+      </button>
+      <div id="submissions"></div>
+    </div>
+    <script>
+      function submitText() {
+        const candidateNumber =
+          document.getElementById("candidateNumber").value;
+        const additionalText = document.getElementById("additionalText").value;
+
+        if (candidateNumber || additionalText) {
+          const submissionDiv = document.createElement("div");
+          submissionDiv.classList.add("submission");
+
+          const candidateNumberPara = document.createElement("p");
+          candidateNumberPara.textContent =
+            "Candidate Number: " + candidateNumber;
+          submissionDiv.appendChild(candidateNumberPara);
+
+          const additionalTextPara = document.createElement("p");
+          additionalTextPara.textContent = "Additional Notes: " + additionalText;
+          submissionDiv.appendChild(additionalTextPara);
+
+          document.getElementById("submissions").appendChild(submissionDiv);
+
+          document.getElementById("candidateNumber").value = "";
+          document.getElementById("additionalText").value = "";
+        }
+      }
+    </script>
+  </body>
+</html>

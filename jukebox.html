@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Page</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: "Merriweather", serif;
+        }
+        h1 {
+            font-size: 2em;
+            font-family: "Merriweather", serif;
+            font-weight: normal;
+            position: absolute;
+            top: 10px;
+        }
+        #applyBtn {
+            padding: 10px 20px;
+            font-family: "Courier New", monospace;
+            font-size: 16px;
+            color: white;
+            background-color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        #applyBtn:hover {
+            background-color: grey;
+        }
+        #timer, #message {
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            font-family: "Merriweather", serif;
+        }
+        #imageContainer {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="message"></div>
+<div id="timer"></div>
+
+<div id="imageContainer">
+    <img src="assets/cassette-player.png" alt="Image" width="300">
+</div>
+
+<div>
+    <button id="applyBtn" onclick="startTimer('Arabic')">Arabic</button>
+    <button id="applyBtn" onclick="startTimer('French')">French</button>
+    <button id="applyBtn" onclick="startTimer('English')">English</button>
+</div>
+
+<div>
+    <button id="applyBtn" onclick="showMessage()">Alto</button>
+    <button id="applyBtn" onclick="showMessage()">Soprano</button>
+    <button id="applyBtn" onclick="showMessage()">Tenor</button>
+    <button id="applyBtn" onclick="showMessage()">Bass</button>
+    <button id="applyBtn" onclick="showMessage()">Baritone</button>
+</div>
+
+<script>
+    function startTimer(language) {
+        disableLanguageButtons();
+        document.getElementById('message').innerText = '';
+        let timer = 30;
+        const timerElement = document.getElementById('timer');
+        timerElement.innerText = `Playing something ~ ${timer}`;
+
+        const countdown = setInterval(() => {
+            timer--;
+            timerElement.innerText = `Playing something ~ ${timer}`;
+            if (timer <= 0) {
+                clearInterval(countdown);
+                timerElement.innerText = '';
+                enableLanguageButtons();
+            }
+        }, 1000);
+    }
+
+    function disableLanguageButtons() {
+        const buttons = document.querySelectorAll('button[onclick^="startTimer"]');
+        buttons.forEach(button => {
+            button.disabled = true;
+            button.style.cursor = 'not-allowed';
+        });
+    }
+
+    function enableLanguageButtons() {
+        const buttons = document.querySelectorAll('button[onclick^="startTimer"]');
+        buttons.forEach(button => {
+            button.disabled = false;
+            button.style.cursor = 'pointer';
+        });
+    }
+
+    function showMessage() {
+        document.getElementById('message').innerText = 'This functionality is not available right now';
+    }
+</script>
+
+</body>
+</html>

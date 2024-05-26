@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Good night</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #333;
+            position: relative;
+        }
+
+        .candles {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .candle {
+            width: 50px;
+            height: 100px;
+            margin: 10px;
+            background-color: #ccc;
+            border-radius: 10px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .candle:before {
+            content: '';
+            width: 10px;
+            height: 30px;
+            background-color: #666;
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 5px;
+        }
+
+        .candle.lit {
+            background-color: #ffa500;
+        }
+
+        .candle.lit:before {
+            background-color: #ff0;
+            box-shadow: 0 0 20px #ff0;
+        }
+
+        #applyBtn {
+            padding: 10px 20px;
+            font-family: "Courier New", monospace;
+            font-size: 16px;
+            color: white;
+            background-color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: none; /* Initially hidden */
+            margin-top: 20px;
+        }
+
+        #applyBtn:hover {
+            background-color: grey;
+        }
+
+        #phone {
+            position: absolute;
+            bottom: -400px;
+            left: 15px; /* Adjust this to position the phone */
+            width: 300px; /* Adjust this to change the size */
+            height: auto;
+            display: none; /* Initially hidden */
+        }
+
+        #notification {
+            position: absolute;
+            bottom: 40px; /* Adjust this to align with the phone */
+            left: 55px; /* Adjust this to align with the phone */
+            padding: 5px 10px;
+            background-color: white;
+            color: black;
+            font-family: "Courier New", monospace;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            display: none; /* Initially hidden */
+            cursor: pointer;
+        }
+        #notification:hover {
+            background-color: grey;
+        }
+    </style>
+</head>
+<body>
+    <div class="candles">
+        <div class="candle" id="candle1"></div>
+        <div class="candle" id="candle2"></div>
+        <div class="candle" id="candle3"></div>
+        <div class="candle" id="candle4"></div>
+        <div class="candle" id="candle5"></div>
+    </div>
+    <button id="applyBtn">Submit</button>
+    <img src="https://www.freeiconspng.com/thumbs/phone-png/phone-png-12.png" id="phone" alt="Phone">
+    <button id="notification">▶ khalo johnny sent a vm</button>
+
+    <script>
+        const candles = document.querySelectorAll('.candle');
+        let litOrder = [];
+        let failedAttempts = 0;
+
+        candles.forEach((candle, index) => {
+            candle.addEventListener('click', () => {
+                candle.classList.toggle('lit');
+                if (candle.classList.contains('lit')) {
+                    litOrder.push(index);
+                } else {
+                    litOrder = litOrder.filter(i => i !== index);
+                }
+                checkAllCandlesLit();
+            });
+        });
+
+        function checkAllCandlesLit() {
+            const allLit = Array.from(candles).every(candle => candle.classList.contains('lit'));
+            const applyBtn = document.getElementById('applyBtn');
+            const phone = document.getElementById('phone');
+            const notification = document.getElementById('notification');
+
+            if (allLit) {
+                if (checkCorrectOrder()) {
+                    applyBtn.textContent = 'Submit';
+                    notification.style.display = 'none';
+                    phone.style.display = 'none';
+                } else {
+                    applyBtn.textContent = 'Try Again';
+                    failedAttempts += 1;
+                    if (failedAttempts >= 2) {
+                        phone.style.display = 'block';
+                        notification.style.display = 'block';
+                    }
+                }
+                applyBtn.style.display = 'block';
+            } else {
+                applyBtn.style.display = 'none';
+            }
+        }
+
+        function checkCorrectOrder() {
+            // Correct order: middle (2) first, then ends (0, 4), then remaining (1, 3)
+            if (litOrder.length !== 5) return false;
+            return litOrder[0] === 2 && 
+                   ((litOrder[1] === 0 && litOrder[2] === 4) || (litOrder[1] === 4 && litOrder[2] === 0)) &&
+                   ((litOrder[3] === 1 && litOrder[4] === 3) || (litOrder[3] === 3 && litOrder[4] === 1));
+        }
+
+        document.getElementById('applyBtn').addEventListener('click', function() {
+            if (this.textContent === 'Submit') {
+                window.location.href = 'https://oulipo.xyz/deserve-it-5-id.html'; // Replace with your desired URL
+            } else {
+                // Turn off all candles
+                candles.forEach(candle => candle.classList.remove('lit'));
+                this.style.display = 'none';
+                litOrder = [];
+            }
+        });
+    </script>
+</body>
+</html>

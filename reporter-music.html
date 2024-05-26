@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Page</title>
+    <style>
+        body {
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Grand_staff.svg/2560px-Grand_staff.svg.png');
+            background-size: cover;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+            font-family: Arial, sans-serif;
+        }
+        .circle {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-color: black;
+            border-radius: 50%;
+        }
+        .text {
+            position: absolute;
+            color: black;
+            font-size: 20px;
+            padding-left: 10px;
+        }
+        #resetButton {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        const items = [
+            "1948 Arab–Israeli War (1948-1949)",
+            "1968 Israeli raid on Lebanon (1968)",
+            "1958 Lebanon crisis (1958)",
+            "Six-Day War (1967)",
+            "Insurgency in South Lebanon (1968-1982)",
+            "1973 Israeli raid in Lebanon (1973)",
+            "Lebanese Civil War (1975-1990)",
+            "Hundred Days' War (1978)",
+            "1978 South Lebanon conflict (1978)",
+            "Battle of Zahleh (1981)",
+            "Mountain War (1983-1984)",
+            "War of the Camps (1985-1988)",
+            "1982 Lebanon War (1982)",
+            "South Lebanon conflict (1985-2000)",
+            "Shebaa Farms conflict (2000-2006)",
+            "Cedar Revolution (2005)",
+            "2006 Lebanon War (2006)",
+            "Fatah al-Islam Rebellion (2007)",
+            "2008 Lebanon conflict (2008)",
+            "Syrian civil war spillover (2011-2017)",
+            "Israel–Hezbollah conflict (2023–ongoing)",
+            "17 October Revolution (Ongoing)",
+            "2023 Ain al-Hilweh clashes (2023)"
+        ];
+
+        let index = 0;
+
+        document.body.addEventListener('click', function(event) {
+            if (index >= items.length) return;
+
+            const circle = document.createElement('div');
+            circle.className = 'circle';
+            circle.style.left = `${event.clientX - 50}px`;
+            circle.style.top = `${event.clientY - 50}px`;
+
+            const text = document.createElement('div');
+            text.className = 'text';
+            text.style.left = `${event.clientX + 60}px`;
+            text.style.top = `${event.clientY - 10}px`;
+            text.innerText = items[index];
+
+            index++;
+
+            document.body.appendChild(circle);
+            document.body.appendChild(text);
+
+            if (index === items.length) {
+                showResetButton();
+            }
+        });
+
+        function showResetButton() {
+            const button = document.createElement('button');
+            button.id = 'resetButton';
+            button.innerText = 'Restart';
+            button.onclick = () => location.reload();
+            document.body.appendChild(button);
+            button.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

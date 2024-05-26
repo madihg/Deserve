@@ -39,7 +39,7 @@
 </head>
 <body>
 <div id="light"></div>
-<img id="image" src="/Users/halim/Desktop/Deserve/assets/image1.png" onclick="changeImage()">
+<img id="image" src="assets/image1.png" onclick="changeImage()">
 <script>
     let currentImage = 1;
     const totalImages = 4;
@@ -54,7 +54,7 @@
             currentImage++;
             imageElement.style.opacity = '0';
             setTimeout(() => {
-                imageElement.src = `/Users/halim/Desktop/Deserve/assets/image${currentImage}.png`;
+                imageElement.src = `assets/image${currentImage}.png`;
                 imageElement.style.opacity = '1';
                 isTransitioning = false;
                 if (currentImage === 4) {
