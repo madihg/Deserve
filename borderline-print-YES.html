@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webcam Capture and Print</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet" />
+    <style>
+        @media print {
+            /* Hide elements not to be printed */
+            video,
+            #captureBtn,
+            #enterBtn,
+            #printBtn,
+            #captureTitle,
+            #disclaimer,
+            #disclaimerCheckbox,
+            label[for="disclaimerCheckbox"] {
+                display: none;
+                visibility: hidden;
+                height: 0;
+            }
+
+            /* Ensure the canvas and name are visible and styled appropriately */
+            canvas,
+            #printName {
+                display: block;
+            }
+
+            /* Add a background image to the printout */
+            #backgroundImage {
+                -webkit-transform: scaleX(-1);
+                transform: scaleX(-1);
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 50%;
+                height: 50%;
+                z-index: -1;
+                opacity: 0.1; /* Adjust opacity as needed */
+                display: block;
+            }
+        }
+
+        /* Button styles */
+        .styledBtn {
+            padding: 10px 20px;
+            font-family: "Courier New", monospace;
+            font-size: 16px;
+            color: white;
+            background-color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .styledBtn:hover {
+            background-color: grey;
+        }
+
+        /* Additional styles for layout and appearance */
+        #printBtn:disabled {
+            color: grey;
+            cursor: not-allowed;
+        }
+
+        /* Flexbox layout for photo and name entry */
+        #photoAndName {
+            display: flex; /* Enables flexbox layout */
+            align-items: center; /* Aligns items vertically in the center */
+        }
+
+        #nameEntry {
+            margin-left: 5px; /* Space between the canvas and name entry */
+        }
+
+        h1 {
+            font-family: "Merriweather", serif;
+        }
+
+        h2 {
+            font-family: "Merriweather", serif;
+        }
+
+        p {
+            font-family: "Courier New", monospace;
+        }
+
+        #backgroundImage {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h2 id="captureTitle">You deserved it</h2>
+    <video id="webcam" autoplay playsinline width="640" height="480"></video>
+    <button id="captureBtn" class="styledBtn">Take Photo</button>
+    <div id="photoAndName" style="display: flex; align-items: center;">
+        <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
+        <div style="display: flex; flex-direction: column; margin-left: 20px;">
+            <h1 id="printName" style="display:none;"></h1>
+            <p id="date"></p>
+            <p id="randomId" style="font-family: 'Courier New', monospace;"></p>
+            <p id="address" style="font-family: 'Courier New', monospace;"></p>
+            <p id="additionalFields" style="font-family: 'Courier New', monospace;"></p>
+            <input type="text" id="nameEntry" placeholder="Full Name Here" style="display:none;">
+            <button id="enterBtn" class="styledBtn" style="display:none; margin-top: 10px;">Enter</button>
+            <div id="disclaimer" style="display:none; margin-top: 10px;">
+                <input type="checkbox" id="disclaimerCheckbox">
+                <label for="disclaimerCheckbox">Sure, use my photo as part of this piece</label>
+            </div>
+            <button id="printBtn" class="styledBtn" style="display:none; margin-top: 10px;" disabled>Print</button>
+        </div>
+    </div>
+    <img id="backgroundImage" src="https://img.freepik.com/premium-vector/flying-eagle-logo-black-white_9645-2420.jpg" alt="Eagle Background">
+
+    <script>
+        const video = document.getElementById('webcam');
+        const canvas = document.getElementById('canvas');
+        const captureBtn = document.getElementById('captureBtn');
+        const printBtn = document.getElementById('printBtn');
+        const nameEntry = document.getElementById('nameEntry');
+        const enterBtn = document.getElementById('enterBtn');
+        const dateElement = document.getElementById('date');
+        const printName = document.getElementById('printName');
+        const disclaimer = document.getElementById('disclaimer');
+        const backgroundImage = document.getElementById('backgroundImage');
+        const context = canvas.getContext('2d');
+
+        // Request access to the webcam
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
+            .then(function (stream) {
+                video.srcObject = stream;
+            })
+            .catch(function (error) {
+                console.log("Error accessing the camera: ", error);
+            });
+
+        captureBtn.addEventListener('click', function () {
+            canvas.style.display = 'block';
+            video.style.display = 'none';
+            captureBtn.style.display = 'none';
+            nameEntry.style.display = 'inline';
+            enterBtn.style.display = 'inline';
+            disclaimer.style.display = 'block';
+            printBtn.style.display = 'block';
+            context.drawImage(video, 0, 0, 640, 480);
+            dateElement.textContent = new Date().toLocaleDateString();
+        });
+
+        enterBtn.addEventListener('click', function () {
+            const name = nameEntry.value.trim();
+            if (name !== '') {
+                nameEntry.style.display = 'none';
+                enterBtn.style.display = 'none';
+                printName.textContent = misspellName(name);
+                printName.style.display = 'block';
+                printBtn.disabled = false;
+            }
+        });
+
+        printBtn.addEventListener('click', function () {
+            const randomId = generateRandomId();
+            const address = generateRandomAddress();
+            const additionalFields = generateAdditionalFields();
+
+            document.getElementById('randomId').textContent = randomId;
+            document.getElementById('address').textContent = address;
+            document.getElementById('additionalFields').innerHTML = additionalFields;
+
+            backgroundImage.style.display = 'block';
+            window.print();
+            backgroundImage.style.display = 'none';
+        });
+
+        function misspellName(name) {
+            return name.slice(0, -1) + String.fromCharCode(name.charCodeAt(name.length - 1) + 1);
+        }
+
+        function generateRandomId() {
+            const randomLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+            const randomNumber = Math.floor(Math.random() * 1e10).toString().padStart(10, '0');
+            return `${randomLetter}${randomNumber}`;
+        }
+
+        function generateRandomAddress() {
+            const streets = ['Main St', 'Highland Ave', 'Maple Drive', 'Oak St', 'Cedar Lane'];
+            const cities = ['Springfield', 'Riverside', 'Greenville', 'Fairview', 'Madison'];
+            const states = ['CA', 'TX', 'NY', 'FL', 'IL'];
+            const zip = Math.floor(Math.random() * 90000) + 10000;
+
+            const street = streets[Math.floor(Math.random() * streets.length)];
+            const city = cities[Math.floor(Math.random() * cities.length)];
+            const state = states[Math.floor(Math.random() * states.length)];
+
+            return `${Math.floor(Math.random() * 9999) + 1} ${street}, ${city}, ${state} ${zip}`;
+        }
+
+        function generateAdditionalFields() {
+            const expDate = new Date();
+            expDate.setDate(expDate.getDate() + 1);
+            const expDateString = expDate.toLocaleDateString();
+
+            const sexes = ['F', 'M'];
+            const hairs = ['BRN', 'BLK', 'BLN', 'RED', 'GRY'];
+            const eyes = ['BRN', 'BLU', 'GRN', 'HAZ', 'GRY'];
+            const heights = ['5\'-05"', '5\'-06"', '5\'-07"', '5\'-08"', '5\'-09"'];
+            const weights = ['125 lb', '130 lb', '135 lb', '140 lb', '145 lb'];
+
+            const dob = `${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')}${Math.floor(Math.random() * 50) + 1950}`;
+            const sex = sexes[Math.floor(Math.random() * sexes.length)];
+            const hair = hairs[Math.floor(Math.random() * hairs.length)];
+            const eye = eyes[Math.floor(Math.random() * eyes.length)];
+            const height = heights[Math.floor(Math.random() * heights.length)];
+            const weight = weights[Math.floor(Math.random() * weights.length)];
+            const iss = `${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')}${Math.floor(Math.random() * 21) + 2000}`;
+
+            return `
+                CLASS: C<br>
+                EXP: ${expDateString}<br>
+                DOB: ${dob}<br>
+                RSTR: NONE<br>
+                08311977 DONOR<br>
+                SEX: ${sex}<br>
+                HAIR: ${hair}<br>
+                EYES: ${eye}<br>
+                HGT: ${height}<br>
+                WGT: ${weight}<br>
+                ISS: ${iss}
+            `;
+        }
+    </script>
+</body>
+
+</html>
