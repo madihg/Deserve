@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deserve It</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+        background-image: url("https://cdn.glitch.global/1845b321-a807-4125-ab1e-22880f3e033a/image%20(12)-modified.png?v=1716056377777");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        color: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+      }
+
+      .content {
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 2em;
+        font-family: "Merriweather", serif;
+        font-weight: normal;
+        position: absolute;
+        left: -260px;
+        top: 10px;
+      }
+
+      .info-box {
+        font-family: "Courier New", monospace;
+        position: absolute;
+        left: -140px;
+        top: 300px; /* Adjusted to move the box upwards */
+        z-index: 10;
+        border: 1px solid black;
+        padding: 10px;
+        margin: 10px;
+        background-color: white;
+      }
+      .button-container {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px; /* Added space between the second line and the buttons */
+      }
+      .info-box button {
+        padding: 10px 20px;
+        font-family: "Courier New", monospace;
+        font-size: 16px;
+        color: white;
+        background-color: black;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .info-box button:hover {
+        background-color: grey;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="content">
+      <h1 id="deserveText">Deserve it</h1>
+    </div>
+
+    <div class="info-box">
+      <div>Embassy of the United States, Beirut</div>
+      <div>You completed application #<span id="applicationId"></span></div>
+      <div class="button-container">
+        <button class="actionBtn" onclick="window.location.href='https://example.com/submit'">Submit</button>
+        <button class="actionBtn" onclick="window.location.href='https://example.com/save'">Save</button>
+        <button class="actionBtn" onclick="window.location.href='https://example.com/stray'">Stray</button>
+      </div>
+    </div>
+
+    <script>
+      function generateRandomId() {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+        const charactersLength = characters.length;
+        for (let i = 0; i < 16; i++) {
+          result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+      }
+
+      document.getElementById('applicationId').textContent = generateRandomId();
+    </script>
+  </body>
+</html>
