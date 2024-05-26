@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Orpheus</title>
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #000;
+        overflow: hidden;
+        position: relative;
+    }
+    #light {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: radial-gradient(circle at top right, rgba(255, 255, 224, 0.8) 0%, rgba(255, 255, 224, 0) 70%);
+        width: 100%;
+        height: 100%;
+        display: none;
+        pointer-events: none;
+        image-rendering: pixelated;
+        opacity: 0;
+        transition: opacity 2s;
+        z-index: 1; /* Ensure light is on top */
+    }
+    img {
+        width: 500px;
+        height: auto;
+        transition: opacity 3s ease;
+        z-index: 0; /* Ensure image is below the light */
+        position: relative; /* To ensure z-index takes effect */
+    }
+</style>
+</head>
+<body>
+<div id="light"></div>
+<img id="image" src="/Users/halim/Desktop/Deserve/assets/image1.png" onclick="changeImage()">
+<script>
+    let currentImage = 1;
+    const totalImages = 4;
+    const imageElement = document.getElementById('image');
+    const lightElement = document.getElementById('light');
+    let isTransitioning = false;
+
+    function changeImage() {
+        if (isTransitioning) return;
+        if (currentImage < totalImages) {
+            isTransitioning = true;
+            currentImage++;
+            imageElement.style.opacity = '0';
+            setTimeout(() => {
+                imageElement.src = `/Users/halim/Desktop/Deserve/assets/image${currentImage}.png`;
+                imageElement.style.opacity = '1';
+                isTransitioning = false;
+                if (currentImage === 4) {
+                    lightElement.style.display = 'block';
+                    lightElement.style.opacity = '1';
+                }
+            }, 3000);
+        }
+    }
+</script>
+</body>
+</html>
