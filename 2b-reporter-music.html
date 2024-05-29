@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Page</title>
+    <title>History holes</title>
     <style>
         body {
             background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Grand_staff.svg/2560px-Grand_staff.svg.png');
@@ -100,8 +100,8 @@
         function showResetButton() {
             const button = document.createElement('button');
             button.id = 'resetButton';
-            button.innerText = 'Restart';
-            button.onclick = () => location.reload();
+            button.innerText = 'Go to Repo';
+            button.onclick = () => window.location.href = '2c-deny.html'; // Replace with your actual URL
             document.body.appendChild(button);
             button.style.display = 'block';
         }
