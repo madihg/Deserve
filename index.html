@@ -39,20 +39,25 @@
 
       .info-box {
         font-family: "Courier New", monospace;
-        position: absolute;
-        left: -140px;
-        top: 300px; /* Adjusted to move the box upwards */
         z-index: 10;
         border: 1px solid black;
         padding: 10px;
         margin: 10px;
         background-color: white;
+        text-align: center; /* Centering the text inside the box */
       }
+
+      .info-line {
+        margin-bottom: 10px; /* Adding space between the lines */
+      }
+
       .button-container {
         display: flex;
+        justify-content: center; /* Centering the buttons */
         gap: 10px;
         margin-top: 10px; /* Added space between the second line and the buttons */
       }
+
       .info-box button {
         padding: 10px 20px;
         font-family: "Courier New", monospace;
@@ -63,6 +68,7 @@
         border-radius: 5px;
         cursor: pointer;
       }
+
       .info-box button:hover {
         background-color: grey;
       }
@@ -74,8 +80,8 @@
     </div>
 
     <div class="info-box">
-      <div>Embassy of the United States, Beirut</div>
-      <div>You completed application #<span id="applicationId"></span></div>
+      <div class="info-line">Embassy of the United States, Beirut</div>
+      <div class="info-line">You completed application #<span id="applicationId"></span></div>
       <div class="button-container">
         <button class="actionBtn" onclick="window.location.href='2c-deny.html'">Submit</button>
         <button class="actionBtn" onclick="window.location.href='2a-orpheus.html'">Save</button>
