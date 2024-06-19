@@ -12,6 +12,7 @@
             justify-content: center;
             height: 100vh;
             font-family: "Merriweather", serif;
+            position: relative;
         }
         h1 {
             font-size: 2em;
@@ -20,7 +21,7 @@
             position: absolute;
             top: 10px;
         }
-        #applyBtn {
+        .actionBtn {
             padding: 10px 20px;
             font-family: "Courier New", monospace;
             font-size: 16px;
@@ -31,7 +32,7 @@
             cursor: pointer;
             margin: 5px;
         }
-        #applyBtn:hover {
+        .actionBtn:hover {
             background-color: grey;
         }
         #timer, #message {
@@ -51,13 +52,15 @@
             color: white;
             background-color: black;
             border: none;
-            bottom: 15%;
-            left: 50%;
             border-radius: 5px;
             cursor: pointer;
             position: absolute;
-            top: 10px;
-            left: 10px;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        #submitBtn:hover {
+            background-color: grey;
         }
     </style>
 </head>
@@ -71,17 +74,17 @@
 </div>
 
 <div>
-    <button id="applyBtn" onclick="startTimer('Arabic')">Arabic</button>
-    <button id="applyBtn" onclick="startTimer('French')">French</button>
-    <button id="applyBtn" onclick="startTimer('English')">English</button>
+    <button class="actionBtn" onclick="startTimer('Arabic')">Arabic</button>
+    <button class="actionBtn" onclick="startTimer('French')">French</button>
+    <button class="actionBtn" onclick="startTimer('English')">English</button>
 </div>
 
 <div>
-    <button id="applyBtn" onclick="showMessage()">Alto</button>
-    <button id="applyBtn" onclick="showMessage()">Soprano</button>
-    <button id="applyBtn" onclick="showMessage()">Tenor</button>
-    <button id="applyBtn" onclick="showMessage()">Bass</button>
-    <button id="applyBtn" onclick="showMessage()">Baritone</button>
+    <button class="actionBtn" onclick="showMessage()">Alto</button>
+    <button class="actionBtn" onclick="showMessage()">Soprano</button>
+    <button class="actionBtn" onclick="showMessage()">Tenor</button>
+    <button class="actionBtn" onclick="showMessage()">Bass</button>
+    <button class="actionBtn" onclick="showMessage()">Baritone</button>
 </div>
 
 <button id="submitBtn" onclick="location.href='https://deserve-it-3-checkboard.glitch.me/'">Submit</button> <!-- Replace with your actual URL -->
@@ -110,7 +113,7 @@
     }
 
     function disableLanguageButtons() {
-        const buttons = document.querySelectorAll('button[onclick^="startTimer"]');
+        const buttons = document.querySelectorAll('.actionBtn[onclick^="startTimer"]');
         buttons.forEach(button => {
             button.disabled = true;
             button.style.cursor = 'not-allowed';
@@ -118,7 +121,7 @@
     }
 
     function enableLanguageButtons() {
-        const buttons = document.querySelectorAll('button[onclick^="startTimer"]');
+        const buttons = document.querySelectorAll('.actionBtn[onclick^="startTimer"]');
         buttons.forEach(button => {
             button.disabled = false;
             button.style.cursor = 'pointer';
