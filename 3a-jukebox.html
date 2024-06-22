@@ -98,11 +98,11 @@
         const messageElement = document.getElementById('message');
         const timerElement = document.getElementById('timer');
         messageElement.innerText = `Playing something in ${language}`;
-        timerElement.innerText = `~ ${timer} seconds remaining`;
+        timerElement.innerText = `~ ${timer}`;
 
         const countdown = setInterval(() => {
             timer--;
-            timerElement.innerText = `~ ${timer} seconds remaining`;
+            timerElement.innerText = `~ ${timer}`;
             if (timer <= 0) {
                 clearInterval(countdown);
                 messageElement.innerText = '';
