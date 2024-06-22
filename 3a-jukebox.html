@@ -94,16 +94,18 @@
 
     function startTimer(language) {
         disableLanguageButtons();
-        document.getElementById('message').innerText = '';
         let timer = 30;
+        const messageElement = document.getElementById('message');
         const timerElement = document.getElementById('timer');
-        timerElement.innerText = `Playing something ~ ${timer}`;
+        messageElement.innerText = `Playing something in ${language}`;
+        timerElement.innerText = `~ ${timer} seconds remaining`;
 
         const countdown = setInterval(() => {
             timer--;
-            timerElement.innerText = `Playing something ~ ${timer}`;
+            timerElement.innerText = `~ ${timer} seconds remaining`;
             if (timer <= 0) {
                 clearInterval(countdown);
+                messageElement.innerText = '';
                 timerElement.innerText = '';
                 enableLanguageButtons();
             }
