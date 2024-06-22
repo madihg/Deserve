@@ -51,19 +51,44 @@
     .Btn:hover {
         background-color: grey;
     }
+    .input-container {
+        display: flex;
+        align-items: center;
+        margin-top: 20px;
+    }
+    .input-field {
+        padding: 10px;
+        font-family: "Courier New", monospace;
+        font-size: 16px;
+        border: 2px solid black;
+        border-radius: 5px;
+        margin-right: 10px;
+    }
 </style>
 </head>
 <body>
 <div id="light"></div>
 <img id="image" src="assets/image1.png" onclick="changeImage()">
-<button class="Btn" id="submitButton" onclick="location.href='2c-deny.html'">Submit</button>
+<div class="input-container">
+    <input type="text" class="input-field" id="inputField" placeholder="Type 'begin'">
+    <button class="Btn" id="submitButton" onclick="location.href='2c-deny.html'">again</button>
+</div>
 <script>
     let currentImage = 1;
     const totalImages = 4;
     const imageElement = document.getElementById('image');
     const lightElement = document.getElementById('light');
     const submitButton = document.getElementById('submitButton');
+    const inputField = document.getElementById('inputField');
     let isTransitioning = false;
+
+    inputField.addEventListener('input', function() {
+        if (inputField.value.toLowerCase() === 'begin') {
+            submitButton.style.display = 'block';
+        } else {
+            submitButton.style.display = 'none';
+        }
+    });
 
     function changeImage() {
         if (isTransitioning) return;
@@ -78,9 +103,6 @@
                 if (currentImage === 4) {
                     lightElement.style.display = 'block';
                     lightElement.style.opacity = '1';
-                    setTimeout(() => {
-                        submitButton.style.display = 'block';
-                    }, 2000); // Wait for light transition before showing button
                 }
             }, 3000);
         }

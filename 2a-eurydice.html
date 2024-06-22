@@ -49,12 +49,28 @@
         #submitBtn:hover {
             background-color: grey;
         }
+        .input-container {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .input-field {
+            padding: 10px;
+            font-family: "Courier New", monospace;
+            font-size: 16px;
+            border: 2px solid black;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
     </style>
 </head>
 <body>
     <div id="container">
         <img id="image" src="assets/Eurydice.png" alt="Image" />
-        <button id="submitBtn">Submit</button>
+        <div class="input-container">
+            <input type="text" class="input-field" id="inputField" placeholder="Type 'begin'">
+            <button id="submitBtn" onclick="window.location.href='2c-deny.html'">again</button>
+        </div>
     </div>
     <div class="light" id="light"></div>
 
@@ -62,20 +78,20 @@
         const image = document.getElementById('image');
         const light = document.getElementById('light');
         const submitBtn = document.getElementById('submitBtn');
+        const inputField = document.getElementById('inputField');
+
+        inputField.addEventListener('input', function() {
+            if (inputField.value.toLowerCase() === 'begin') {
+                submitBtn.style.display = 'block';
+            } else {
+                submitBtn.style.display = 'none';
+            }
+        });
 
         image.addEventListener('click', () => {
             image.style.opacity = '0';
             light.style.opacity = '1';
-
-            // Wait for the transitions to complete before showing the button
-            //setTimeout(() => {
-            //    submitBtn.style.display = 'block';
-            //}, 20000); // Match the duration of the image transition
-        //});
-
-        //submitBtn.addEventListener('click', () => {
-        //    window.location.href = '2c-deny.html'; // Update this path to your new page
-        //});
+        });
     </script>
 </body>
 </html>
