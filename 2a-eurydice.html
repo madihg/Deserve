@@ -50,7 +50,7 @@
             background-color: grey;
         }
         .input-container {
-            display: flex;
+            display: none;
             align-items: center;
             margin-top: 20px;
         }
@@ -67,9 +67,9 @@
 <body>
     <div id="container">
         <img id="image" src="assets/Eurydice.png" alt="Image" />
-        <div class="input-container">
+        <div class="input-container" id="inputContainer">
             <input type="text" class="input-field" id="inputField" placeholder="Type 'begin'">
-            <button id="submitBtn" onclick="window.location.href='2c-deny.html'">again</button>
+            <button id="submitBtn" onclick="window.location.href='2c-deny.html'">Submit</button>
         </div>
     </div>
     <div class="light" id="light"></div>
@@ -79,6 +79,7 @@
         const light = document.getElementById('light');
         const submitBtn = document.getElementById('submitBtn');
         const inputField = document.getElementById('inputField');
+        const inputContainer = document.getElementById('inputContainer');
 
         inputField.addEventListener('input', function() {
             if (inputField.value.toLowerCase() === 'begin') {
@@ -91,6 +92,9 @@
         image.addEventListener('click', () => {
             image.style.opacity = '0';
             light.style.opacity = '1';
+            setTimeout(() => {
+                inputContainer.style.display = 'flex';
+            }, 2000); // Wait for light transition before showing input container
         });
     </script>
 </body>
