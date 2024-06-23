@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Clapping Emoji</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: url('https://i.ytimg.com/vi/plnkjKbXZaE/maxresdefault.jpg') no-repeat center center fixed;
+            background-size: cover;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+        .emoji {
+            position: absolute;
+            font-size: 100px;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <audio id="clapSound" src="assets/applause.wav" preload="auto"></audio>
+
+    <script>
+        document.body.addEventListener('click', function(event) {
+            // Create emoji element
+            let emoji = document.createElement('div');
+            emoji.classList.add('emoji');
+            emoji.style.left = `${event.clientX}px`;
+            emoji.style.top = `${event.clientY}px`;
+            emoji.innerHTML = '👏';
+
+            // Append emoji to the body
+            document.body.appendChild(emoji);
+
+            // Play clap sound
+            let clapSound = document.getElementById('clapSound');
+            clapSound.play();
+
+            // Remove emoji after a short delay
+            setTimeout(() => {
+                emoji.remove();
+            }, 1000); // Adjust the duration as needed
+        });
+    </script>
+</body>
+</html>
