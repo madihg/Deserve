@@ -35,6 +35,7 @@
             top: 0;
             left: 0;
             z-index: 1;
+            object-fit: contain; /* Ensure the image fits within the container */
         }
     </style>
 </head>
@@ -42,11 +43,10 @@
     <div class="tv-container" id="tvContainer">
         <img src="assets/smptecolors.png" alt="SMPTE Color Bars" class="image-container" id="image0">
         <img src="assets/tvscreen1.png" alt="TV" class="tv-image" id="tvImage">
-        <img src="https://via.placeholder.com/1920x1080/FF0000/FFFFFF?text=Image+1" alt="Image 1" class="image-container" id="image1">
-        <img src="https://via.placeholder.com/1920x1080/00FF00/FFFFFF?text=Image+2" alt="Image 2" class="image-container" id="image2">
-        <img src="https://via.placeholder.com/1920x1080/0000FF/FFFFFF?text=Image+3" alt="Image 3" class="image-container" id="image3">
-        <img src="https://via.placeholder.com/1920x1080/FFFF00/FFFFFF?text=Image+4" alt="Image 4" class="image-container" id="image4">
-        <img src="https://via.placeholder.com/1920x1080/FF00FF/FFFFFF?text=Image+5" alt="Image 5" class="image-container" id="image5">
+        <img src="assets/Monica-1.jpeg" alt="Image 1" class="image-container" id="image1">
+        <img src="assets/Monica-2.jpeg" alt="Image 2" class="image-container" id="image2">
+        <img src="assets/Monica-3.jpeg" alt="Image 3" class="image-container" id="image3">
+        <img src="assets/Monica-4.jpeg" alt="Image 4" class="image-container" id="image4">
     </div>
 
     <script>
@@ -57,8 +57,7 @@
             document.getElementById('image1'),
             document.getElementById('image2'),
             document.getElementById('image3'),
-            document.getElementById('image4'),
-            document.getElementById('image5')
+            document.getElementById('image4')
         ];
 
         tvContainer.addEventListener('click', function() {
@@ -75,7 +74,7 @@
             }
             imageElements[index].style.display = 'block';
 
-            let timeout = (index === 0) ? 20000 : 5000; // 20 seconds for the first image, 5 seconds for others
+            let timeout = (index === 0) ? 12000 : 6000; // 12 seconds for the first image, 6 seconds for others
             setTimeout(function() {
                 if (index < imageElements.length - 1) {
                     imageElements[index].style.display = 'none';
