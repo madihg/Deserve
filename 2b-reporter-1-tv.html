@@ -43,7 +43,7 @@
   <body>
     <div class="tv-container" id="tvContainer">
       <img
-        src="assets/smptecolors.png"
+        src="assets/Monica-0.jpeg"
         alt="SMPTE Color Bars"
         class="image-container"
         id="image0"
@@ -105,7 +105,7 @@
         }
         imageElements[index].style.display = "block";
 
-        let timeout = index === 0 ? 3000 : 6000; // 12 seconds for the first image, 6 seconds for others
+        let timeout = index === 0 ? 3000 : 15000; // 3 seconds for the first image, 15 seconds for others
         setTimeout(function () {
           if (index < imageElements.length - 1) {
             imageElements[index].style.display = "none";
