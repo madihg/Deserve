@@ -22,6 +22,7 @@
             height: 100px;
             background-color: black;
             border-radius: 50%;
+            cursor: grab;
         }
 
         .text {
@@ -36,15 +37,13 @@
             background-color: white;
             color: black;
             border: 1px solid black;
-            font-size: 16px;
-            margin-right: 10px;
-            /* Adds space to the right of each button */
+            font-size: 20px;
             display: none;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            padding: 10px;
+            padding: 15px;
             border-radius: 5px;
             cursor: pointer;
         }
@@ -65,21 +64,11 @@
             "1978 South Lebanon conflict (1978)",
             "Battle of Zahleh (1981)",
             "Mountain War (1983-1984)",
-            "War of the Camps (1985-1988)",
-            "1982 Lebanon War (1982)",
-            "South Lebanon conflict (1985-2000)",
-            "Shebaa Farms conflict (2000-2006)",
-            "Cedar Revolution (2005)",
-            "2006 Lebanon War (2006)",
-            "Fatah al-Islam Rebellion (2007)",
-            "2008 Lebanon conflict (2008)",
-            "Syrian civil war spillover (2011-2017)",
-            "Israel–Hezbollah conflict (2023–ongoing)",
-            "17 October Revolution (Ongoing)",
-            "2023 Ain al-Hilweh clashes (2023)"
+            "War of the Camps (1985-1988)"
         ];
 
         let index = 0;
+        let circles = [];
 
         document.body.addEventListener('click', function (event) {
             if (index >= items.length) return;
@@ -88,6 +77,8 @@
             circle.className = 'circle';
             circle.style.left = `${event.clientX - 50}px`;
             circle.style.top = `${event.clientY - 50}px`;
+
+            circle.addEventListener('mousedown', startDrag);
 
             const text = document.createElement('div');
             text.className = 'text';
@@ -99,11 +90,55 @@
 
             document.body.appendChild(circle);
             document.body.appendChild(text);
+            circles.push(circle);
 
             if (index === items.length) {
                 showResetButton();
             }
         });
+
+        function startDrag(event) {
+            const circle = event.target;
+            circle.style.cursor = 'grabbing';
+            const offsetX = event.clientX - circle.getBoundingClientRect().left;
+            const offsetY = event.clientY - circle.getBoundingClientRect().top;
+
+            function move(event) {
+                circle.style.left = `${event.clientX - offsetX}px`;
+                circle.style.top = `${event.clientY - offsetY}px`;
+                checkHorizontalLine();
+            }
+
+            function stopDrag() {
+                circle.style.cursor = 'grab';
+                document.removeEventListener('mousemove', move);
+                document.removeEventListener('mouseup', stopDrag);
+            }
+
+            document.addEventListener('mousemove', move);
+            document.addEventListener('mouseup', stopDrag);
+        }
+
+        function checkHorizontalLine() {
+            if (circles.length < 3) return;
+
+            let inLine = true;
+            const yPositions = circles.map(circle => parseInt(circle.style.top, 10));
+            const avgY = yPositions.reduce((a, b) => a + b) / yPositions.length;
+
+            for (const y of yPositions) {
+                if (Math.abs(y - avgY) > 30) { // Adjusted the threshold to 30
+                    inLine = false;
+                    break;
+                }
+            }
+
+            if (inLine) {
+                document.getElementById('resetButton').style.display = 'block';
+            } else {
+                document.getElementById('resetButton').style.display = 'none';
+            }
+        }
 
         function showResetButton() {
             const button = document.createElement('button');
@@ -111,7 +146,6 @@
             button.innerText = 'Submit';
             button.onclick = () => window.location.href = '2c-deny.html'; // Replace with your actual URL
             document.body.appendChild(button);
-            button.style.display = 'block';
         }
     </script>
 </body>

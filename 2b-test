@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tune in</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #000;
+        }
+        .tv-container {
+            position: relative;
+            width: 1920px; /* 3x larger */
+            height: 1080px; /* 3x larger */
+            cursor: pointer;
+        }
+        .image-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            display: none;
+        }
+        .tv-image {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="tv-container" id="tvContainer">
+        <img src="assets/smptecolors.png" alt="SMPTE Color Bars" class="image-container" id="image0">
+        <img src="assets/tvscreen.png" alt="TV" class="tv-image" id="tvImage">
+        <img src="https://via.placeholder.com/1920x1080/FF0000/FFFFFF?text=Image+1" alt="Image 1" class="image-container" id="image1">
+        <img src="https://via.placeholder.com/1920x1080/00FF00/FFFFFF?text=Image+2" alt="Image 2" class="image-container" id="image2">
+        <img src="https://via.placeholder.com/1920x1080/0000FF/FFFFFF?text=Image+3" alt="Image 3" class="image-container" id="image3">
+        <img src="https://via.placeholder.com/1920x1080/FFFF00/FFFFFF?text=Image+4" alt="Image 4" class="image-container" id="image4">
+        <img src="https://via.placeholder.com/1920x1080/FF00FF/FFFFFF?text=Image+5" alt="Image 5" class="image-container" id="image5">
+    </div>
+
+    <script>
+        let clickCount = 0;
+        const tvContainer = document.getElementById('tvContainer');
+        const imageElements = [
+            document.getElementById('image0'),
+            document.getElementById('image1'),
+            document.getElementById('image2'),
+            document.getElementById('image3'),
+            document.getElementById('image4'),
+            document.getElementById('image5')
+        ];
+
+        tvContainer.addEventListener('click', function() {
+            if (clickCount === 0) {
+                showImage(clickCount);
+            }
+            clickCount++;
+        });
+
+        function showImage(index) {
+            if (index >= imageElements.length) return;
+            imageElements[index].style.display = 'block';
+
+            let timeout = (index === 0) ? 20000 : 5000; // 20 seconds for the first image, 5 seconds for others
+            setTimeout(function() {
+                if (index < imageElements.length - 1) {
+                    imageElements[index].style.display = 'none';
+                    showImage(index + 1);
+                }
+            }, timeout);
+        }
+    </script>
+</body>
+</html>
