@@ -23,8 +23,9 @@
             position: absolute;
             width: 80%;
             height: 80%;
-            top: 0;
-            left: 0;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             display: none;
         }
         .tv-image {
@@ -40,7 +41,7 @@
 <body>
     <div class="tv-container" id="tvContainer">
         <img src="assets/smptecolors.png" alt="SMPTE Color Bars" class="image-container" id="image0">
-        <img src="assets/tvscreen.png" alt="TV" class="tv-image" id="tvImage">
+        <img src="assets/tvscreen1.png" alt="TV" class="tv-image" id="tvImage">
         <img src="https://via.placeholder.com/1920x1080/FF0000/FFFFFF?text=Image+1" alt="Image 1" class="image-container" id="image1">
         <img src="https://via.placeholder.com/1920x1080/00FF00/FFFFFF?text=Image+2" alt="Image 2" class="image-container" id="image2">
         <img src="https://via.placeholder.com/1920x1080/0000FF/FFFFFF?text=Image+3" alt="Image 3" class="image-container" id="image3">
@@ -68,7 +69,10 @@
         });
 
         function showImage(index) {
-            if (index >= imageElements.length) return;
+            if (index >= imageElements.length) {
+                window.location.href = '2b-reporter-music.html'; // Redirect after last image
+                return;
+            }
             imageElements[index].style.display = 'block';
 
             let timeout = (index === 0) ? 20000 : 5000; // 20 seconds for the first image, 5 seconds for others
@@ -76,6 +80,8 @@
                 if (index < imageElements.length - 1) {
                     imageElements[index].style.display = 'none';
                     showImage(index + 1);
+                } else {
+                    window.location.href = '2b-reporter-music.html'; // Redirect after last image
                 }
             }, timeout);
         }
