@@ -1,62 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Deserve It</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap"
-      rel="stylesheet"
-    />
+    <title>Government Application</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-      body,
-      html {
-        height: 100%;
-        margin: 0;
-        background-image: url("assets/embassy.png");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        color: black;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-      }
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            background-color: #f5f5f5; /* Light grey background */
+            color: #333; /* Dark grey text */
+            display: flex;
+            flex-direction: column; /* Stack elements vertically */
+            justify-content: center;
+            align-items: center;
+            font-family: 'Courier', sans-serif;
+        }
 
-      .content {
-        text-align: center;
-      }
+        .content {
+            text-align: center;
+            margin-bottom: 20px; /* Space between title and info box */
+        }
 
-      h1 {
-        font-size: 2em;
-        font-family: "Merriweather", serif;
-        font-weight: normal;
-        position: absolute;
-        left: -260px;
-        top: 10px;
-      }
+        h1 {
+            font-size: 2.5em; /* Larger font size */
+            font-family: "Merriweather", serif;
+            font-weight: normal;
+        }
 
-      .info-box {
-        font-family: "Courier New", monospace;
-        z-index: 10;
-        border: 1px solid black;
-        padding: 10px;
-        margin: 10px;
-        background-color: white;
-        text-align: center; /* Centering the text inside the box */
-      }
+        .info-box {
+            width: 600px;
+            padding: 20px;
+            border: 1px solid #ccc; /* Light grey border */
+            border-radius: 8px; /* Rounded corners */
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            text-align: left;
+        }
 
-      .info-line {
-        margin-bottom: 10px; /* Adding space between the lines */
-      }
+        .info-line {
+            margin-bottom: 15px; /* Space between lines */
+            font-size: 1.2em; /* Slightly larger font size */
+        }
 
-      .button-container {
-        display: flex;
-        justify-content: center; /* Centering the buttons */
-        gap: 10px;
-        margin-top: 10px; /* Added space between the second line and the buttons */
-      }
+        .button-container {
+            display: flex;
+            justify-content: space-between; /* Space between buttons */
+            margin-top: 20px; /* Space above buttons */
+        }
 
       .info-box button {
         padding: 10px 20px;
@@ -72,35 +66,41 @@
       .info-box button:hover {
         background-color: grey;
       }
+
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <div class="content">
-      <h1 id="deserveText">Deserve it</h1>
+        <h1 id="deserveText">Immigration Application</h1>
     </div>
 
     <div class="info-box">
-      <div class="info-line">Embassy of 'Mrica, Beirut</div>
-      <div class="info-line">You completed application #<span id="applicationId"></span></div>
-      <div class="button-container">
-        <button class="actionBtn" onclick="window.location.href='2c-deny.html'">Submit</button>
-        <button class="actionBtn" onclick="window.location.href='2a-orpheus.html'">Save</button>
-        <button class="actionBtn" onclick="window.location.href='2b-reporter-1-tv.html'">Stray</button>
-      </div>
+        <div class="info-line">Embassy of 'Mrica, Beirut</div>
+        <div class="info-line">You completed application #<span id="applicationId"></span></div>
+        <div class="button-container">
+            <button class="actionBtn" onclick="window.location.href='2c-deny.html'">Submit</button>
+            <button class="actionBtn" onclick="window.location.href='2a-orpheus.html'">Save</button>
+            <button class="actionBtn" onclick="window.location.href='2b-reporter-1-tv.html'">Stray</button>
+        </div>
     </div>
 
     <script>
-      function generateRandomId() {
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        let result = '';
-        const charactersLength = characters.length;
-        for (let i = 0; i < 16; i++) {
-          result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        function generateRandomId() {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result = '';
+            const charactersLength = characters.length;
+            for (let i = 0; i < 16; i++) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            return result;
         }
-        return result;
-      }
 
-      document.getElementById('applicationId').textContent = generateRandomId();
+        function updateApplicationId() {
+            document.getElementById('applicationId').textContent = generateRandomId();
+        }
+
+        setInterval(updateApplicationId, 2000); // Change application number every 3 seconds
+        updateApplicationId(); // Initial call to set the application number
     </script>
-  </body>
+</body>
 </html>
