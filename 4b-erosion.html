@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            font-family: 'Merriweather', serif;
+            overflow: hidden;
+        }
+        .container {
+            display: flex;
+            height: 100%;
+            width: 100%;
+        }
+        .left, .right {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            font-size: 4em;
+        }
+        .left {
+            background-color: white;
+        }
+        .right {
+            background-color: white;
+        }
+        .divider {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 2px;
+            background: black;
+        }
+        .blob {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: black;
+            border-radius: 50%;
+            transition: transform 1s linear;
+        }
+        .crumbled {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: black;
+            border-radius: 50%;
+            transition: top 3s linear;
+        }
+        .levitate {
+            transition: top 3s linear;
+        }
+        .fire-emoji {
+            position: absolute;
+            font-size: 2em;
+            display: none;
+        }
+        .submit-button {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: black;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1em;
+            font-family: 'Courier', serif;
+            cursor: pointer;
+        }
+        .submit-button:hover {
+            background-color: grey;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left">
+            <div class="word">Here</div>
+        </div>
+        <div class="right">
+            <div class="word">There</div>
+        </div>
+        <div class="divider"></div>
+        <div id="blobsContainer"></div>
+    </div>
+    <button class="submit-button" onclick="window.open('4c-reach.html', '_blank')">Submit</button>
+    <script>
+        const blobsContainer = document.getElementById('blobsContainer');
+        const submitButton = document.querySelector('.submit-button');
+        const parts = 10;
+        let blobs = [];
+        let crossCount = 0;
+        let lastSide = 'left';
+        let clickCount = 0;
+
+        // Create blobs to form a stick figure and attach them to the mouse
+        const stickFigurePositions = [
+            { x: 0, y: -60 },  // Head
+            { x: 0, y: -40 },  // Body
+            { x: -20, y: -40 }, // Left arm
+            { x: 20, y: -40 },  // Right arm
+            { x: 0, y: -20 },  // Lower body
+            { x: -10, y: 0 },  // Left leg
+            { x: 10, y: 0 },   // Right leg
+            { x: -10, y: 20 }, // Left foot
+            { x: 10, y: 20 },  // Right foot
+        ];
+
+        stickFigurePositions.forEach((pos, index) => {
+            let blob = document.createElement('div');
+            blob.classList.add('blob');
+            blobsContainer.appendChild(blob);
+            blobs.push({ element: blob, ...pos });
+        });
+
+        document.addEventListener('mousemove', function (e) {
+            blobs.forEach(blob => {
+                blob.element.style.left = e.clientX + blob.x + 'px';
+                blob.element.style.top = e.clientY + blob.y + 'px';
+            });
+
+            let centerX = window.innerWidth / 2;
+            let mouseX = e.clientX;
+            if ((mouseX < centerX && lastSide === 'right') || (mouseX >= centerX && lastSide === 'left')) {
+                crossCount++;
+                lastSide = mouseX < centerX ? 'left' : 'right';
+                if (crossCount >= 2) {
+                    crossCount = 0;
+                    crumbleBlob();
+                }
+            }
+        });
+
+        function crumbleBlob() {
+            if (blobs.length > 0) {
+                let blob = blobs.pop().element;
+                blob.classList.add('crumbled');
+                document.body.appendChild(blob);
+                setTimeout(() => {
+                    blob.style.top = window.innerHeight - 20 + 'px';
+                }, 0);
+            }
+        }
+
+        document.addEventListener('click', function (e) {
+            if (e.clientY > window.innerHeight - 100) {
+                clickCount++;
+                if (clickCount >= 10) {
+                    levitateBlobs();
+                }
+            }
+        });
+
+        function levitateBlobs() {
+            const middleY = window.innerHeight / 2 - 20;
+            document.querySelectorAll('.crumbled').forEach(blob => {
+                blob.classList.add('levitate');
+                blob.style.top = `${middleY}px`;
+            });
+
+            setTimeout(() => {
+                displayFireEmojis();
+            }, 3000);
+        }
+
+        function displayFireEmojis() {
+            for (let i = 0; i < 10; i++) {
+                let fireEmoji = document.createElement('div');
+                fireEmoji.classList.add('fire-emoji');
+                fireEmoji.textContent = '🔥';
+                fireEmoji.style.left = `${Math.random() * 100}%`;
+                fireEmoji.style.top = `${Math.random() * 100}%`;
+                document.body.appendChild(fireEmoji);
+                fireEmoji.style.display = 'block';
+            }
+
+            setTimeout(() => {
+                document.querySelectorAll('.crumbled').forEach(blob => blob.remove());
+                document.querySelectorAll('.fire-emoji').forEach(fireEmoji => fireEmoji.remove());
+                document.querySelectorAll('.word').forEach(word => word.remove());
+                submitButton.style.display = 'block';
+                clickCount = 0;
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
