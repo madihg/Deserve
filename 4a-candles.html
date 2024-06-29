@@ -98,8 +98,20 @@
             display: none; /* Initially hidden */
             cursor: pointer;
         }
+
         #notification:hover {
             background-color: grey;
+        }
+
+        #soundEmoji {
+            position: absolute;
+            display: none;
+            font-size: 24px; /* Adjust size as needed */
+        }
+      #soundEmoji2 {
+            position: absolute;
+            display: none;
+            font-size: 24px; /* Adjust size as needed */
         }
     </style>
 </head>
@@ -120,6 +132,8 @@
     <button id="applyBtn">Submit</button>
     <img src="https://www.freeiconspng.com/thumbs/phone-png/phone-png-12.png" id="phone" alt="Phone">
     <button id="notification">▶ khalo johnny sent a vm</button>
+    <div id="soundEmoji">🔊</div>
+    <div id="soundEmoji2">🔊</div>
 
     <script>
         const candles = document.querySelectorAll('.candle');
@@ -182,6 +196,20 @@
                 this.style.display = 'none';
                 litOrder = [];
             }
+        });
+
+        document.getElementById('notification').addEventListener('click', function() {
+            const soundEmoji = document.getElementById('soundEmoji');
+            soundEmoji.style.display = 'block';
+            soundEmoji.style.top = (this.offsetTop - 60) + 'px';
+            soundEmoji.style.left = (this.offsetLeft + 20) + 'px';
+        });
+      
+      document.getElementById('notification').addEventListener('click', function() {
+            const soundEmoji2 = document.getElementById('soundEmoji2');
+            soundEmoji2.style.display = 'block';
+            soundEmoji2.style.top = (this.offsetTop - 60) + 'px';
+            soundEmoji2.style.left = (this.offsetLeft + 180) + 'px';
         });
     </script>
 </body>
