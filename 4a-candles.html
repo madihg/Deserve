@@ -17,6 +17,12 @@
 
         .candles {
             display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .row {
+            display: flex;
             justify-content: center;
             align-items: center;
         }
@@ -99,11 +105,17 @@
 </head>
 <body>
     <div class="candles">
-        <div class="candle" id="candle1"></div>
-        <div class="candle" id="candle2"></div>
-        <div class="candle" id="candle3"></div>
-        <div class="candle" id="candle4"></div>
-        <div class="candle" id="candle5"></div>
+        <div class="row">
+            <div class="candle" id="candle1"></div>
+        </div>
+        <div class="row">
+            <div class="candle" id="candle2"></div>
+            <div class="candle" id="candle3"></div>
+            <div class="candle" id="candle4"></div>
+        </div>
+        <div class="row">
+            <div class="candle" id="candle5"></div>
+        </div>
     </div>
     <button id="applyBtn">Submit</button>
     <img src="https://www.freeiconspng.com/thumbs/phone-png/phone-png-12.png" id="phone" alt="Phone">
@@ -152,11 +164,13 @@
         }
 
         function checkCorrectOrder() {
-            // Correct order: middle (2) first, then ends (0, 4), then remaining (1, 3)
+            // Correct order: top (0), bottom (4), left (1), right (3), middle (2)
             if (litOrder.length !== 5) return false;
-            return litOrder[0] === 2 && 
-                   ((litOrder[1] === 0 && litOrder[2] === 4) || (litOrder[1] === 4 && litOrder[2] === 0)) &&
-                   ((litOrder[3] === 1 && litOrder[4] === 3) || (litOrder[3] === 3 && litOrder[4] === 1));
+            return litOrder[0] === 0 && 
+                   litOrder[1] === 4 && 
+                   litOrder[2] === 1 && 
+                   litOrder[3] === 3 && 
+                   litOrder[4] === 2;
         }
 
         document.getElementById('applyBtn').addEventListener('click', function() {
