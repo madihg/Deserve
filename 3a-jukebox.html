@@ -3,23 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jukebox</title>
+    <title>Interactive Page</title>
     <style>
         body {
+            background: url('https://p0.pxfuel.com/preview/520/518/531/auto-dashboard-steering-wheel-transport-system.jpg') no-repeat center center fixed;
+            background-size: cover;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
+            margin: 0;
             font-family: "Merriweather", serif;
             position: relative;
         }
-        h1 {
-            font-size: 2em;
-            font-family: "Merriweather", serif;
-            font-weight: normal;
+        #container {
             position: absolute;
-            top: 10px;
+            top: 5%; /* Adjust this value to move the container up or down */
+            right: -350px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            width: 300px;
+            position: relative;
+        }
+        .knob {
+            width: 80px;
+            height: 80px;
+            background-image: url('https://ae01.alicdn.com/kf/Sed24a89bb208431fa7369587a6ca1490Z.jpg_640x640Q90.jpg_.webp');
+            background-size: cover;
+            position: absolute;
+            top: 10px; /* Adjust to position the knobs vertically */
+        }
+        .knob-left {
+            left: 10px; /* Adjust to position the left knob */
+        }
+        .knob-right {
+            right: 10px; /* Adjust to position the right knob */
+        }
+        #numberDisplay {
+            font-family: "Courier New", monospace;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 150px;
+            height: 5px;
+            background: #ddd;
+            outline: none;
+            opacity: 0.7;
+            transition: opacity .2s;
+        }
+        input[type=range]:hover {
+            opacity: 1;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #333;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+        input[type=range]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: #333;
+            cursor: pointer;
+            border-radius: 50%;
         }
         .actionBtn {
             padding: 10px 20px;
@@ -35,15 +90,6 @@
         .actionBtn:hover {
             background-color: grey;
         }
-        #timer, #message {
-            margin-bottom: 20px;
-            font-size: 1.2em;
-            font-family: "Merriweather", serif;
-        }
-        #imageContainer {
-            text-align: center;
-            margin-bottom: 20px;
-        }
         #submitBtn {
             display: none;
             padding: 10px 20px;
@@ -55,97 +101,93 @@
             border-radius: 5px;
             cursor: pointer;
             position: absolute;
-            top: 20px;
+            top: 50%;
             left: 50%;
-            transform: translateX(-50%);
+            transform: translate(-50%, -50%);
         }
         #submitBtn:hover {
             background-color: grey;
+        }
+        .playText {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .marquee {
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .marquee span {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 10s linear infinite;
+        }
+        @keyframes marquee {
+            from { transform: translate(0, 0); }
+            to { transform: translate(-100%, 0); }
         }
     </style>
 </head>
 <body>
 
-<div id="message"></div>
-<div id="timer"></div>
-
-<div id="imageContainer">
-    <img src="assets/cassette-player.png" alt="Image" width="300">
+<div id="container">
+    <div class="knob knob-left"></div>
+    <div class="knob knob-right"></div>
+    <div class="playText">Play</div>
+    <div id="numberDisplay">50.0</div>
+    <input type="range" min="0" max="100" step="0.1" value="50" id="slider">
+    <div class="buttonContainer">
+        <button class="actionBtn" id="btn1">1</button>
+        <button class="actionBtn" id="btn2">2</button>
+        <button class="actionBtn" id="btn3">3</button>
+        <button class="actionBtn" id="btn4">4</button>
+    </div>
+    <div id="marqueeContainer" class="marquee" style="display: none;">
+        <span id="marqueeText"></span>
+    </div>
 </div>
 
-<div>
-    <button class="actionBtn" onclick="startTimer('Arabic')">Arabic</button>
-    <button class="actionBtn" onclick="startTimer('French')">French</button>
-    <button class="actionBtn" onclick="startTimer('English')">English</button>
-</div>
-
-<div>
-    <button class="actionBtn" onclick="showMessage()">Alto</button>
-    <button class="actionBtn" onclick="showMessage()">Soprano</button>
-    <button class="actionBtn" onclick="showMessage()">Tenor</button>
-    <button class="actionBtn" onclick="showMessage()">Bass</button>
-    <button class="actionBtn" onclick="showMessage()">Baritone</button>
-</div>
-
-<button id="submitBtn" onclick="location.href='3c-erase.html'">Submit</button> <!-- Replace with your actual URL -->
+<button id="submitBtn">Submit</button>
 
 <script>
-    let buttonClickCount = 0;
+    const slider = document.getElementById('slider');
+    const numberDisplay = document.getElementById('numberDisplay');
+    const buttons = [document.getElementById('btn1'), document.getElementById('btn2'), document.getElementById('btn3'), document.getElementById('btn4')];
+    const submitBtn = document.getElementById('submitBtn');
+    const marqueeContainer = document.getElementById('marqueeContainer');
+    const marqueeText = document.getElementById('marqueeText');
+    let sequence = [];
+    const correctSequence = ['1', '2', '3', '4', '4', '3', '2', '1'];
+    let timeoutId;
 
-    function startTimer(language) {
-        disableLanguageButtons();
-        let timer = 30;
-        const messageElement = document.getElementById('message');
-        const timerElement = document.getElementById('timer');
-        messageElement.innerText = `Playing something in ${language}`;
-        timerElement.innerText = `~ ${timer}`;
-
-        const countdown = setInterval(() => {
-            timer--;
-            timerElement.innerText = `~ ${timer}`;
-            if (timer <= 0) {
-                clearInterval(countdown);
-                messageElement.innerText = '';
-                timerElement.innerText = '';
-                enableLanguageButtons();
+    slider.oninput = function() {
+        numberDisplay.textContent = this.value;
+        clearTimeout(timeoutId);
+        marqueeContainer.style.display = 'none';
+        marqueeText.textContent = '';
+        timeoutId = setTimeout(() => {
+            if (this.value === '98.8') {
+                marqueeText.textContent = '🔊 يبني الرايح لا ما تروح 🔊';
+                marqueeContainer.style.display = 'block';
+            } else if (this.value === '11.1') {
+                marqueeText.textContent = "🔊 Fils qui s'en va 🔊";
+                marqueeContainer.style.display = 'block';
             }
         }, 1000);
-
-        incrementButtonClickCount();
     }
 
-    function disableLanguageButtons() {
-        const buttons = document.querySelectorAll('.actionBtn[onclick^="startTimer"]');
-        buttons.forEach(button => {
-            button.disabled = true;
-            button.style.cursor = 'not-allowed';
-        });
-    }
-
-    function enableLanguageButtons() {
-        const buttons = document.querySelectorAll('.actionBtn[onclick^="startTimer"]');
-        buttons.forEach(button => {
-            button.disabled = false;
-            button.style.cursor = 'pointer';
-        });
-    }
-
-    function showMessage() {
-        document.getElementById('message').innerText = 'This functionality is not available right now';
-        incrementButtonClickCount();
-    }
-
-    function incrementButtonClickCount() {
-        buttonClickCount++;
-        if (buttonClickCount >= 5) {
-            showSubmitButton();
+    buttons.forEach(button => {
+        button.onclick = function() {
+            sequence.push(this.textContent);
+            if (sequence.length > correctSequence.length) {
+                sequence.shift();
+            }
+            if (sequence.join('') === correctSequence.join('')) {
+                submitBtn.style.display = 'block';
+            }
         }
-    }
-
-    function showSubmitButton() {
-        const submitBtn = document.getElementById('submitBtn');
-        submitBtn.style.display = 'block';
-    }
+    });
 </script>
 
 </body>
