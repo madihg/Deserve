@@ -38,9 +38,23 @@
         z-index: 1;
         object-fit: contain; /* Ensure the image fits within the container */
       }
-    </style>
-  </head>
-  <body>
+      .code-text {
+            font-family: "Courier New", monospace;
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 10;
+            border: 1px solid black;
+            padding: 10px;
+            margin: 10px;
+            background-color: white;
+        }
+</style>
+</head>
+<body>
+    <div class="code-text">
+        The day before you board, you turn on the TV...
+    </div>
     <div class="tv-container" id="tvContainer">
       <img
         src="assets/Monica-0.jpeg"
