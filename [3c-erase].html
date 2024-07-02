@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Erase</title>
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            font-family: "Times New Roman", serif;
+        }
+
+        .word {
+            position: absolute;
+            cursor: pointer;
+            font-size: 24px;
+            opacity: 1;
+            transition: transform 0.1s linear;
+        }
+
+        .code-text {
+            font-family: "Courier New", monospace;
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 10;
+            border: 1px solid black;
+            padding: 10px;
+            margin: 10px;
+            background-color: white;
+        }
+
+        .completion-buttons {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 3;
+        }
+
+        .completion-buttons button {
+            font-family: "Courier New", monospace;
+            background-color: white;
+            color: black;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        #languageSelector {
+            font-family: "Courier New", monospace;
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+            padding: 10px;
+        }
+
+        #translationDisplay {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            padding: 10px;
+            background-color: white;
+            border: 1px solid black;
+            z-index: 10;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="code-text">
+        Applying for a <b>GREEN CARD</b><br>
+        Complete Step 2 of 3: <b>Erase</b>.<br>
+    </div>
+    <select id="languageSelector" onchange="changeLanguage()">
+        <option value="ar">Arabic</option>
+        <option value="es">Spanish</option>
+        <option value="zh">Chinese</option>
+        <option value="fr">French</option>
+        <option value="vi">Vietnamese</option>
+        <option value="tl">Tagalog</option>
+    </select>
+    <div id="translationDisplay"></div>
+
+    <div id="container"></div>
+    <div class="completion-buttons" id="completionButtons">
+        <button onclick="window.open('4c-reach.html', '_blank')">Submit</button>
+        <button onclick="window.open('4a-candles.html')">Save</button>
+        <button onclick="window.open('4b-erosion.html', '_blank')">Stray</button>
+    </div>
+
+    <script>
+        const translations = {
+            "ar": {
+                "words": ["كلمة", "أمل", "حياة", "سلام", "محبة", "علم", "نور", "حرية", "قوة"],
+                "translations": {
+                    "كلمة": "Word",
+                    "أمل": "Hope",
+                    "حياة": "Life",
+                    "سلام": "Peace",
+                    "محبة": "Love",
+                    "علم": "Science",
+                    "نور": "Light",
+                    "حرية": "Freedom",
+                    "قوة": "Strength"
+                }
+            },
+            "es": {
+                "words": ["palabra", "esperanza", "vida", "paz", "amor", "ciencia", "luz", "libertad", "fuerza"],
+                "translations": {
+                    "palabra": "Word",
+                    "esperanza": "Hope",
+                    "vida": "Life",
+                    "paz": "Peace",
+                    "amor": "Love",
+                    "ciencia": "Science",
+                    "luz": "Light",
+                    "libertad": "Freedom",
+                    "fuerza": "Strength"
+                }
+            },
+            "zh": {
+                "words": ["字", "希望", "生活", "和平", "爱", "科学", "光", "自由", "力量"],
+                "translations": {
+                    "字": "Word",
+                    "希望": "Hope",
+                    "生活": "Life",
+                    "和平": "Peace",
+                    "爱": "Love",
+                    "科学": "Science",
+                    "光": "Light",
+                    "自由": "Freedom",
+                    "力量": "Strength"
+                }
+            },
+            "fr": {
+                "words": ["mot", "espoir", "vie", "paix", "amour", "science", "lumière", "liberté", "force"],
+                "translations": {
+                    "mot": "Word",
+                    "espoir": "Hope",
+                    "vie": "Life",
+                    "paix": "Peace",
+                    "amour": "Love",
+                    "science": "Science",
+                    "lumière": "Light",
+                    "liberté": "Freedom",
+                    "force": "Strength"
+                }
+            },
+            "vi": {
+                "words": ["từ", "hy vọng", "cuộc sống", "hòa bình", "tình yêu", "khoa học", "ánh sáng", "tự do", "sức mạnh"],
+                "translations": {
+                    "từ": "Word",
+                    "hy vọng": "Hope",
+                    "cuộc sống": "Life",
+                    "hòa bình": "Peace",
+                    "tình yêu": "Love",
+                    "khoa học": "Science",
+                    "ánh sáng": "Light",
+                    "tự do": "Freedom",
+                    "sức mạnh": "Strength"
+                }
+            },
+            "tl": {
+                "words": ["salita", "pag-asa", "buhay", "kapayapaan", "pag-ibig", "agham", "liwanag", "kalayaan", "lakas"],
+                "translations": {
+                    "salita": "Word",
+                    "pag-asa": "Hope",
+                    "buhay": "Life",
+                    "kapayapaan": "Peace",
+                    "pag-ibig": "Love",
+                    "agham": "Science",
+                    "liwanag": "Light",
+                    "kalayaan": "Freedom",
+                    "lakas": "Strength"
+                }
+            }
+        };
+
+        let selectedLanguage = 'ar';
+        const container = document.getElementById('container');
+        const completionButtons = document.getElementById('completionButtons');
+        const translationDisplay = document.getElementById('translationDisplay');
+
+        function generateRandom(max, min = 0) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function populateWords() {
+            container.innerHTML = '';
+            const words = translations[selectedLanguage].words;
+            const wordTranslations = translations[selectedLanguage].translations;
+
+            words.forEach((word) => {
+                let dx = generateRandom(1, -1);
+                let dy = generateRandom(1, -1);
+
+                const element = document.createElement('div');
+                element.classList.add('word');
+                element.textContent = word;
+                container.appendChild(element);
+                element.style.left = `${generateRandom(window.innerWidth - 100)}px`;
+                element.style.top = `${generateRandom(window.innerHeight - 20)}px`;
+
+                function moveWord() {
+                    let x = element.offsetLeft + dx;
+                    let y = element.offsetTop + dy;
+
+                    if (x < 0 || x > window.innerWidth - element.offsetWidth) dx *= -1;
+                    if (y < 0 || y > window.innerHeight - element.offsetHeight) dy *= -1;
+
+                    element.style.left = x + 'px';
+                    element.style.top = y + 'px';
+
+                    requestAnimationFrame(moveWord);
+                }
+
+                moveWord();
+
+                element.addEventListener('click', () => {
+                    translationDisplay.textContent = wordTranslations[word];
+                    element.style.transition = 'opacity 2s ease';
+                    element.style.opacity = '0';
+
+                    setTimeout(() => {
+                        element.remove();
+                        if (!container.hasChildNodes()) {
+                            completionButtons.style.display = 'block';
+                        }
+                    }, 2000);
+                });
+            });
+        }
+
+        function changeLanguage() {
+            selectedLanguage = document.getElementById('languageSelector').value;
+            populateWords();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            populateWords();
+        });
+    </script>
+</body>
+
+</html>

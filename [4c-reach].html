@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reach</title>
+<style>
+  body {
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    margin: 0; /* Remove default body margin */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+  }
+  .background-square {
+    position: absolute;
+    width: 500px; /* Example size, adjust as needed */
+    height: 500px; /* Match width for a square */
+    background-color: white;
+    border: 2px solid black;
+    z-index: 1; /* Ensure it's behind most content but above the body background */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .more {
+    position: absolute; /* Maintain precise control over positioning */
+    font-size: 36px; /* Increase font size */
+    white-space: nowrap; /* Prevent "more" from wrapping */
+    z-index: 2;
+  }
+  .code-text {
+    font-family: "Courier New", monospace; /* Gives a code-like appearance */
+    position: fixed; /* Positions the div relative to the nearest positioned ancestor */
+    top: 10px; /* Aligns the top edge of the element with the top edge of its nearest positioned ancestor */
+    left: 10px; /* Aligns the left edge of the element with the left edge of its nearest positioned ancestor */
+    z-index: 10;
+    border: 1px solid black; /* Adds a thin black border */
+    padding: 10px; /* Adds space between the text and the border */
+    margin: 10px; /* Adds space outside the border */
+    background-color: white;
+  }
+  .button {
+    font-family: "Courier New", monospace;
+    background-color: white; /* Set background color to green */
+    color: black; /* Set text color to white */
+    position: absolute;
+    top: 50%;
+    padding: 10px 20px;
+    font-size: 16px;
+    display: none;
+    z-index: 3;
+  }
+</style>
+</head>
+<body>
+    <div class="background-square"></div>
+    <div class="code-text">
+      Applying for <b>CITIZENSHIP</b><br>
+      Complete Step 3 of 3: <b>Reach</b>.<br>
+  </div>
+    <button id="proceedButton" class="button" style="left: 40%;" onclick="window.open('5-print.html', '_blank')">Submit</button>
+    <button id="driftButton" class="button" style="left: 50%;" onclick="window.open('5-print.html', '_blank')">Save</button>
+    <button id="strayButton" class="button" style="left: 60%;" onclick="window.open('5-print', '_blank')">Stray</button>
+<script>
+  let occupiedPositions = {};
+  let moreCount = 0; 
+
+  const proceedButton = document.getElementById('proceedButton');
+  const driftButton = document.getElementById('driftButton');
+  const strayButton = document.getElementById('strayButton');
+
+  document.addEventListener('mousemove', (e) => {
+    if (moreCount >= 500) {
+      proceedButton.style.display = 'block';
+      driftButton.style.display = 'block';
+      strayButton.style.display = 'block';
+      return; 
+    }
+
+    const more = document.createElement('span');
+    more.className = 'more';
+    more.textContent = 'more';
+    let adjustedX = e.pageX;
+    let adjustedY = e.pageY;
+    const key = `${adjustedX},${adjustedY}`;
+
+    if (!occupiedPositions[key]) {
+      more.style.left = `${adjustedX}px`;
+      more.style.top = `${adjustedY}px`;
+      document.body.appendChild(more);
+      occupiedPositions[key] = true;
+      moreCount++;
+    }
+  });
+</script>
+</body>
+</html>
