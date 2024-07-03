@@ -254,11 +254,11 @@
     </div>
     <div class="question-container">
         <h3>Capture Yourself</h3>
-        <div id="photoAndName" style="margin-left: -80px;">
+        <div id="photoAndName" style="display: flex; margin-left: -80px; width: 800px;">
             <video id="webcam" autoplay playsinline width="640" height="480"></video>
             <div style="display: flex; flex-direction: column; margin-left: 20px;">
                 <button id="captureBtn" class="styledBtn" style="margin-top: 10px;">Take Photo</button>
-                <canvas id="canvas" width="640" height="480" style="display:none; margin-top: 10px;"></canvas>
+                <canvas id="canvas" width="320" height="240" style="display:none; margin-top: 10px;"></canvas>
                 <div id="namePrompt" style="display: none; margin-top: 10px;">
                     <input type="text" id="firstName" placeholder="First Name">
                     <input type="text" id="lastName" placeholder="Last Name">
@@ -304,15 +304,16 @@
                 console.log("Error accessing the camera: ", error);
             });
 
-        captureBtn.addEventListener('click', function () {
-            canvas.style.display = 'block';
-            video.style.display = 'none';
-            captureBtn.style.display = 'none';
-            document.getElementById('namePrompt').style.display = 'flex';
-            printBtn.style.display = 'inline';
-            context.drawImage(video, 0, 0, 640, 480);
-            dateElement.textContent = new Date().toLocaleDateString();
-        });
+            captureBtn.addEventListener('click', function () {
+    canvas.style.display = 'block';
+    video.style.display = 'none';
+    captureBtn.style.display = 'none';
+    document.getElementById('namePrompt').style.display = 'flex';
+    printBtn.style.display = 'inline';
+    // Draw the video frame to the smaller canvas
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    dateElement.textContent = new Date().toLocaleDateString();
+});
 
         enterBtn.addEventListener('click', function () {
             const firstName = firstNameEntry.value.trim();
