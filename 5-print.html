@@ -263,10 +263,10 @@
     <div class="question-container">
         <h3>Capture Yourself</h3>
         <div id="photoAndName" style="display: flex; margin-left: -80px; width: 900px;">
-            <video id="webcam" autoplay playsinline width="640" height="480"></video>
+            <video id="webcam" autoplay playsinline width="320" height="320" style="object-fit: cover;"></video>
             <div style="display: flex; flex-direction: column; margin-left: 20px;">
                 <button id="captureBtn" class="styledBtn" style="margin-top: 10px;">Take Photo</button>
-                <canvas id="canvas" width="640" height="480" style="display:none; margin-top: 10px;"></canvas>
+                <canvas id="canvas" width="320" height="320" style="display:none; margin-top: 10px;"></canvas>
                 <div id="namePrompt" style="display: none;">
                     <input type="text" id="firstName" placeholder="First Name">
                     <input type="text" id="lastName" placeholder="Last Name">
