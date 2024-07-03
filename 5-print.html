@@ -219,7 +219,7 @@
             font-family: "Courier New", monospace;
         }
 
-        #nameEntry {
+        #firstName, #lastName {
             font-family: "Courier New", monospace;
         }
     </style>
@@ -254,13 +254,16 @@
     </div>
     <div class="question-container">
         <h3>Capture Yourself</h3>
-        <div id="photoAndName">
+        <div id="photoAndName" style="margin-left: -80px;">
             <video id="webcam" autoplay playsinline width="640" height="480"></video>
             <div style="display: flex; flex-direction: column; margin-left: 20px;">
                 <button id="captureBtn" class="styledBtn" style="margin-top: 10px;">Take Photo</button>
                 <canvas id="canvas" width="640" height="480" style="display:none; margin-top: 10px;"></canvas>
-                <input type="text" id="nameEntry" placeholder="Enter your Full Name" style="display:none; margin-top: 10px;">
-                <button id="enterBtn" class="styledBtn" style="display:none; margin-top: 10px;">Enter</button>
+                <div id="namePrompt" style="display: none; margin-top: 10px;">
+                    <input type="text" id="firstName" placeholder="First Name">
+                    <input type="text" id="lastName" placeholder="Last Name">
+                    <button id="enterBtn" class="styledBtn" style="margin-top: 10px;">Enter</button>
+                </div>
                 <h1 id="printName" style="display:none; margin-top: 10px;"></h1>
                 <p id="date" style="margin-top: 10px;"></p>
                 <p id="randomId" style="font-family: 'Courier New', monospace; margin-top: 10px;"></p>
@@ -286,7 +289,8 @@
         const canvas = document.getElementById('canvas');
         const captureBtn = document.getElementById('captureBtn');
         const printBtn = document.getElementById('printBtn');
-        const nameEntry = document.getElementById('nameEntry');
+        const firstNameEntry = document.getElementById('firstName');
+        const lastNameEntry = document.getElementById('lastName');
         const enterBtn = document.getElementById('enterBtn');
         const dateElement = document.getElementById('date');
         const printName = document.getElementById('printName');
@@ -304,19 +308,18 @@
             canvas.style.display = 'block';
             video.style.display = 'none';
             captureBtn.style.display = 'none';
-            nameEntry.style.display = 'inline';
-            enterBtn.style.display = 'inline';
+            document.getElementById('namePrompt').style.display = 'flex';
             printBtn.style.display = 'inline';
             context.drawImage(video, 0, 0, 640, 480);
             dateElement.textContent = new Date().toLocaleDateString();
         });
 
         enterBtn.addEventListener('click', function () {
-            const name = nameEntry.value.trim();
-            if (name !== '') {
-                nameEntry.style.display = 'none';
-                enterBtn.style.display = 'none';
-                printName.textContent = misspellName(name);
+            const firstName = firstNameEntry.value.trim();
+            const lastName = lastNameEntry.value.trim();
+            if (firstName !== '' && lastName !== '') {
+                document.getElementById('namePrompt').style.display = 'none';
+                printName.textContent = misspellName(firstName + ' ' + lastName);
                 printName.style.display = 'block';
                 printBtn.disabled = false;
 
