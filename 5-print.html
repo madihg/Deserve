@@ -255,10 +255,10 @@
         <div id="photoAndName">
             <video id="webcam" autoplay playsinline width="640" height="480"></video>
             <div style="display: flex; flex-direction: column; margin-left: 20px;">
+                <input type="text" id="firstName" placeholder="First Name" style="margin-top: 10px;">
+                <input type="text" id="lastName" placeholder="Last Name" style="margin-top: 10px;">
+                <button id="enterBtn" class="styledBtn" style="margin-top: 10px;">Enter</button>
                 <button id="captureBtn" class="styledBtn" style="margin-top: 10px;">Take Photo</button>
-                <canvas id="canvas" width="640" height="480" style="display:none; margin-top: 10px;"></canvas>
-                <input type="text" id="nameEntry" placeholder="Enter your Full Name" style="display:none; margin-top: 10px;">
-                <button id="enterBtn" class="styledBtn" style="display:none; margin-top: 10px;">Enter</button>
                 <h1 id="printName" style="display:none; margin-top: 10px;"></h1>
                 <p id="date" style="margin-top: 10px;"></p>
                 <p id="randomId" style="font-family: 'Courier New', monospace; margin-top: 10px;"></p>
@@ -317,11 +317,12 @@
         });
 
         enterBtn.addEventListener('click', function () {
-            const name = nameEntry.value.trim();
-            if (name !== '') {
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            if (firstName !== '' && lastName !== '') {
                 nameEntry.style.display = 'none';
                 enterBtn.style.display = 'none';
-                printName.textContent = misspellName(name);
+                printName.textContent = `${misspellName(firstName)} ${misspellName(lastName)}`;
                 printName.style.display = 'block';
                 printBtn.disabled = false;
 
