@@ -254,9 +254,9 @@
     </div>
     <div class="question-container">
         <h3>Capture Yourself</h3>
-        <div id="photoAndName" style="display: flex; margin-left: -80px; width: 800px;">
+        <div id="photoAndName" style="display: flex; margin-left: -80px; width: 900px;">
             <video id="webcam" autoplay playsinline width="640" height="480"></video>
-            <div style="display: flex; flex-direction: column; margin-left: 20px;">
+            <div style="display: flex; flex-direction: column; margin-left: 20px; width: 100%;">
                 <button id="captureBtn" class="styledBtn" style="margin-top: 10px;">Take Photo</button>
                 <canvas id="canvas" width="320" height="240" style="display:none; margin-top: 10px;"></canvas>
                 <div id="namePrompt" style="display: none; margin-top: 10px;">
@@ -315,20 +315,21 @@
     dateElement.textContent = new Date().toLocaleDateString();
 });
 
-        enterBtn.addEventListener('click', function () {
-            const firstName = firstNameEntry.value.trim();
-            const lastName = lastNameEntry.value.trim();
-            if (firstName !== '' && lastName !== '') {
-                document.getElementById('namePrompt').style.display = 'none';
-                printName.textContent = misspellName(firstName + ' ' + lastName);
-                printName.style.display = 'block';
-                printBtn.disabled = false;
+enterBtn.addEventListener('click', function () {
+    const firstName = document.getElementById('firstName').value.trim();
+    const lastName = document.getElementById('lastName').value.trim();
+    if (firstName !== '' && lastName !== '') {
+        document.getElementById('namePrompt').style.display = 'none';
+        printName.textContent = misspellName(firstName + ' ' + lastName);
+        printName.style.display = 'block';
+        printBtn.disabled = false;
 
-                document.getElementById('randomId').textContent = generateRandomId();
-                document.getElementById('address').textContent = generateRandomAddress();
-                document.getElementById('additionalFields').innerHTML = generateAdditionalFields();
-            }
-        });
+        document.getElementById('randomId').textContent = generateRandomId();
+        document.getElementById('address').textContent = generateRandomAddress();
+        document.getElementById('additionalFields').innerHTML = generateAdditionalFields();
+    }
+});
+
 
         printBtn.addEventListener('click', function () {
             backgroundImage.style.display = 'block';
