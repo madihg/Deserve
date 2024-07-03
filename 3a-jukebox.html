@@ -19,7 +19,7 @@
         }
         #container {
             position: absolute;
-            top: 5%; /* Adjust this value to move the container up or down */
+            top: 5%;
             right: -500px;
             background-color: white;
             padding: 20px;
@@ -35,13 +35,13 @@
             background-image: url('https://ae01.alicdn.com/kf/Sed24a89bb208431fa7369587a6ca1490Z.jpg_640x640Q90.jpg_.webp');
             background-size: cover;
             position: absolute;
-            top: 10px; /* Adjust to position the knobs vertically */
+            top: 10px;
         }
         .knob-left {
-            left: 10px; /* Adjust to position the left knob */
+            left: 10px;
         }
         .knob-right {
-            right: 10px; /* Adjust to position the right knob */
+            right: 10px;
         }
         #numberDisplay {
             font-family: "Courier New", monospace;
@@ -161,16 +161,20 @@
     const correctSequence = ['1', '2', '3', '4', '4', '3', '2', '1'];
     let timeoutId;
 
+    const snapValues = [11.1, 17.2, 23.3, 29.4, 35.5, 41.6, 47.7, 53.8, 59.9, 66.0, 72.1, 78.2, 84.3, 90.4, 98.8];
+
     slider.oninput = function() {
-        numberDisplay.textContent = this.value;
+        const value = parseFloat(this.value);
+        const closestValue = snapValues.reduce((prev, curr) => Math.abs(curr - value) < Math.abs(prev - value) ? curr : prev);
+        numberDisplay.textContent = closestValue.toFixed(1);
         clearTimeout(timeoutId);
         marqueeContainer.style.display = 'none';
         marqueeText.textContent = '';
         timeoutId = setTimeout(() => {
-            if (this.value === '98.8') {
+            if (closestValue === 98.8) {
                 marqueeText.textContent = '🔊 يبني الرايح لا ما تروح 🔊';
                 marqueeContainer.style.display = 'block';
-            } else if (this.value === '11.1') {
+            } else if (closestValue === 11.1) {
                 marqueeText.textContent = "🔊 Fils qui s'en va 🔊";
                 marqueeContainer.style.display = 'block';
             }
