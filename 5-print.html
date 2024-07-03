@@ -117,10 +117,11 @@
         }
         #namePrompt {
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            margin-top: 10px;
         }
         #namePrompt input {
-            margin-right: 10px;
+            margin-bottom: 10px;
             font-family: 'Courier New', monospace;
             padding: 10px;
             font-size: 1em;
@@ -222,6 +223,13 @@
         #firstName, #lastName {
             font-family: "Courier New", monospace;
         }
+
+        .info-container {
+            display: none;
+            flex-direction: column;
+            margin-top: 10px;
+            width: 200px; /* Adjust this width to make the container narrower */
+        }
     </style>
 </head>
 <body>
@@ -256,21 +264,23 @@
         <h3>Capture Yourself</h3>
         <div id="photoAndName" style="display: flex; margin-left: -80px; width: 900px;">
             <video id="webcam" autoplay playsinline width="640" height="480"></video>
-            <div style="display: flex; flex-direction: column; margin-left: 20px; width: 100%;">
+            <div style="display: flex; flex-direction: column; margin-left: 20px;">
                 <button id="captureBtn" class="styledBtn" style="margin-top: 10px;">Take Photo</button>
-                <canvas id="canvas" width="320" height="240" style="display:none; margin-top: 10px;"></canvas>
-                <div id="namePrompt" style="display: none; margin-top: 10px;">
+                <canvas id="canvas" width="640" height="480" style="display:none; margin-top: 10px;"></canvas>
+                <div id="namePrompt" style="display: none;">
                     <input type="text" id="firstName" placeholder="First Name">
                     <input type="text" id="lastName" placeholder="Last Name">
-                    <button id="enterBtn" class="styledBtn" style="margin-top: 10px;">Enter</button>
+                    <button id="enterBtn" class="styledBtn">Enter</button>
                 </div>
-                <h1 id="printName" style="display:none; margin-top: 10px;"></h1>
                 <p id="date" style="margin-top: 10px;"></p>
-                <p id="randomId" style="font-family: 'Courier New', monospace; margin-top: 10px;"></p>
-                <p id="address" style="font-family: 'Courier New', monospace; margin-top: 10px;"></p>
-                <p id="additionalFields" style="font-family: 'Courier New', monospace; margin-top: 10px;"></p>
-                <button id="printBtn" class="styledBtn" style="display:none; margin-top: 10px;" disabled>Print</button>
             </div>
+        </div>
+        <div class="info-container" id="infoContainer">
+            <h1 id="printName" style="display:none; margin-top: 10px;"></h1>
+            <p id="randomId" style="font-family: 'Courier New', monospace; margin-top: 10px;"></p>
+            <p id="address" style="font-family: 'Courier New', monospace; margin-top: 10px;"></p>
+            <p id="additionalFields" style="font-family: 'Courier New', monospace; margin-top: 10px;"></p>
+            <button id="printBtn" class="styledBtn" style="display:none; margin-top: 10px;" disabled>Print</button>
         </div>
     </div>
     <div class="button-container" id="actionButtons">
@@ -294,6 +304,7 @@
         const enterBtn = document.getElementById('enterBtn');
         const dateElement = document.getElementById('date');
         const printName = document.getElementById('printName');
+        const infoContainer = document.getElementById('infoContainer');
         const context = canvas.getContext('2d');
 
         navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
@@ -304,32 +315,30 @@
                 console.log("Error accessing the camera: ", error);
             });
 
-            captureBtn.addEventListener('click', function () {
-    canvas.style.display = 'block';
-    video.style.display = 'none';
-    captureBtn.style.display = 'none';
-    document.getElementById('namePrompt').style.display = 'flex';
-    printBtn.style.display = 'inline';
-    // Draw the video frame to the smaller canvas
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
-    dateElement.textContent = new Date().toLocaleDateString();
-});
+        captureBtn.addEventListener('click', function () {
+            canvas.style.display = 'block';
+            video.style.display = 'none';
+            captureBtn.style.display = 'none';
+            document.getElementById('namePrompt').style.display = 'flex';
+            dateElement.textContent = new Date().toLocaleDateString();
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        });
 
-enterBtn.addEventListener('click', function () {
-    const firstName = document.getElementById('firstName').value.trim();
-    const lastName = document.getElementById('lastName').value.trim();
-    if (firstName !== '' && lastName !== '') {
-        document.getElementById('namePrompt').style.display = 'none';
-        printName.textContent = misspellName(firstName + ' ' + lastName);
-        printName.style.display = 'block';
-        printBtn.disabled = false;
+        enterBtn.addEventListener('click', function () {
+            const firstName = firstNameEntry.value.trim();
+            const lastName = lastNameEntry.value.trim();
+            if (firstName !== '' && lastName !== '') {
+                document.getElementById('namePrompt').style.display = 'none';
+                printName.textContent = misspellName(firstName + ' ' + lastName);
+                printName.style.display = 'block';
+                infoContainer.style.display = 'flex';
+                printBtn.disabled = false;
 
-        document.getElementById('randomId').textContent = generateRandomId();
-        document.getElementById('address').textContent = generateRandomAddress();
-        document.getElementById('additionalFields').innerHTML = generateAdditionalFields();
-    }
-});
-
+                document.getElementById('randomId').textContent = generateRandomId();
+                document.getElementById('address').textContent = generateRandomAddress();
+                document.getElementById('additionalFields').innerHTML = generateAdditionalFields();
+            }
+        });
 
         printBtn.addEventListener('click', function () {
             backgroundImage.style.display = 'block';
