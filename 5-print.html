@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deserve it</title>
+    <title>Capture</title>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet" />
     <style>
         body {
@@ -11,16 +11,15 @@
             overflow: hidden;
             position: relative;
             height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
-        h1 {
-            font-family: 'Merriweather', serif;
+        h1, h2, h3 {
+            font-family: "Merriweather", serif;
             font-weight: normal;
             text-align: center;
-            width: 100%;
-        }
-        h2, h3 {
-            font-family: 'Merriweather', serif;
-            font-weight: normal;
         }
         .progress-container {
             display: flex;
@@ -184,7 +183,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
         }
 
         #backgroundImage {
@@ -256,20 +254,22 @@
         <h3>Capture Yourself</h3>
         <div id="photoAndName">
             <video id="webcam" autoplay playsinline width="640" height="480"></video>
-            <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
-            <button id="captureBtn" class="styledBtn" style="margin-top: 10px;">Take Photo</button>
-            <h1 id="printName" style="display:none;"></h1>
-            <p id="date"></p>
-            <p id="randomId" style="font-family: 'Courier New', monospace;"></p>
-            <p id="address" style="font-family: 'Courier New', monospace;"></p>
-            <p id="additionalFields" style="font-family: 'Courier New', monospace;"></p>
-            <input type="text" id="nameEntry" placeholder="Enter your Full Name" style="display:none; margin-top: 10px;">
-            <button id="enterBtn" class="styledBtn" style="display:none; margin-top: 10px;">Enter</button>
-            <div id="disclaimer" style="display:none; margin-top: 10px;">
-                <input type="checkbox" id="disclaimerCheckbox">
-                <label for="disclaimerCheckbox">Sure, use my photo as part of this piece</label>
+            <div style="display: flex; flex-direction: column; margin-left: 20px;">
+                <button id="captureBtn" class="styledBtn" style="margin-top: 10px;">Take Photo</button>
+                <canvas id="canvas" width="640" height="480" style="display:none; margin-top: 10px;"></canvas>
+                <input type="text" id="nameEntry" placeholder="Enter your Full Name" style="display:none; margin-top: 10px;">
+                <button id="enterBtn" class="styledBtn" style="display:none; margin-top: 10px;">Enter</button>
+                <h1 id="printName" style="display:none; margin-top: 10px;"></h1>
+                <p id="date" style="margin-top: 10px;"></p>
+                <p id="randomId" style="font-family: 'Courier New', monospace; margin-top: 10px;"></p>
+                <p id="address" style="font-family: 'Courier New', monospace; margin-top: 10px;"></p>
+                <p id="additionalFields" style="font-family: 'Courier New', monospace; margin-top: 10px;"></p>
+                <div id="disclaimer" style="display:none; margin-top: 10px;">
+                    <input type="checkbox" id="disclaimerCheckbox">
+                    <label for="disclaimerCheckbox">Sure, use my photo as part of this piece</label>
+                </div>
+                <button id="printBtn" class="styledBtn" style="display:none; margin-top: 10px;" disabled>Print</button>
             </div>
-            <button id="printBtn" class="styledBtn" style="display:none; margin-top: 10px;" disabled>Print</button>
         </div>
     </div>
     <div class="button-container" id="actionButtons">
@@ -296,7 +296,6 @@
         const backgroundImage = document.getElementById('backgroundImage');
         const context = canvas.getContext('2d');
 
-        // Request access to the webcam
         navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
             .then(function (stream) {
                 video.srcObject = stream;
@@ -326,7 +325,6 @@
                 printName.style.display = 'block';
                 printBtn.disabled = false;
 
-                // Display additional fields
                 document.getElementById('additionalFields').innerHTML = generateAdditionalFields();
             }
         });
@@ -342,7 +340,6 @@
             window.print();
             backgroundImage.style.display = 'none';
 
-            // Start the 10-second countdown
             setTimeout(showOverlay, 10000);
         });
 
@@ -351,7 +348,7 @@
         }
 
         function redirectToHome() {
-            window.location.href = 'index.html'; // Replace with the desired URL
+            window.location.href = 'index.html';
         }
 
         function misspellName(name) {
