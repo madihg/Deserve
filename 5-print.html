@@ -255,10 +255,11 @@
         <div id="photoAndName">
             <video id="webcam" autoplay playsinline width="640" height="480"></video>
             <div style="display: flex; flex-direction: column; margin-left: 20px;">
-                <input type="text" id="firstName" placeholder="First Name" style="margin-top: 10px;">
-                <input type="text" id="lastName" placeholder="Last Name" style="margin-top: 10px;">
+                <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+                    <input type="text" id="firstName" placeholder="First Name" style="margin-bottom: 10px;">
+                    <input type="text" id="lastName" placeholder="Last Name">
+                </div>
                 <button id="enterBtn" class="styledBtn" style="margin-top: 10px;">Enter</button>
-                <button id="captureBtn" class="styledBtn" style="margin-top: 10px;">Take Photo</button>
                 <h1 id="printName" style="display:none; margin-top: 10px;"></h1>
                 <p id="date" style="margin-top: 10px;"></p>
                 <p id="randomId" style="font-family: 'Courier New', monospace; margin-top: 10px;"></p>
@@ -271,6 +272,7 @@
                 <button id="printBtn" class="styledBtn" style="display:none; margin-top: 10px;" disabled>Print</button>
             </div>
         </div>
+        <button id="captureBtn" class="styledBtn" style="margin-top: 20px;">Take Photo</button>
     </div>
     <div class="button-container" id="actionButtons">
         <button class="submit-button" onclick="window.location.href='2c-deny.html'">Submit</button>
