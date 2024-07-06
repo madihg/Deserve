@@ -1,173 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tune in</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkbox Nightmare</title>
     <style>
-      body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-        background-color: #000;
-        overflow: hidden;
-      }
-      .tv-container {
-        position: relative;
-        width: 1920px; /* 3x larger */
-        height: 1080px; /* 3x larger */
-        cursor: pointer;
-        z-index: 1; /* Ensure the TV container is below the overlay */
-      }
-      .image-container {
-        position: absolute;
-        width: 80%;
-        height: 80%;
-        top: 5%;
-        left: 5%;
-        object-fit: contain; /* Ensure the image fits within the container */
-        display: none;
-        z-index: 0; /* Ensure the images are behind the TV screen */
-      }
-      .tv-image {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        z-index: 1;
-        object-fit: contain; /* Ensure the image fits within the container */
-      }
-      .modal {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 80%;
-        height: 200px;
-        background-color: white;
-        color: black;
-        border: 1px solid black;
-        z-index: 10;
-        font-size: 1.5em;
-        text-align: center;
-      }
-      .overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.7);
-        z-index: 9;
-      }
-      .code-text {
-        font-family: "Courier New", monospace;
-        position: fixed;
-        top: 10px;
-        left: 10px;
-        z-index: 10;
-        border: 1px solid black;
-        padding: 10px;
-        margin: 10px;
-        background-color: white;
-      }
+        .header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .code-text-top {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: "Courier New", monospace;
+            border: 1px solid black;
+            padding: 10px;
+            background-color: white;
+            height: 90px; /* Adjust height */
+        }
+
+        #timer {
+            font-size: 3em;
+            margin-left: 10px; /* Adds space between "Answer correctly" and the timer */
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 10px;
+            padding: 10px;
+        }
+
+        .grid div {
+            display: flex;
+            align-items: center;
+            margin: 5px;
+        }
+
+        #codeInput {
+            font-family: "Courier New", monospace;
+            width: 200px; /* Adjust width */
+            height: 50px; /* Adjust height */
+            padding: 10px; /* Ensure padding matches .code-text-top */
+            box-sizing: border-box; /* Ensures padding is included in the height */
+            margin-top: 10px;
+        }
+
+        #reachButton {
+            padding: 10px 20px;
+            font-family: "Courier New", monospace;
+            font-size: 16px;
+            color: white;
+            background-color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px; /* Adds space between the button and the input field */
+        }
+
+        #reachButton:hover {
+            background-color: grey;
+        }
+
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 100;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border: 1px solid black;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        }
     </style>
-  </head>
-  <body>
-    <div class="modal" id="modal">
-        The day before you board, you turn on the TV...
+</head>
+<body>
+    <div class="modal" id="modal">Sample Text</div>
+    <div class="header">
+        <div class="code-text-top">
+            <div>Answer correctly</div>
+            <div id="timer">01:11</div>
+        </div>
+        <input type="text" id="codeInput" class="code-text-small" style="display: none" placeholder="Now what?">
+        <button id="reachButton" style="display: none" onclick="navigateToPage()">for more</button>
     </div>
-    <div class="overlay" id="overlay"></div>
-    <div class="tv-container" id="tvContainer">
-      <img
-        src="assets/Monica-0.jpeg"
-        alt="SMPTE Color Bars"
-        class="image-container"
-        id="image0"
-      />
-      <img
-        src="assets/tvscreen1.png"
-        alt="TV"
-        class="tv-image"
-        id="tvImage"
-      />
-      <img
-        src="assets/Monica-1.jpeg"
-        alt="Image 1"
-        class="image-container"
-        id="image1"
-      />
-      <img
-        src="assets/Monica-2.jpeg"
-        alt="Image 2"
-        class="image-container"
-        id="image2"
-      />
-      <img
-        src="assets/Monica-3.jpeg"
-        alt="Image 3"
-        class="image-container"
-        id="image3"
-      />
-      <img
-        src="assets/Monica-4.jpeg"
-        alt="Image 4"
-        class="image-container"
-        id="image4"
-      />
+    <div class="container">
+        <div id="checkboxes" class="grid"></div>
     </div>
-
     <script>
-      let clickCount = 0;
-      const tvContainer = document.getElementById("tvContainer");
-      const imageElements = [
-        document.getElementById("image0"),
-        document.getElementById("image1"),
-        document.getElementById("image2"),
-        document.getElementById("image3"),
-        document.getElementById("image4"),
-      ];
-      const modal = document.getElementById('modal');
-      const overlay = document.getElementById('overlay');
-
-      tvContainer.addEventListener("click", function () {
-        if (clickCount === 0) {
-          showImage(clickCount);
+        function navigateToPage() {
+            window.location.href = "https://deserve.vercel.app/3c-erase.html";
         }
-        clickCount++;
-      });
 
-      function showImage(index) {
-        if (index >= imageElements.length) {
-          window.location.href = "2b-reporter-music.html"; // Redirect after last image
-          return;
+        document.addEventListener('DOMContentLoaded', () => {
+            // Show modal for 5 seconds
+            const modal = document.getElementById('modal');
+            modal.style.display = 'block';
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 5000);
+
+            const container = document.getElementById('checkboxes');
+            for (let i = 0; i < 100; i++) {
+                const checkboxContainer = document.createElement('div');
+                const checkbox = document.createElement('input');
+                const label = document.createElement('label');
+
+                checkbox.type = 'checkbox';
+                checkbox.id = 'checkbox-' + i;
+                checkbox.dataset.index = i;
+                checkbox.onchange = () => {
+                    if (Array.from(document.querySelectorAll('input[type="checkbox"]')).every(cb => cb.checked)) {
+                        document.getElementById('codeInput').style.display = 'block';
+                    }
+                };
+
+                label.htmlFor = checkbox.id;
+                label.textContent = 'No';
+
+                checkboxContainer.appendChild(checkbox);
+                checkboxContainer.appendChild(label);
+                container.appendChild(checkboxContainer);
+            }
+
+            const inputField = document.getElementById('codeInput');
+            inputField.oninput = () => {
+                if (inputField.value.includes('reach')) {
+                    document.getElementById('reachButton').style.display = 'block';
+                }
+            };
+
+            startTimer();
+        });
+
+        function startTimer() {
+            let timer = 71; // 1 minute 11 seconds in seconds
+            const timerElement = document.getElementById('timer');
+
+            const interval = setInterval(() => {
+                const minutes = Math.floor(timer / 60);
+                const seconds = timer % 60;
+                timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+                if (timer === 0) {
+                    clearInterval(interval);
+                }
+
+                timer--;
+            }, 1000);
         }
-        imageElements[index].style.display = "block";
-
-        let timeout = index === 0 ? 3000 : 18000; // 3 seconds for the first image, 18 seconds for others
-        setTimeout(function () {
-          if (index < imageElements.length - 1) {
-            imageElements[index].style.display = "none";
-            showImage(index + 1);
-          } else {
-            window.location.href = "2b-reporter-music.html"; // Redirect after last image
-          }
-        }, timeout);
-      }
-
-      // Modal display logic
-      window.onload = function() {
-          setTimeout(() => {
-              modal.style.display = 'none';
-              overlay.style.display = 'none';
-          }, 80000); // Hide modal and overlay after 80 seconds
-      };
     </script>
-  </body>
+</body>
 </html>
