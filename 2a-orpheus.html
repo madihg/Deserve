@@ -15,26 +15,22 @@
         overflow: hidden;
         position: relative;
     }
-    #light {
-        position: absolute;
-        top: 0;
-        right: 0;
-        background: radial-gradient(circle at top right, rgba(255, 255, 224, 0.8) 0%, rgba(255, 255, 224, 0) 70%);
-        width: 100%;
-        height: 100%;
-        display: none;
-        pointer-events: none;
-        image-rendering: pixelated;
-        opacity: 0;
-        transition: opacity 2s;
-        z-index: 1; /* Ensure light is on top */
-    }
-    img {
+    #orpheus {
         width: 500px;
         height: auto;
+        position: absolute;
+        left: 10%;
         transition: opacity 3s ease;
-        z-index: 0; /* Ensure image is below the light */
-        position: relative; /* To ensure z-index takes effect */
+        z-index: 0;
+        cursor: pointer; /* Hand cursor for Orpheus */
+    }
+    #eurydice {
+        width: 500px;
+        height: auto;
+        position: absolute;
+        right: 10%;
+        transition: opacity 3s ease;
+        z-index: 0;
     }
     .Btn {
         padding: 10px 20px;
@@ -66,66 +62,67 @@
         margin-right: 10px;
     }
     .code-text {
-            font-family: "Courier New", monospace;
-            position: fixed;
-            top: 10px;
-            left: 10px;
-            z-index: 10;
-            border: 1px solid black;
-            padding: 10px;
-            margin: 10px;
-            background-color: white;
-        }
+        font-family: "Courier New", monospace;
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        z-index: 10;
+        border: 1px solid black;
+        padding: 10px;
+        margin: 10px;
+        background-color: white;
+    }
 </style>
 </head>
 <body>
     <div class="code-text">
         The day before you board, you come across the myth of Orpheus and Eurydice...
     </div>
-<div id="light"></div>
-<img id="image" src="assets/image1.png" onclick="changeImage()">
-<div class="input-container" id="inputContainer">
-    <input type="text" class="input-field" id="inputField" placeholder="The word you're looking for">
-    <button class="Btn" id="submitButton" onclick="location.href='2c-deny.html'">again</button>
-</div>
-<script>
-    let currentImage = 1;
-    const totalImages = 4;
-    const imageElement = document.getElementById('image');
-    const lightElement = document.getElementById('light');
-    const submitButton = document.getElementById('submitButton');
-    const inputField = document.getElementById('inputField');
-    const inputContainer = document.getElementById('inputContainer');
-    let isTransitioning = false;
+    <img id="orpheus" src="assets/image1.png" onclick="changeImage()">
+    <img id="eurydice" src="assets/Eurydice.png" alt="Image">
+    <div class="input-container" id="inputContainer">
+        <input type="text" class="input-field" id="inputField" placeholder="The word you're looking for">
+        <button class="Btn" id="submitButton" onclick="location.href='2c-deny.html'">again</button>
+    </div>
+    <script>
+        let currentImage = 1;
+        const totalImages = 4;
+        const orpheusElement = document.getElementById('orpheus');
+        const eurydiceElement = document.getElementById('eurydice');
+        const submitButton = document.getElementById('submitButton');
+        const inputField = document.getElementById('inputField');
+        const inputContainer = document.getElementById('inputContainer');
+        let isTransitioning = false;
 
-    inputField.addEventListener('input', function() {
-        if (inputField.value.toLowerCase() === 'begin') {
-            submitButton.style.display = 'block';
-        } else {
-            submitButton.style.display = 'none';
-        }
-    });
+        inputField.addEventListener('input', function() {
+            if (inputField.value.toLowerCase() === 'begin') {
+                submitButton.style.display = 'block';
+            } else {
+                submitButton.style.display = 'none';
+            }
+        });
 
-    function changeImage() {
-        if (isTransitioning) return;
-        if (currentImage < totalImages) {
-            isTransitioning = true;
-            currentImage++;
-            imageElement.style.opacity = '0';
-            setTimeout(() => {
-                imageElement.src = `assets/image${currentImage}.png`;
-                imageElement.style.opacity = '1';
-                isTransitioning = false;
-                if (currentImage === 4) {
-                    lightElement.style.display = 'block';
-                    lightElement.style.opacity = '1';
-                    setTimeout(() => {
-                        inputContainer.style.display = 'flex';
-                    }, 2000); // Wait for light transition before showing input container
-                }
-            }, 3000);
+        function changeImage() {
+            if (isTransitioning) return;
+            if (currentImage < totalImages) {
+                isTransitioning = true;
+                currentImage++;
+                orpheusElement.style.opacity = '0';
+                setTimeout(() => {
+                    orpheusElement.src = `assets/image${currentImage}.png`;
+                    orpheusElement.style.opacity = '1';
+                    isTransitioning = false;
+                    if (currentImage === totalImages) {
+                        setTimeout(() => {
+                            eurydiceElement.style.opacity = '0'; // Eurydice starts disappearing
+                            setTimeout(() => {
+                                inputContainer.style.display = 'flex';
+                            }, 3000); // Wait for Eurydice transition before showing input container
+                        }, 0);
+                    }
+                }, 3000);
+            }
         }
-    }
-</script>
+    </script>
 </body>
 </html>
