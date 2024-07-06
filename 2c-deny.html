@@ -96,21 +96,17 @@
             display: none;
             justify-content: center;
             align-items: center;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
             width: 240px; /* 3 times the width of one button */
             height: 50px; /* Same height as the buttons */
             border: 1px solid black;
             font-family: "Courier New", Courier, monospace;
             text-align: center;
+            margin: 20px auto; /* Same position as the buttons */
         }
         .buttons {
             display: none;
             margin-top: 20px;
             text-align: center;
-            margin-top: 20px; /* Ensure it appears below the rectangle */
         }
         .submit-button {
             margin: 0 10px;
@@ -182,12 +178,12 @@
         <h3 id="question">Question 1: Have you ever attempted to do anything remotely unlawful to access this country?</h3>
         <div class="floating-rectangle" id="floating-rectangle"></div>
     </div>
+    <div class="sample-box" id="sample-box">Sample Text</div>
     <div class="buttons" id="buttons">
         <button class="submit-button" onclick="openNewPage()">Submit</button>
         <button class="submit-button" onclick="openNewPage2()">Save</button>
         <button class="submit-button" onclick="openNewPage3()">Stray</button>
     </div>
-    <div class="sample-box" id="sample-box">Sample Text</div>
     <div class="modal" id="modal">
         <p>Thank you for your openness and vulnerability. Had this been an actual immigration application, your chances of being accepted would have been greatly impacted. If you'd like to resume the application, click on the button below.</p>
         <button class="submit-button" onclick="closeModal()">I made a mistake</button>
