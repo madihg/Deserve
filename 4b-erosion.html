@@ -27,10 +27,7 @@
             position: relative;
             font-size: 4em;
         }
-        .left {
-            background-color: white;
-        }
-        .right {
+        .left, .right {
             background-color: white;
         }
         .divider {
@@ -41,20 +38,28 @@
             width: 2px;
             background: black;
         }
-        .image-piece {
+        .blob {
             position: absolute;
             width: 20px;
             height: 20px;
-            background-size: cover;
-            transition: top 3s linear, opacity 1s linear;
+            background: black;
+            transition: transform 1s linear;
+        }
+        .crumbled {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: black;
+            transition: top 3s linear;
         }
         .levitate {
             transition: top 3s linear;
         }
-        .fire-emoji {
+        .image {
             position: absolute;
-            font-size: 2em;
-            display: none;
+            width: 100px;
+            height: 100px;
+            transition: opacity 1s linear;
         }
         .submit-button {
             display: none;
@@ -111,48 +116,49 @@
             <div class="word">There</div>
         </div>
         <div class="divider"></div>
-        <div id="imageContainer"></div>
+        <div id="blobsContainer"></div>
+        <img src="your-image-url.png" id="image" class="image" style="opacity: 1;">
     </div>
     <button class="submit-button" onclick="window.open('4c-reach.html', '_blank')">Submit</button>
-    
+
     <!-- Modal and Overlay -->
     <div class="modal" id="modal">Sample Text</div>
     <div class="overlay" id="overlay"></div>
 
     <script>
-        const imageContainer = document.getElementById('imageContainer');
+        const blobsContainer = document.getElementById('blobsContainer');
         const submitButton = document.querySelector('.submit-button');
+        const image = document.getElementById('image');
         const parts = 10;
-        let imagePieces = [];
+        let blobs = [];
         let crossCount = 0;
         let lastSide = 'left';
         let clickCount = 0;
 
-        // Load an image and split it into pieces
-        const imageUrl = 'https://via.placeholder.com/200'; // Replace with your image URL
-        const img = new Image();
-        img.src = imageUrl;
-        img.onload = () => {
-            const pieceWidth = img.width / 3;
-            const pieceHeight = img.height / 3;
-            for (let i = 0; i < 3; i++) {
-                for (let j = 0; j < 3; j++) {
-                    let piece = document.createElement('div');
-                    piece.classList.add('image-piece');
-                    piece.style.width = `${pieceWidth}px`;
-                    piece.style.height = `${pieceHeight}px`;
-                    piece.style.backgroundImage = `url(${imageUrl})`;
-                    piece.style.backgroundPosition = `-${j * pieceWidth}px -${i * pieceHeight}px`;
-                    imageContainer.appendChild(piece);
-                    imagePieces.push(piece);
-                }
-            }
-        };
+        // Create blobs to form a stick figure and attach them to the mouse
+        const stickFigurePositions = [
+            { x: 0, y: -60 },  // Head
+            { x: 0, y: -40 },  // Body
+            { x: -20, y: -40 }, // Left arm
+            { x: 20, y: -40 },  // Right arm
+            { x: 0, y: -20 },  // Lower body
+            { x: -10, y: 0 },  // Left leg
+            { x: 10, y: 0 },   // Right leg
+            { x: -10, y: 20 }, // Left foot
+            { x: 10, y: 20 },  // Right foot
+        ];
+
+        stickFigurePositions.forEach((pos, index) => {
+            let blob = document.createElement('div');
+            blob.classList.add('blob');
+            blobsContainer.appendChild(blob);
+            blobs.push({ element: blob, ...pos });
+        });
 
         document.addEventListener('mousemove', function (e) {
-            imagePieces.forEach(piece => {
-                piece.style.left = e.clientX + 'px';
-                piece.style.top = e.clientY + 'px';
+            blobs.forEach(blob => {
+                blob.element.style.left = e.clientX + blob.x + 'px';
+                blob.element.style.top = e.clientY + blob.y + 'px';
             });
 
             let centerX = window.innerWidth / 2;
@@ -162,20 +168,24 @@
                 lastSide = mouseX < centerX ? 'left' : 'right';
                 if (crossCount >= 2) {
                     crossCount = 0;
-                    crumblePiece();
+                    crumbleBlob();
                 }
             }
         });
 
-        function crumblePiece() {
-            if (imagePieces.length > 0) {
-                let piece = imagePieces.pop();
-                piece.classList.add('crumbled');
-                document.body.appendChild(piece);
+        function crumbleBlob() {
+            if (blobs.length > 0) {
+                let blob = blobs.pop().element;
+                blob.classList.add('crumbled');
+                document.body.appendChild(blob);
                 setTimeout(() => {
-                    piece.style.top = window.innerHeight - 20 + 'px';
-                    piece.style.opacity = 0;
+                    blob.style.top = window.innerHeight - 20 + 'px';
                 }, 0);
+
+                // Reduce image opacity
+                image.style.opacity = (blobs.length / stickFigurePositions.length).toString();
+            } else {
+                image.style.opacity = 0;
             }
         }
 
@@ -183,16 +193,16 @@
             if (e.clientY > window.innerHeight - 100) {
                 clickCount++;
                 if (clickCount >= 10) {
-                    levitatePieces();
+                    levitateBlobs();
                 }
             }
         });
 
-        function levitatePieces() {
+        function levitateBlobs() {
             const middleY = window.innerHeight / 2 - 20;
-            document.querySelectorAll('.crumbled').forEach(piece => {
-                piece.classList.add('levitate');
-                piece.style.top = `${middleY}px`;
+            document.querySelectorAll('.crumbled').forEach(blob => {
+                blob.classList.add('levitate');
+                blob.style.top = `${middleY}px`;
             });
 
             setTimeout(() => {
@@ -212,7 +222,7 @@
             }
 
             setTimeout(() => {
-                document.querySelectorAll('.crumbled').forEach(piece => piece.remove());
+                document.querySelectorAll('.crumbled').forEach(blob => blob.remove());
                 document.querySelectorAll('.fire-emoji').forEach(fireEmoji => fireEmoji.remove());
                 document.querySelectorAll('.word').forEach(word => word.remove());
                 submitButton.style.display = 'block';

@@ -110,6 +110,18 @@
         .submit-button:hover {
             background-color: grey;
         }
+        .sample-text-box {
+            display: none;
+            width: calc(3 * 100px + 40px); /* 3 times the width of a button + padding */
+            text-align: center;
+            margin: 20px auto;
+            border: 1px solid black;
+            padding: 20px;
+            font-family: "Courier New", Courier, monospace;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
         .disappear {
             opacity: 0;
         }
@@ -144,11 +156,14 @@
         </div>
     </div>
     <div class="question-container">
-        <h3 id="question">Additional Information About You: This section asks about the basis for the applicant’s eligibility to adjust status, which could indirectly reveal their reasons for wanting to stay in the U.S.</h3>
+        <h3 id="question">Please state your primary reason(s) for seeking immigration benefits in the US</h3>
         <div class="text-box">
             <textarea id="text-field" maxlength="100" rows="10" style="width: 100%; height: 100%; border: none; font-family: 'Courier New', Courier, monospace;"></textarea>
         </div>
         <div class="counter" id="char-counter">100 characters remaining</div>
+    </div>
+    <div class="sample-text-box" id="sample-text">
+        This is a sample text box that will disappear after 20 seconds.
     </div>
     <div class="buttons" id="buttons">
         <button class="submit-button" onclick="openNewPage()">Submit</button>
@@ -160,6 +175,7 @@
         const textField = document.getElementById('text-field');
         const charCounter = document.getElementById('char-counter');
         const buttons = document.getElementById('buttons');
+        const sampleText = document.getElementById('sample-text');
 
         textField.addEventListener('input', function() {
             const remaining = 100 - textField.value.length;
@@ -169,11 +185,12 @@
             } else {
                 charCounter.style.color = 'black';
             }
-        });
-
-        textField.addEventListener('blur', function() {
-            textField.readOnly = true;
-            buttons.style.display = 'block';
+            if (textField.value.length > 0) {
+                setTimeout(() => {
+                    sampleText.style.display = 'none';
+                    buttons.style.display = 'block';
+                }, 20000);
+            }
         });
 
         function openNewPage() {
@@ -197,6 +214,9 @@
             document.getElementById('modal').style.display = 'none';
             document.getElementById('overlay').style.display = 'none';
         }
+
+        // Initial display of the sample text box
+        sampleText.style.display = 'block';
     </script>
 </body>
 </html>
