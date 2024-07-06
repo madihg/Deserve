@@ -127,76 +127,125 @@
             from { transform: translate(0, 0); }
             to { transform: translate(-100%, 0); }
         }
+        .modal {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 200px;
+            background-color: white;
+            color: black;
+            border: 1px solid black;
+            z-index: 10;
+            font-size: 1.5em;
+            text-align: center;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 9;
+        }
     </style>
 </head>
 <body>
-
-<div id="container">
-    <div class="knob knob-left"></div>
-    <div class="knob knob-right"></div>
-    <div class="playText">Play</div>
-    <div id="numberDisplay">50.0</div>
-    <input type="range" min="0" max="100" step="0.1" value="50" id="slider">
-    <div class="buttonContainer">
-        <button class="actionBtn" id="btn1">1</button>
-        <button class="actionBtn" id="btn2">2</button>
-        <button class="actionBtn" id="btn3">3</button>
-        <button class="actionBtn" id="btn4">4</button>
+    <div id="overlay" class="overlay"></div>
+    <div id="modal" class="modal">
+        <p>Welcome to the interactive page. Please wait...</p>
     </div>
-    <div id="marqueeContainer" class="marquee" style="display: none;">
-        <span id="marqueeText"></span>
+
+    <div id="container">
+        <div class="knob knob-left"></div>
+        <div class="knob knob-right"></div>
+        <div class="playText">Play</div>
+        <div id="numberDisplay">50.0</div>
+        <input type="range" min="0" max="100" step="0.1" value="50" id="slider">
+        <div class="buttonContainer">
+            <button class="actionBtn" id="btn1">1</button>
+            <button class="actionBtn" id="btn2">2</button>
+            <button class="actionBtn" id="btn3">3</button>
+            <button class="actionBtn" id="btn4">4</button>
+        </div>
+        <div id="marqueeContainer" class="marquee" style="display: none;">
+            <span id="marqueeText"></span>
+        </div>
     </div>
-</div>
 
-<button id="submitBtn">Submit</button>
+    <button id="submitBtn">Submit</button>
 
-<script>
-    const slider = document.getElementById('slider');
-    const numberDisplay = document.getElementById('numberDisplay');
-    const buttons = [document.getElementById('btn1'), document.getElementById('btn2'), document.getElementById('btn3'), document.getElementById('btn4')];
-    const submitBtn = document.getElementById('submitBtn');
-    const marqueeContainer = document.getElementById('marqueeContainer');
-    const marqueeText = document.getElementById('marqueeText');
-    let sequence = [];
-    const correctSequence = ['1', '2', '3', '4', '4', '3', '2', '1'];
-    let timeoutId;
+    <script>
+        const slider = document.getElementById('slider');
+        const numberDisplay = document.getElementById('numberDisplay');
+        const buttons = [document.getElementById('btn1'), document.getElementById('btn2'), document.getElementById('btn3'), document.getElementById('btn4')];
+        const submitBtn = document.getElementById('submitBtn');
+        const marqueeContainer = document.getElementById('marqueeContainer');
+        const marqueeText = document.getElementById('marqueeText');
+        let sequence = [];
+        const correctSequence = ['1', '2', '3', '4', '4', '3', '2', '1'];
+        let timeoutId;
 
-    const snapValues = [11.1, 17.2, 23.3, 29.4, 35.5, 41.6, 47.7, 53.8, 59.9, 66.0, 72.1, 78.2, 84.3, 90.4, 98.8];
+        const snapValues = [11.1, 17.2, 23.3, 29.4, 35.5, 41.6, 47.7, 53.8, 59.9, 66.0, 72.1, 78.2, 84.3, 90.4, 98.8];
 
-    slider.oninput = function() {
-        const value = parseFloat(this.value);
-        const closestValue = snapValues.reduce((prev, curr) => Math.abs(curr - value) < Math.abs(prev - value) ? curr : prev);
-        numberDisplay.textContent = closestValue.toFixed(1);
-        clearTimeout(timeoutId);
-        marqueeContainer.style.display = 'none';
-        marqueeText.textContent = '';
-        timeoutId = setTimeout(() => {
-            if (closestValue === 98.8) {
-                marqueeText.textContent = '🔊 يبني الرايح لا ما تروح 🔊';
-                marqueeContainer.style.display = 'block';
-            } else if (closestValue === 11.1) {
-                marqueeText.textContent = "🔊 Fils qui s'en va 🔊";
-                marqueeContainer.style.display = 'block';
-            }
-        }, 1000);
-    }
-
-    buttons.forEach(button => {
-        button.onclick = function() {
-            sequence.push(this.textContent);
-            if (sequence.length > correctSequence.length) {
-                sequence.shift();
-            }
-            if (sequence.join('') === correctSequence.join('')) {
-                submitBtn.style.display = 'block';
-            }
+        slider.oninput = function() {
+            const value = parseFloat(this.value);
+            const closestValue = snapValues.reduce((prev, curr) => Math.abs(curr - value) < Math.abs(prev - value) ? curr : prev);
+            numberDisplay.textContent = closestValue.toFixed(1);
+            clearTimeout(timeoutId);
+            marqueeContainer.style.display = 'none';
+            marqueeText.textContent = '';
+            timeoutId = setTimeout(() => {
+                if (closestValue === 98.8) {
+                    marqueeText.textContent = '🔊 يبني الرايح لا ما تروح 🔊';
+                    marqueeContainer.style.display = 'block';
+                } else if (closestValue === 11.1) {
+                    marqueeText.textContent = "🔊 Fils qui s'en va 🔊";
+                    marqueeContainer.style.display = 'block';
+                }
+            }, 1000);
         }
-    });
 
-    submitBtn.onclick = function() {
-        window.location.href = '3c-erase.html'; // Change this URL to the desired page
-    }
-</script>
+        buttons.forEach(button => {
+            button.onclick = function() {
+                sequence.push(this.textContent);
+                if (sequence.length > correctSequence.length) {
+                    sequence.shift();
+                }
+                if (sequence.join('') === correctSequence.join('')) {
+                    submitBtn.style.display = 'block';
+                }
+            }
+        });
 
+        submitBtn.onclick = function() {
+            window.location.href = '3c-erase.html'; // Change this URL to the desired page
+        }
+
+        // Modal functionality
+        window.onload = function() {
+            const modal = document.getElementById('modal');
+            const overlay = document.getElementById('overlay');
+
+            // Show modal and overlay
+            modal.style.display = 'flex';
+            overlay.style.display = 'block';
+
+            // Disable interaction with the page
+            document.body.style.pointerEvents = 'none';
+
+            // Hide modal and overlay after 5 seconds
+            setTimeout(function() {
+                modal.style.display = 'none';
+                overlay.style.display = 'none';
+                document.body.style.pointerEvents = 'auto';
+            }, 5000);
+        };
+    </script>
 </body>
 </html>

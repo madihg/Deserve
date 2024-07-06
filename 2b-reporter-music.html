@@ -7,24 +7,34 @@
     <title>History holes</title>
     <style>
         body {
-            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Grand_staff.svg/2560px-Grand_staff.svg.png');
-            background-size: cover;
-            height: 100vh;
             margin: 0;
             overflow: hidden;
             position: relative;
             font-family: Arial, sans-serif;
+            height: 100vh;
         }
 
-        .tv-image {
+        .tv-container {
             position: absolute;
             width: 100%;
             height: 100%;
             top: 0;
             left: 0;
-            z-index: 1;
-            object-fit: contain;
-            /* Ensure the image fits within the container */
+            background-image: url('assets/tvscreen1.png');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .music-sheet {
+            width: 90%;
+            height: 90%;
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Grand_staff.svg/2560px-Grand_staff.svg.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
         }
 
         .circle {
@@ -62,8 +72,12 @@
 </head>
 
 <body>
-    <img src="assets/tvscreen1.png" alt="TV" class="tv-image" id="tvImage" />
+    <div class="tv-container">
+        <div class="music-sheet"></div>
+    </div>
+
     <script>
+        // The JavaScript remains the same as in your original code
         const items = [
             "1948 Arab–Israeli War (1948-1949)",
             "1968 Israeli raid on Lebanon (1968)",
