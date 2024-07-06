@@ -92,6 +92,20 @@
             transition: top 2s ease-out, left 2s ease-out;
             z-index: 1;
         }
+        .sample-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 240px; /* 3 times the width of one button */
+            height: 50px; /* Same height as the buttons */
+            border: 1px solid black;
+            font-family: "Courier New", Courier, monospace;
+            text-align: center;
+        }
         .buttons {
             display: none;
             margin-top: 20px;
@@ -168,28 +182,25 @@
         <h3 id="question">Question 1: Have you ever attempted to do anything remotely unlawful to access this country?</h3>
         <div class="floating-rectangle" id="floating-rectangle"></div>
     </div>
+    <div class="sample-box" id="sample-box">Sample Text</div>
     <div class="buttons" id="buttons">
         <button class="submit-button" onclick="openNewPage()">Submit</button>
         <button class="submit-button" onclick="openNewPage2()">Save</button>
         <button class="submit-button" onclick="openNewPage3()">Stray</button>
     </div>
     <div class="modal" id="modal">
-        <p>Your application is under review. Further action may be required.</p>
+        <p>Thank you for your openness and vulnerability. Had this been an actual immigration application, your chances of being accepted would have been greatly impacted. If you'd like to resume the application, click on the button below.</p>
         <button class="submit-button" onclick="closeModal()">I made a mistake</button>
     </div>
     <div class="overlay" id="overlay"></div>
     <script>
         const questions = [
-            "Have you ever been a member or served in an insurgent organization (a group that uses weapons and fights against a government)?",
-            "Have you ever been a worker, volunteer, or soldier, or did you otherwise ever serve in any prison or jail?",
-            "Have you ever been a worker, volunteer, or soldier, or did you otherwise ever serve in any prison camp?",
-            "Have you ever been a worker, volunteer, or soldier, or did you otherwise ever serve in any detention facility?",
-            "Have you ever been a worker, volunteer, or soldier, or did you otherwise ever serve in any labor camp?",
-            "Have you ever been a worker, volunteer, or soldier, or did you otherwise ever serve in any other place where people were forced to stay?",
-            "Have you ever been part of any group, or did you ever help any group, unit, or organization that used a weapon against any person or threatened to do so?",
-            "When you were part of or helped this group, did you ever use a weapon against another person?",
-            "When you were part of or helped this group, did you ever tell another person that they would use a weapon against that person?",
-        ];
+    "Have you ever advocated (either directly or indirectly) the overthrow of any government by force or violence?",
+    "Have you ever been a habitual drunkard?",
+    "Have you ever been a prostitute, or procured anyone for prostitution?",
+    "Have you ever gambled illegally or received income from illegal gambling?",
+    "Have you ever been declared legally incompetent, or been confined as a patient in a mental institution?",
+];
 
         let currentQuestionIndex = 0;
 
@@ -274,6 +285,10 @@
         window.onload = () => {
             createFloatingCheckboxes();
             floatElements('.floating-checkbox', 3000);
+            setTimeout(() => {
+                document.getElementById('sample-box').style.display = 'none';
+                document.getElementById('buttons').style.display = 'block';
+            }, 20000); // 20 seconds
         };
     </script>
 </body>
