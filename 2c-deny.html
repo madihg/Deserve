@@ -93,7 +93,7 @@
             z-index: 1;
         }
         .sample-box {
-            display: flex;
+            display: none;
             justify-content: center;
             align-items: center;
             position: absolute;
@@ -182,12 +182,12 @@
         <h3 id="question">Question 1: Have you ever attempted to do anything remotely unlawful to access this country?</h3>
         <div class="floating-rectangle" id="floating-rectangle"></div>
     </div>
-    <div class="sample-box" id="sample-box">Sample Text</div>
     <div class="buttons" id="buttons">
         <button class="submit-button" onclick="openNewPage()">Submit</button>
         <button class="submit-button" onclick="openNewPage2()">Save</button>
         <button class="submit-button" onclick="openNewPage3()">Stray</button>
     </div>
+    <div class="sample-box" id="sample-box">Sample Text</div>
     <div class="modal" id="modal">
         <p>Thank you for your openness and vulnerability. Had this been an actual immigration application, your chances of being accepted would have been greatly impacted. If you'd like to resume the application, click on the button below.</p>
         <button class="submit-button" onclick="closeModal()">I made a mistake</button>
@@ -220,8 +220,16 @@
                 document.getElementById('question').textContent = `Question ${currentQuestionIndex + 1}: ${questions[currentQuestionIndex]}`;
                 createFloatingCheckboxes();
             } else {
-                document.getElementById('buttons').style.display = 'block';
+                showSampleText();
             }
+        }
+
+        function showSampleText() {
+            document.getElementById('sample-box').style.display = 'flex';
+            setTimeout(() => {
+                document.getElementById('sample-box').style.display = 'none';
+                document.getElementById('buttons').style.display = 'block';
+            }, 20000); // 20 seconds
         }
 
         function createFloatingCheckboxes() {
@@ -285,10 +293,6 @@
         window.onload = () => {
             createFloatingCheckboxes();
             floatElements('.floating-checkbox', 3000);
-            setTimeout(() => {
-                document.getElementById('sample-box').style.display = 'none';
-                document.getElementById('buttons').style.display = 'block';
-            }, 20000); // 20 seconds
         };
     </script>
 </body>
