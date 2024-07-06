@@ -142,11 +142,11 @@
         </div>
         <div class="progress-stage">
           <div class="progress-dot" id="stage4-dot"></div>
-          <div class="progress-text" id="stage4-text">Stage 4</div>
+          <div class="progress-text" id="stage4-text">Step 4</div>
         </div>
         <div class="progress-stage">
           <div class="progress-dot" id="stage5-dot"></div>
-          <div class="progress-text" id="stage5-text">Stage 5</div>
+          <div class="progress-text" id="stage5-text">Step 5</div>
         </div>
       </div>
     </div>
@@ -222,6 +222,7 @@
       const words = textContainer.querySelectorAll(".word");
       let hoverCount = 0;
       const totalWords = words.length - 3; // total words excluding 'We', 'hold', 'on'
+      let sampleBoxShown = false; // Flag to track if sample box has been shown
 
       words.forEach((word) => {
         word.addEventListener("mouseover", function () {
@@ -235,13 +236,14 @@
               hoverCount++;
             }
           }
-          if (hoverCount === totalWords) {
+          if (hoverCount === totalWords && !sampleBoxShown) {
             showSampleText();
           }
         });
       });
 
       function showSampleText() {
+        sampleBoxShown = true;
         document.getElementById('sample-box').style.display = 'flex';
         setTimeout(() => {
             document.getElementById('sample-box').style.display = 'none';

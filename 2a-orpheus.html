@@ -81,6 +81,7 @@
         z-index: 10;
         font-size: 1.5em;
         text-align: center;
+        font-family: "Courier New", monospace;
     }
     .overlay {
         position: fixed;
@@ -95,13 +96,13 @@
 </head>
 <body>
     <div class="modal" id="modal">
-        The day before you board, you come across the myth of Orpheus and Eurydice...
+        As you complete your application, your mind wanders to the day you left your country...
     </div>
     <div class="overlay" id="overlay"></div>
     <img id="orpheus" src="assets/image1.png" onclick="changeImage()">
     <img id="eurydice" src="assets/Eurydice.png" alt="Image">
     <div class="input-container" id="inputContainer">
-        <input type="text" class="input-field" id="inputField" placeholder="The word you're looking for">
+        <input type="text" class="input-field" id="inputField" placeholder="The thing you want">
         <button class="Btn" id="submitButton" onclick="location.href='2c-deny.html'">again</button>
     </div>
     <script>

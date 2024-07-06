@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Page</title>
+    <title>Driving up</title>
     <style>
         body {
             background: url('https://p0.pxfuel.com/preview/520/518/531/auto-dashboard-steering-wheel-transport-system.jpg') no-repeat center center fixed;
@@ -17,6 +18,7 @@
             font-family: "Merriweather", serif;
             position: relative;
         }
+
         #container {
             position: absolute;
             top: 5%;
@@ -29,6 +31,7 @@
             width: 300px;
             position: relative;
         }
+
         .knob {
             width: 80px;
             height: 80px;
@@ -37,17 +40,21 @@
             position: absolute;
             top: 10px;
         }
+
         .knob-left {
             left: 10px;
         }
+
         .knob-right {
             right: 10px;
         }
+
         #numberDisplay {
             font-family: "Courier New", monospace;
             font-size: 1.5em;
             margin-bottom: 10px;
         }
+
         input[type=range] {
             -webkit-appearance: none;
             width: 150px;
@@ -57,9 +64,11 @@
             opacity: 0.7;
             transition: opacity .2s;
         }
+
         input[type=range]:hover {
             opacity: 1;
         }
+
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
@@ -69,6 +78,7 @@
             cursor: pointer;
             border-radius: 50%;
         }
+
         input[type=range]::-moz-range-thumb {
             width: 20px;
             height: 20px;
@@ -76,6 +86,7 @@
             cursor: pointer;
             border-radius: 50%;
         }
+
         .actionBtn {
             padding: 10px 20px;
             font-family: "Courier New", monospace;
@@ -87,46 +98,70 @@
             cursor: pointer;
             margin: 5px;
         }
+
         .actionBtn:hover {
             background-color: grey;
         }
+
         #submitBtn {
             display: none;
-            padding: 10px 20px;
+            padding: 20px 40px;
+            /* Increased padding */
             font-family: "Courier New", monospace;
-            font-size: 16px;
+            font-size: 24px;
+            /* Increased font size */
             color: white;
             background-color: black;
             border: none;
-            border-radius: 5px;
+            border-radius: 10px;
+            /* Slightly increased border radius */
             cursor: pointer;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            width: 200px;
+            /* Set a fixed width */
+            height: 80px;
+            /* Set a fixed height */
+            text-align: center;
+            /* Ensure text is centered */
+            line-height: 40px;
+            /* Adjust line height for vertical centering */
         }
+
         #submitBtn:hover {
             background-color: grey;
         }
+
         .playText {
             font-size: 1.5em;
             font-weight: bold;
             margin-bottom: 10px;
         }
+
         .marquee {
             width: 100%;
             overflow: hidden;
             white-space: nowrap;
         }
+
         .marquee span {
             display: inline-block;
             padding-left: 100%;
             animation: marquee 10s linear infinite;
         }
+
         @keyframes marquee {
-            from { transform: translate(0, 0); }
-            to { transform: translate(-100%, 0); }
+            from {
+                transform: translate(0, 0);
+            }
+
+            to {
+                transform: translate(-100%, 0);
+            }
         }
+
         .modal {
             display: flex;
             justify-content: center;
@@ -144,6 +179,7 @@
             font-size: 1.5em;
             text-align: center;
         }
+
         .overlay {
             position: fixed;
             top: 0;
@@ -155,10 +191,11 @@
         }
     </style>
 </head>
+
 <body>
     <div id="overlay" class="overlay"></div>
     <div id="modal" class="modal">
-        <p>Welcome to the interactive page. Please wait...</p>
+        <p>Sample text</p>
     </div>
 
     <div id="container">
@@ -193,7 +230,7 @@
 
         const snapValues = [11.1, 17.2, 23.3, 29.4, 35.5, 41.6, 47.7, 53.8, 59.9, 66.0, 72.1, 78.2, 84.3, 90.4, 98.8];
 
-        slider.oninput = function() {
+        slider.oninput = function () {
             const value = parseFloat(this.value);
             const closestValue = snapValues.reduce((prev, curr) => Math.abs(curr - value) < Math.abs(prev - value) ? curr : prev);
             numberDisplay.textContent = closestValue.toFixed(1);
@@ -212,7 +249,7 @@
         }
 
         buttons.forEach(button => {
-            button.onclick = function() {
+            button.onclick = function () {
                 sequence.push(this.textContent);
                 if (sequence.length > correctSequence.length) {
                     sequence.shift();
@@ -223,12 +260,12 @@
             }
         });
 
-        submitBtn.onclick = function() {
+        submitBtn.onclick = function () {
             window.location.href = '3c-erase.html'; // Change this URL to the desired page
         }
 
         // Modal functionality
-        window.onload = function() {
+        window.onload = function () {
             const modal = document.getElementById('modal');
             const overlay = document.getElementById('overlay');
 
@@ -240,7 +277,7 @@
             document.body.style.pointerEvents = 'none';
 
             // Hide modal and overlay after 5 seconds
-            setTimeout(function() {
+            setTimeout(function () {
                 modal.style.display = 'none';
                 overlay.style.display = 'none';
                 document.body.style.pointerEvents = 'auto';
@@ -248,4 +285,5 @@
         };
     </script>
 </body>
+
 </html>

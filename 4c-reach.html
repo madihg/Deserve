@@ -151,7 +151,7 @@
             </div>
             <div class="progress-stage">
                 <div class="progress-dot" id="stage5-dot"></div>
-                <div class="progress-text" id="stage5-text">Stage 5</div>
+                <div class="progress-text" id="stage5-text">Step 5</div>
             </div>
         </div>
     </div>
@@ -161,9 +161,10 @@
             <textarea id="text-field" maxlength="100" rows="10" style="width: 100%; height: 100%; border: none; font-family: 'Courier New', Courier, monospace;"></textarea>
         </div>
         <div class="counter" id="char-counter">100 characters remaining</div>
+        <button id="enter-button" class="submit-button" style="display: block; margin: 10px auto;">Enter</button>
     </div>
     <div class="sample-text-box" id="sample-text">
-        This is a sample text box that will disappear after 20 seconds.
+        Your progress has been recorded.
     </div>
     <div class="buttons" id="buttons">
         <button class="submit-button" onclick="openNewPage()">Submit</button>
@@ -174,6 +175,7 @@
     <script>
         const textField = document.getElementById('text-field');
         const charCounter = document.getElementById('char-counter');
+        const enterButton = document.getElementById('enter-button');
         const buttons = document.getElementById('buttons');
         const sampleText = document.getElementById('sample-text');
 
@@ -185,7 +187,11 @@
             } else {
                 charCounter.style.color = 'black';
             }
-            if (textField.value.length > 0) {
+        });
+
+        enterButton.addEventListener('click', function() {
+            if (textField.value.trim() !== "") {
+                sampleText.style.display = 'block';
                 setTimeout(() => {
                     sampleText.style.display = 'none';
                     buttons.style.display = 'block';
@@ -194,15 +200,15 @@
         });
 
         function openNewPage() {
-            window.open('5-print.html', '_blank');
+            window.open('4c-reach.html', '_blank');
         }
 
         function openNewPage2() {
-            window.open('5-print.html', '_blank');
+            window.open('4a-candles.html', '_blank');
         }
 
         function openNewPage3() {
-            window.open('5-print.html', '_blank');
+            window.open('4b-erosion.html', '_blank');
         }
 
         function showModal() {
@@ -214,9 +220,6 @@
             document.getElementById('modal').style.display = 'none';
             document.getElementById('overlay').style.display = 'none';
         }
-
-        // Initial display of the sample text box
-        sampleText.style.display = 'block';
     </script>
 </body>
 </html>

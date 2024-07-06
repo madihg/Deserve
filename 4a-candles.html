@@ -164,7 +164,272 @@
     <div id="soundEmoji2">🔊</div>
 
     <!-- Modal and Overlay -->
-    <div class="modal" id="modal">Sample Text</div>
+    <div class="modal" id="modal"><!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deserve it</title>
+    <style>
+        body {
+            font-family: "Courier New", Courier, monospace;
+            overflow: hidden;
+            position: relative;
+            height: 100vh;
+        }
+        h1 {
+            font-family: 'Merriweather', serif;
+            font-weight: normal;
+            text-align: center;
+            width: 100%;
+        }
+        h2, h3 {
+            font-family: 'Merriweather', serif;
+            font-weight: normal;
+        }
+        .progress-container {
+            display: flex;
+            align-items: center;
+            width: 80%;
+            margin: 20px auto;
+            position: relative;
+        }
+        .progress-bar-wrapper {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            width: 860px; /* Match the width of the rectangle */
+            background-color: white;
+            padding: 10px;
+            border: 1px solid #000;
+        }
+        .progress-stage {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 20%;
+            z-index: 1;
+        }
+        .progress-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1px solid black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+        .progress-dot.checked {
+            background-color: white;
+        }
+        .progress-dot.checked::after {
+            content: "x";
+        }
+        .progress-text {
+            color: gray;
+            margin-top: 5px;
+        }
+        .progress-text.active {
+            color: black;
+        }
+        .question-container {
+            margin-top: 40px;
+            text-align: left;
+            width: 860px;
+            margin: 40px auto 0;
+        }
+        .text-box {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            border: 1px solid black;
+            margin-top: 20px;
+            padding: 10px;
+            overflow: auto;
+        }
+        .sample-box {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            width: 240px; /* 3 times the width of one button */
+            height: 50px; /* Same height as the buttons */
+            border: 1px solid black;
+            font-family: "Courier New", Courier, monospace;
+            text-align: center;
+            margin: 20px auto; /* Same position as the buttons */
+        }
+        .buttons {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .submit-button {
+            margin: 0 10px;
+            background-color: black;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1em;
+            font-family: "Courier New", Courier, monospace;
+            cursor: pointer;
+        }
+        .submit-button:hover {
+            background-color: grey;
+        }
+        .disappear {
+            opacity: 0;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="progress-container">
+      <h1>(DS-160) Immigration i-765/485 EAD N400 Application Form</h1>
+    </div>
+    <div class="progress-bar-wrapper">
+      <div class="progress-bar">
+        <div class="progress-stage">
+          <div class="progress-dot checked" id="stage1-dot"></div>
+          <div class="progress-text active" id="stage1-text">Depart</div>
+        </div>
+        <div class="progress-stage">
+          <div class="progress-dot checked" id="stage2-dot"></div>
+          <div class="progress-text active" id="stage2-text">Deny</div>
+        </div>
+        <div class="progress-stage">
+          <div class="progress-dot checked" id="stage3-dot"></div>
+          <div class="progress-text active" id="stage3-text">Erase</div>
+        </div>
+        <div class="progress-stage">
+          <div class="progress-dot" id="stage4-dot"></div>
+          <div class="progress-text" id="stage4-text">Stage 4</div>
+        </div>
+        <div class="progress-stage">
+          <div class="progress-dot" id="stage5-dot"></div>
+          <div class="progress-text" id="stage5-text">Stage 5</div>
+        </div>
+      </div>
+    </div>
+    <div class="question-container">
+      <h3 id="question">Question: What is the Declaration of Independence?</h3>
+      <div class="text-box" id="text-box">
+          <span class="word">We</span> <span class="word">hold</span>
+          <span class="word">these</span> <span class="word">truths</span>
+          <span class="word">to</span> <span class="word">be</span>
+          <span class="word">self-evident,</span> <span class="word">that</span>
+          <span class="word">all</span> <span class="word">men</span>
+          <span class="word">are</span> <span class="word">created</span>
+          <span class="word">equal,</span> <span class="word">that</span>
+          <span class="word">they</span> <span class="word">are</span>
+          <span class="word">endowed</span> <span class="word">by</span>
+          <span class="word">their</span> <span class="word">Creator</span>
+          <span class="word">with</span> <span class="word">certain</span>
+          <span class="word">unalienable</span> <span class="word">Rights,</span>
+          <span class="word">that</span> <span class="word">among</span>
+          <span class="word">these</span> <span class="word">are</span>
+          <span class="word">Life,</span> <span class="word">Liberty</span>
+          <span class="word">and</span> <span class="word">the</span>
+          <span class="word">pursuit</span> <span class="word">of</span>
+          <span class="word">Happiness.</span> --<span class="word">That</span>
+          <span class="word">to</span> <span class="word">secure</span>
+          <span class="word">these</span> <span class="word">rights,</span>
+          <span class="word">Governments</span> <span class="word">are</span>
+          <span class="word">instituted</span> <span class="word">among</span>
+          <span class="word">Men,</span> <span class="word">deriving</span>
+          <span class="word">their</span> <span class="word">just</span>
+          <span class="word">powers</span> <span class="word">from</span>
+          <span class="word">the</span> <span class="word">consent</span>
+          <span class="word">of</span> <span class="word">the</span>
+          <span class="word">governed,</span> --<span class="word">That</span>
+          <span class="word">whenever</span> <span class="word">any</span>
+          <span class="word">Form</span> <span class="word">of</span>
+          <span class="word">Government</span> <span class="word">becomes</span>
+          <span class="word">destructive</span> <span class="word">of</span>
+          <span class="word">these</span> <span class="word">ends,</span>
+          <span class="word">it</span> <span class="word">is</span>
+          <span class="word">the</span> <span class="word">Right</span>
+          <span class="word">of</span> <span class="word">the</span>
+          <span class="word">People</span> <span class="word">to</span>
+          <span class="word">alter</span> <span class="word">or</span>
+          <span class="word">to</span> <span class="word">abolish</span>
+          <span class="word">it,</span> <span class="word">and</span>
+          <span class="word">to</span> <span class="word">institute</span>
+          <span class="word">new</span> <span class="word">Government,</span>
+          <span class="word">laying</span> <span class="word">its</span>
+          <span class="word">foundation</span> <span class="word">on</span>
+          <span class="word">such</span> <span class="word">principles</span>
+          <span class="word">and</span> <span class="word">organizing</span>
+          <span class="word">its</span> <span class="word">powers</span>
+          <span class="word">in</span> <span class="word">such</span>
+          <span class="word">form,</span> <span class="word">as</span>
+          <span class="word">to</span> <span class="word">them</span>
+          <span class="word">shall</span> <span class="word">seem</span>
+          <span class="word">most</span> <span class="word">likely</span>
+          <span class="word">to</span> <span class="word">effect</span>
+          <span class="word">their</span> <span class="word">Safety</span>
+          <span class="word">and</span> <span class="word">Happiness.</span>
+      </div>
+    </div>
+    <div class="sample-box" id="sample-box">The night before, you light the 5 candles on your altar...</div>
+    <div class="buttons" id="buttons">
+      <button class="submit-button" onclick="openNewPage()">Submit</button>
+      <button class="submit-button" onclick="openNewPage2()">Save</button>
+      <button class="submit-button" onclick="openNewPage3()">Stray</button>
+    </div>
+    <div class="overlay" id="overlay"></div>
+    <script>
+      const textContainer = document.getElementById("text-box");
+      const words = textContainer.querySelectorAll(".word");
+      let hoverCount = 0;
+      const totalWords = words.length - 3; // total words excluding 'We', 'hold', 'on'
+
+      words.forEach((word) => {
+        word.addEventListener("mouseover", function () {
+          if (
+            this.textContent.toLowerCase() !== "we" &&
+            this.textContent.toLowerCase() !== "hold" &&
+            this.textContent.toLowerCase() !== "on"
+          ) {
+            if (!this.classList.contains("disappear")) {
+              this.classList.add("disappear");
+              hoverCount++;
+            }
+          }
+          if (hoverCount === totalWords) {
+            showSampleText();
+          }
+        });
+      });
+
+      function showSampleText() {
+        document.getElementById('sample-box').style.display = 'flex';
+        setTimeout(() => {
+            document.getElementById('sample-box').style.display = 'none';
+            document.getElementById('buttons').style.display = 'block';
+        }, 20000); // 20 seconds
+      }
+
+      function openNewPage() {
+        window.open("4c-reach.html", "_blank");
+      }
+
+      function openNewPage2() {
+        window.open("4a-candles.html", "_blank");
+      }
+
+      function openNewPage3() {
+        window.open("4b-erosion.html", "_blank");
+      }
+    </script>
+  </body>
+</html>
+</div>
     <div class="overlay" id="overlay"></div>
 
     <script>
