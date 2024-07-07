@@ -88,6 +88,13 @@
         .progress-text.active {
             color: black;
         }
+        .progress-dot.active {
+            background-color: black;
+        }
+
+        .progress-dot.active::after {
+            content: '';
+        }
 
         .question-container {
             margin-top: 40px;
@@ -201,7 +208,7 @@
     <div class="progress-bar-wrapper">
         <div class="progress-bar">
             <div class="progress-stage">
-                <div class="progress-dot checked" id="stage1-dot"></div>
+                <div class="progress-dot active" id="stage1-dot"></div>
                 <div class="progress-text active" id="stage1-text">Depart</div>
             </div>
             <div class="progress-stage">

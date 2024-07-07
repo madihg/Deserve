@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,16 +13,20 @@
             position: relative;
             height: 100vh;
         }
+
         h1 {
             font-family: 'Merriweather', serif;
             font-weight: normal;
             text-align: center;
             width: 100%;
         }
-        h2, h3 {
+
+        h2,
+        h3 {
             font-family: 'Merriweather', serif;
             font-weight: normal;
         }
+
         .progress-container {
             display: flex;
             align-items: center;
@@ -30,19 +35,23 @@
             position: relative;
             justify-content: center;
         }
+
         .progress-bar-wrapper {
             display: flex;
             justify-content: center;
             width: 100%;
         }
+
         .progress-bar {
             display: flex;
             justify-content: space-between;
-            width: 860px;  /* Match the width of the rectangle */
+            width: 860px;
+            /* Match the width of the rectangle */
             background-color: white;
             padding: 10px;
             border: 1px solid #000;
         }
+
         .progress-stage {
             display: flex;
             flex-direction: column;
@@ -50,6 +59,7 @@
             width: 20%;
             z-index: 1;
         }
+
         .progress-dot {
             width: 20px;
             height: 20px;
@@ -61,25 +71,39 @@
             position: relative;
             z-index: 1;
         }
+
         .progress-dot.checked {
             background-color: white;
         }
+
         .progress-dot.checked::after {
             content: 'x';
         }
+
         .progress-text {
             color: gray;
             margin-top: 5px;
         }
+
         .progress-text.active {
             color: black;
         }
+
+        .progress-dot.active {
+            background-color: black;
+        }
+
+        .progress-dot.active::after {
+            content: '';
+        }
+
         .question-container {
             margin-top: 40px;
             text-align: left;
             width: 860px;
             margin: 40px auto 0;
         }
+
         .floating-rectangle {
             position: relative;
             width: 100%;
@@ -87,27 +111,34 @@
             border: 1px solid black;
             margin-top: 20px;
         }
+
         .floating-checkbox {
             position: absolute;
             transition: top 2s ease-out, left 2s ease-out;
             z-index: 1;
         }
+
         .sample-box {
             display: none;
             justify-content: center;
             align-items: center;
-            width: 240px; /* 3 times the width of one button */
-            height: 50px; /* Same height as the buttons */
+            width: 240px;
+            /* 3 times the width of one button */
+            height: 50px;
+            /* Same height as the buttons */
             border: 1px solid black;
             font-family: "Courier New", Courier, monospace;
             text-align: center;
-            margin: 20px auto; /* Same position as the buttons */
+            margin: 20px auto;
+            /* Same position as the buttons */
         }
+
         .buttons {
             display: none;
             margin-top: 20px;
             text-align: center;
         }
+
         .submit-button {
             margin: 0 10px;
             background-color: black;
@@ -119,9 +150,11 @@
             font-family: 'Courier New', Courier, monospace;
             cursor: pointer;
         }
+
         .submit-button:hover {
             background-color: grey;
         }
+
         .modal {
             display: none;
             position: fixed;
@@ -134,6 +167,7 @@
             z-index: 1000;
             text-align: center;
         }
+
         .overlay {
             display: none;
             position: fixed;
@@ -146,6 +180,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="progress-container">
         <h1>(DS-160) Immigration i-765/485 EAD N400 Application Form</h1>
@@ -157,7 +192,7 @@
                 <div class="progress-text active" id="stage1-text">Depart</div>
             </div>
             <div class="progress-stage">
-                <div class="progress-dot checked" id="stage2-dot"></div>
+                <div class="progress-dot active" id="stage2-dot"></div>
                 <div class="progress-text active" id="stage2-text">Deny</div>
             </div>
             <div class="progress-stage">
@@ -175,7 +210,8 @@
         </div>
     </div>
     <div class="question-container">
-        <h3 id="question">Question 1: Have you ever been a member of, or in any way associated (either directly or indirectly) with the Communist Party, or any other totalitarian party?</h3>
+        <h3 id="question">Question 1: Have you ever been a member of, or in any way associated (either directly or
+            indirectly) with the Communist Party, or any other totalitarian party?</h3>
         <div class="floating-rectangle" id="floating-rectangle"></div>
     </div>
     <div class="sample-box" id="sample-box">Your progress has been recorded</div>
@@ -186,20 +222,21 @@
     </div>
     <div class="modal" id="modal">
         <p>
-            Thank you for your openness and honesty. If this were a real immigration application, your chances would be significantly affected. To resume the application, click the button below.</p>
+            Thank you for your openness and honesty. If this were a real immigration application, your chances would be
+            significantly affected. To resume the application, click the button below.</p>
         <button class="submit-button" onclick="closeModal()">I made a mistake</button>
     </div>
     <div class="overlay" id="overlay"></div>
     <script>
         const questions = [
-    "Have you ever advocated (either directly or indirectly) the overthrow of any government by force or violence?",
-    "Have you ever been a habitual drunkard?",
-    "Have you ever been a prostitute, or procured anyone for prostitution?",
-    "Have you ever gambled illegally or received income from illegal gambling?",
-    "Have you ever been declared legally incompetent, or been confined as a patient in a mental institution?",
-    "Have you ever committed, assisted in committing, or attempted to commit a crime or offense for which you were not arrested?",
-    "Have you ever been a member of, or associated with, an organization that is dedicated to terrorism?",
-];
+            "Have you ever advocated (either directly or indirectly) the overthrow of any government by force or violence?",
+            "Have you ever been a habitual drunkard?",
+            "Have you ever been a prostitute, or procured anyone for prostitution?",
+            "Have you ever gambled illegally or received income from illegal gambling?",
+            "Have you ever been declared legally incompetent, or been confined as a patient in a mental institution?",
+            "Have you ever committed, assisted in committing, or attempted to commit a crime or offense for which you were not arrested?",
+            "Have you ever been a member of, or associated with, an organization that is dedicated to terrorism?",
+        ];
 
         let currentQuestionIndex = 0;
 
@@ -295,4 +332,5 @@
         };
     </script>
 </body>
+
 </html>

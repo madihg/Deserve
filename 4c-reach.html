@@ -73,6 +73,14 @@
         .progress-text.active {
             color: black;
         }
+        .progress-dot.active {
+            background-color: black;
+        }
+
+        .progress-dot.active::after {
+            content: '';
+        }
+
         .question-container {
             margin-top: 40px;
             text-align: left;
@@ -147,7 +155,7 @@
                 <div class="progress-text active" id="stage3-text">Erase</div>
             </div>
             <div class="progress-stage">
-                <div class="progress-dot checked" id="stage4-dot"></div>
+                <div class="progress-dot active" id="stage4-dot"></div>
                 <div class="progress-text active" id="stage4-text">Reach</div>
             </div>
             <div class="progress-stage">
