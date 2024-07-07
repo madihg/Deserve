@@ -36,7 +36,8 @@
         .progress-bar {
             display: flex;
             justify-content: space-between;
-            width: 860px; /* Match the width of the rectangle */
+            width: 860px;
+            /* Match the width of the rectangle */
             background-color: white;
             padding: 10px;
             border: 1px solid #000;
@@ -191,6 +192,7 @@
 
         enterButton.addEventListener('click', function() {
             if (textField.value.trim() !== "") {
+                enterButton.style.display = 'none'; // Hide the enter button
                 sampleText.style.display = 'block';
                 setTimeout(() => {
                     sampleText.style.display = 'none';
