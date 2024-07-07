@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deserve it</title>
+    <title>Deny x Deserve it</title>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -162,10 +162,16 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background-color: white;
-            padding: 20px;
+            padding: 30px; /* Adjusted padding for larger content */
             border: 2px solid black;
             z-index: 1000;
             text-align: center;
+            font-size: 1.5em; /* Increased font size */
+            width: 70%; /* Adjust width to fit larger text */
+        }
+
+        .modal .submit-button {
+            font-size: 1.5em; /* Increased font size for button */
         }
 
         .overlay {
@@ -231,7 +237,7 @@
         const questions = [
             "Have you ever advocated (either directly or indirectly) the overthrow of any government by force or violence?",
             "Have you ever been a habitual drunkard?",
-            "Have you ever been a prostitute, or procured anyone for prostitution?",
+            "Have you ever been married to more than one person at the same time?",
             "Have you ever gambled illegally or received income from illegal gambling?",
             "Have you ever been declared legally incompetent, or been confined as a patient in a mental institution?",
             "Have you ever committed, assisted in committing, or attempted to commit a crime or offense for which you were not arrested?",
@@ -253,7 +259,7 @@
         function handleNoClick() {
             if (currentQuestionIndex < questions.length - 1) {
                 currentQuestionIndex++;
-                document.getElementById('question').textContent = `Question ${currentQuestionIndex + 1}: ${questions[currentQuestionIndex]}`;
+                document.getElementById('question').textContent = `Question ${currentQuestionIndex + 1} of ${questions.length + 1}: ${questions[currentQuestionIndex]}`;
                 createFloatingCheckboxes();
             } else {
                 showSampleText();

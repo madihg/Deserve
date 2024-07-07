@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tune in</title>
+    <title>Live from Lebanon</title>
     <style>
       body {
         display: flex;
@@ -108,7 +108,7 @@
     </div>
 
     <!-- Modal and Overlay -->
-    <div class="modal" id="modal">As you complete your application, your mind wanders to the week you left your country...</div>
+    <div class="modal" id="modal">While filling out your forms, memories of the week before you left home flood back...</div>
     <div class="overlay" id="overlay"></div>
 
     <script>
@@ -136,7 +136,7 @@
         }
         imageElements[index].style.display = "block";
 
-        let timeout = index === 0 ? 3000 : 18000; // 3 seconds for the first image, 18 seconds for others
+        let timeout = index === 0 ? 4000 : 18000; // 4 seconds for the first image, 18 seconds for others
         setTimeout(function () {
           if (index < imageElements.length - 1) {
             imageElements[index].style.display = "none";
@@ -158,7 +158,7 @@
         setTimeout(() => {
           modal.style.display = 'none';
           overlay.style.display = 'none';
-        }, 5000); // 5 seconds
+        }, 6000); // 6 seconds
       };
     </script>
 </body>

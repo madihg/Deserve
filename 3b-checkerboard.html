@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkbox Nightmare</title>
+    <title>Nightmare</title>
     <style>
         .header {
             display: flex;
@@ -38,35 +38,47 @@
         .grid {
             display: grid;
             grid-template-columns: repeat(10, 1fr);
-            gap: 10px;
+            gap: 20px; /* Increase gap */
             padding: 10px;
         }
 
         .grid div {
             display: flex;
             align-items: center;
-            margin: 5px;
+            justify-content: center;
+            margin: 10px; /* Increase margin */
+        }
+
+        .grid input[type="checkbox"] {
+            width: 20px; /* Increase checkbox size */
+            height: 20px;
+        }
+
+        .grid label {
+            font-size: 1.5em; /* Increase label size */
+            margin-left: 10px; /* Space between checkbox and label */
         }
 
         #codeInput {
             font-family: "Courier New", monospace;
-            width: 200px; /* Adjust width */
+            width: 300px; /* Adjust width */
             height: 50px; /* Adjust height */
             padding: 10px; /* Ensure padding matches .code-text-top */
             box-sizing: border-box; /* Ensures padding is included in the height */
             margin-top: 10px;
+            font-size: 1.5em; /* Increase font size */
         }
 
         #reachButton {
-            padding: 10px 20px;
+            padding: 15px 30px;
             font-family: "Courier New", monospace;
-            font-size: 16px;
+            font-size: 1.5em; /* Increase font size */
             color: white;
             background-color: black;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            margin-top: 10px; /* Adds space between the button and the input field */
+            margin-left: 10px; /* Space between input field and button */
         }
 
         #reachButton:hover {
@@ -100,6 +112,22 @@
             background-color: rgba(0, 0, 0, 0.7);
             z-index: 9;
         }
+        .spiral {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            z-index: 0;
+            font-size: 10px;
+            animation: growSpiral 60s linear forwards;
+        }
+
+        @keyframes growSpiral {
+            to {
+                transform: translate(-50%, -50%) scale(80);
+                font-size: 100px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -109,12 +137,13 @@
         <div class="code-text-top">
             <div id="timer">01:11</div>
         </div>
-        <input type="text" id="codeInput" class="code-text-small" style="display: none" placeholder="Now what?">
-        <button id="reachButton" style="display: none" onclick="navigateToPage()">for more</button>
+        <input type="text" id="codeInput" class="code-text-small" style="display: none" placeholder="the word you reach for">
+        <button id="reachButton" style="display: none" onclick="navigateToPage()">maybe</button>
     </div>
     <div class="container">
         <div id="checkboxes" class="grid"></div>
     </div>
+    <div class="spiral" id="spiral">𖦹</div>
     <script>
         function navigateToPage() {
             window.location.href = "https://deserve.vercel.app/3c-erase.html";
@@ -126,10 +155,10 @@
             const overlay = document.getElementById('overlay');
             modal.style.display = 'flex';
             overlay.style.display = 'block';
-            setTimeout(() => {
+            overlay.addEventListener('click', () => {
                 modal.style.display = 'none';
                 overlay.style.display = 'none';
-            }, 5000);
+            });
 
             const container = document.getElementById('checkboxes');
             for (let i = 0; i < 100; i++) {
@@ -143,6 +172,9 @@
                 checkbox.onchange = () => {
                     if (Array.from(document.querySelectorAll('input[type="checkbox"]')).every(cb => cb.checked)) {
                         document.getElementById('codeInput').style.display = 'block';
+                        document.getElementById('reachButton').style.display = 'block';
+                        stopTimer();
+                        document.getElementById('spiral').style.display = 'block';
                     }
                 };
 
@@ -156,7 +188,7 @@
 
             const inputField = document.getElementById('codeInput');
             inputField.oninput = () => {
-                if (inputField.value.includes('reach')) {
+                if (inputField.value.includes('truth')) {
                     document.getElementById('reachButton').style.display = 'block';
                 }
             };
@@ -164,21 +196,27 @@
             startTimer();
         });
 
+        let timerInterval;
+
         function startTimer() {
             let timer = 71; // 1 minute 11 seconds in seconds
             const timerElement = document.getElementById('timer');
 
-            const interval = setInterval(() => {
+            timerInterval = setInterval(() => {
                 const minutes = Math.floor(timer / 60);
                 const seconds = timer % 60;
                 timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
                 if (timer === 0) {
-                    clearInterval(interval);
+                    clearInterval(timerInterval);
                 }
 
                 timer--;
             }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
         }
     </script>
 </body>

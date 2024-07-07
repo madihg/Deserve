@@ -20,7 +20,7 @@
         height: auto;
         position: absolute;
         left: 10%;
-        transition: opacity 1s ease;
+        transition: opacity 0.5s ease; /* Faster and smoother transition */
         z-index: 0;
         cursor: pointer; /* Hand cursor for Orpheus */
     }
@@ -29,7 +29,7 @@
         height: auto;
         position: absolute;
         right: 10%;
-        transition: opacity 10s ease;
+        transition: opacity 60s ease;
         z-index: 0;
     }
     .Btn {
@@ -38,11 +38,10 @@
         font-size: 16px;
         color: white;
         background-color: black;
-        border: none;
+        border: none; /* Corrected border property */
         border-radius: 5px;
         cursor: pointer;
         display: none; /* Initially hidden */
-        margin-top: 20px;
     }
     .Btn:hover {
         background-color: grey;
@@ -55,9 +54,10 @@
         bottom: 10%;
         left: 50%;
         transform: translateX(-50%);
+        display: flex; /* Ensuring flex display for proper alignment */
     }
     .input-field {
-        width: 250px;
+        width: 350px;
         padding: 10px;
         font-family: "Courier New", monospace;
         font-size: 16px;
@@ -96,13 +96,13 @@
 </head>
 <body>
     <div class="modal" id="modal">
-        As you complete your application, your mind wanders to the day you left your country...
+        While filling out your forms, memories of the day you left home flood back...
     </div>
     <div class="overlay" id="overlay"></div>
     <img id="orpheus" src="assets/image1.png" onclick="changeImage()">
     <img id="eurydice" src="assets/Eurydice.png" alt="Image">
     <div class="input-container" id="inputContainer">
-        <input type="text" class="input-field" id="inputField" placeholder="The word you're looking for">
+        <input type="text" class="input-field" id="inputField" placeholder="Type in the word you're looking for">
         <button class="Btn" id="submitButton" onclick="location.href='2c-deny.html'">again</button>
     </div>
     <script>
@@ -140,10 +140,10 @@
                             eurydiceElement.style.opacity = '0'; // Eurydice starts disappearing
                             setTimeout(() => {
                                 inputContainer.style.display = 'flex';
-                            }, 10000); // Wait for Eurydice transition before showing input container
+                            }, 60000); // Wait for Eurydice transition before showing input container
                         }, 0);
                     }
-                }, 1000);
+                }, 500); // Faster transition for Orpheus images
             }
         }
 
@@ -152,7 +152,7 @@
             setTimeout(() => {
                 modal.style.display = 'none';
                 overlay.style.display = 'none';
-            }, 5000); // Hide modal and overlay after 5 seconds
+            }, 6000); // Hide modal and overlay after 6 seconds
         };
     </script>
 </body>
