@@ -87,7 +87,13 @@
         .progress-text.active {
             color: black;
         }
+        .progress-dot.active {
+            background-color: black;
+        }
 
+        .progress-dot.active::after {
+            content: '';
+        }
         @media print {
 
             /* Hide elements not to be printed */
