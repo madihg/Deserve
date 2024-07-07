@@ -20,18 +20,18 @@
         height: auto;
         position: absolute;
         left: 10%;
-        transition: opacity 3s ease;
+        transition: opacity 1s ease;
         z-index: 0;
         cursor: pointer; /* Hand cursor for Orpheus */
     }
     #eurydice {
-    width: 500px;
-    height: auto;
-    position: absolute;
-    right: 10%;
-    transition: opacity 60s ease; /* Adjust the duration to make it disappear more slowly */
-    z-index: 0;
-}
+        width: 500px;
+        height: auto;
+        position: absolute;
+        right: 10%;
+        transition: opacity 10s ease;
+        z-index: 0;
+    }
     .Btn {
         padding: 10px 20px;
         font-family: "Courier New", monospace;
@@ -140,10 +140,10 @@
                             eurydiceElement.style.opacity = '0'; // Eurydice starts disappearing
                             setTimeout(() => {
                                 inputContainer.style.display = 'flex';
-                            }, 3000); // Wait for Eurydice transition before showing input container
+                            }, 10000); // Wait for Eurydice transition before showing input container
                         }, 0);
                     }
-                }, 3000);
+                }, 1000);
             }
         }
 
