@@ -26,6 +26,7 @@
             font-family: 'Merriweather', serif;
             font-weight: normal;
         }
+
         .progress-container {
             display: flex;
             align-items: center;
@@ -97,7 +98,10 @@
             #captureTitle,
             #disclaimer,
             #disclaimerCheckbox,
-            label[for="disclaimerCheckbox"] {
+            label[for="disclaimerCheckbox"],
+            .progress-container,
+            .progress-bar-wrapper,
+            .progress-bar {
                 display: none;
                 visibility: hidden;
                 height: 0;
@@ -173,7 +177,12 @@
         }
 
         #backgroundImage {
-            display: none;
+            display: block;
+            position: fixed;
+            z-index: -1;
+            opacity: 0.1;
+            width: 100%;
+            height: 100%;
         }
 
         /* Overlay styles */
@@ -210,6 +219,12 @@
         #nameEntry {
             font-family: "Courier New", monospace;
         }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Align items to the start of the container */
+        }
     </style>
 </head>
 
@@ -241,23 +256,25 @@
             </div>
         </div>
     </div>
-    <video id="webcam" autoplay playsinline width="640" height="480"></video>
-    <button id="captureBtn" class="styledBtn">Take Photo</button>
-    <div id="photoAndName" style="display: flex; align-items: center;">
-        <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
-        <div style="display: flex; flex-direction: column; margin-left: 20px;">
-            <h1 id="printName" style="display:none;"></h1>
-            <p id="date"></p>
-            <p id="randomId" style="font-family: 'Courier New', monospace;"></p>
-            <p id="address" style="font-family: 'Courier New', monospace;"></p>
-            <p id="additionalFields" style="font-family: 'Courier New', monospace;"></p>
-            <input type="text" id="nameEntry" placeholder="Enter your Full Name" style="display:none;">
-            <button id="enterBtn" class="styledBtn" style="display:none; margin-top: 10px;">Enter</button>
-            <div id="disclaimer" style="display:none; margin-top: 10px;">
-                <input type="checkbox" id="disclaimerCheckbox">
-                <label for="disclaimerCheckbox">Sure, use my photo as part of this piece</label>
+    <div class="container">
+        <video id="webcam" autoplay playsinline width="640" height="480"></video>
+        <button id="captureBtn" class="styledBtn">Take Photo</button>
+        <div id="photoAndName" style="display: flex; align-items: center;">
+            <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
+            <div style="display: flex; flex-direction: column; margin-left: 20px;">
+                <h1 id="printName" style="display:none;"></h1>
+                <p id="date"></p>
+                <p id="randomId" style="font-family: 'Courier New', monospace;"></p>
+                <p id="address" style="font-family: 'Courier New', monospace;"></p>
+                <p id="additionalFields" style="font-family: 'Courier New', monospace;"></p>
+                <input type="text" id="nameEntry" placeholder="Enter your Full Name" style="display:none;">
+                <button id="enterBtn" class="styledBtn" style="display:none; margin-top: 10px;">Enter</button>
+                <div id="disclaimer" style="display:none; margin-top: 10px;">
+                    <input type="checkbox" id="disclaimerCheckbox">
+                    <label for="disclaimerCheckbox">Sure, use my photo as part of this piece</label>
+                </div>
+                <button id="printBtn" class="styledBtn" style="display:none; margin-top: 10px;" disabled>Print</button>
             </div>
-            <button id="printBtn" class="styledBtn" style="display:none; margin-top: 10px;" disabled>Print</button>
         </div>
     </div>
     <img id="backgroundImage" src="https://img.freepik.com/premium-vector/flying-eagle-logo-black-white_9645-2420.jpg"
