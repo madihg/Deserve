@@ -187,15 +187,16 @@
         function crumbleBlob() {
             if (blobs.length > 0) {
                 let blob = blobs.pop().element;
+                if (blobs.length === 0) {
+                    allBlobsFallen = true;
+                    clearInterval(priceIncreaseInterval);
+                    priceElement.remove();
+                }
                 blob.classList.add('crumbled');
                 document.body.appendChild(blob);
                 setTimeout(() => {
                     blob.style.top = window.innerHeight - 20 + 'px';
                 }, 0);
-            } else {
-                allBlobsFallen = true;
-                clearInterval(priceIncreaseInterval);
-                priceElement.remove();
             }
         }
 
@@ -208,22 +209,22 @@
 
         document.addEventListener('click', function (e) {
             if (allBlobsFallen && e.target.classList.contains('crumbled')) {
-                showSparkEmoji(e.clientX, e.clientY);
+                showLightningEmoji(e.clientX, e.clientY);
                 levitateBlobs();
             }
         });
 
-        function showSparkEmoji(x, y) {
-            let sparkEmoji = document.createElement('div');
-            sparkEmoji.textContent = '✨';
-            sparkEmoji.style.position = 'absolute';
-            sparkEmoji.style.left = `${x}px`;
-            sparkEmoji.style.top = `${y - 30}px`;
-            sparkEmoji.style.fontSize = '2em';
-            document.body.appendChild(sparkEmoji);
+        function showLightningEmoji(x, y) {
+            let lightningEmoji = document.createElement('div');
+            lightningEmoji.textContent = '⚡️';
+            lightningEmoji.style.position = 'absolute';
+            lightningEmoji.style.left = `${x}px`;
+            lightningEmoji.style.top = `${y - 30}px`;
+            lightningEmoji.style.fontSize = '2em';
+            document.body.appendChild(lightningEmoji);
 
             setTimeout(() => {
-                sparkEmoji.remove();
+                lightningEmoji.remove();
             }, 3000);
         }
 
