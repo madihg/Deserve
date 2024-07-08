@@ -55,11 +55,10 @@
         .levitate {
             transition: top 3s linear;
         }
-        .image {
+        .price {
             position: absolute;
-            width: 100px;
-            height: 100px;
-            transition: opacity 1s linear;
+            font-size: 2em;
+            font-family: 'Courier New', monospace;
         }
         .submit-button {
             display: none;
@@ -122,8 +121,7 @@
         </div>
         <div class="divider"></div>
         <div id="blobsContainer"></div>
-        <img src="https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg" id="image" class="image" style="opacity: 1;">
-        <div id="price" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); font-size:2em; font-family:'Courier New', monospace;">$600</div>
+        <div id="price" class="price">$600</div>
     </div>
     <button class="submit-button" id="submitBtn" onclick="window.open('4c-reach.html', '_blank')">Submit</button>
 
@@ -134,15 +132,13 @@
     <script>
         const blobsContainer = document.getElementById('blobsContainer');
         const submitButton = document.getElementById('submitBtn');
-        const image = document.getElementById('image');
         const priceElement = document.getElementById('price');
         const parts = 10;
         let blobs = [];
         let crossCount = 0;
         let lastSide = 'left';
-        let clickCount = 0;
         let price = 600;
-        let priceIncreaseInterval = null;
+        let allBlobsFallen = false;
 
         // Generate circle positions for blobs
         function generateCirclePositions(radius, count) {
@@ -162,13 +158,19 @@
         circlePositions.forEach((pos, index) => {
             let blob = document.createElement('div');
             blob.classList.add('blob');
-            blob.style.left = `calc(50% + ${pos.x}px)`;
-            blob.style.top = `calc(50% + ${pos.y}px)`;
             blobsContainer.appendChild(blob);
             blobs.push({ element: blob, ...pos });
         });
 
         document.addEventListener('mousemove', function (e) {
+            blobs.forEach(blob => {
+                blob.element.style.left = e.clientX + blob.x + 'px';
+                blob.element.style.top = e.clientY + blob.y + 'px';
+            });
+
+            priceElement.style.left = e.clientX + 'px';
+            priceElement.style.top = e.clientY + 'px';
+
             let centerX = window.innerWidth / 2;
             let mouseX = e.clientX;
             if ((mouseX < centerX && lastSide === 'right') || (mouseX >= centerX && lastSide === 'left')) {
@@ -190,28 +192,23 @@
                 setTimeout(() => {
                     blob.style.top = window.innerHeight - 20 + 'px';
                 }, 0);
-
-                // Reduce image opacity
-                image.style.opacity = (blobs.length / circlePositions.length).toString();
             } else {
-                image.style.opacity = 0;
+                allBlobsFallen = true;
                 clearInterval(priceIncreaseInterval);
+                priceElement.remove();
             }
         }
 
         function increasePrice() {
-            if (price < 1800) {
-                price += Math.floor(Math.random() * 100) + 1;
+            if (price < 1800 && !allBlobsFallen) {
+                price += Math.floor(Math.random() * 200) + 1;
                 priceElement.textContent = `$${price}`;
             }
         }
 
         document.addEventListener('click', function (e) {
-            clickCount++;
-            if (clickCount <= 3) {
+            if (allBlobsFallen && e.target.classList.contains('crumbled')) {
                 showSparkEmoji(e.clientX, e.clientY);
-            }
-            if (clickCount >= 10) {
                 levitateBlobs();
             }
         });
@@ -258,9 +255,7 @@
                 document.querySelectorAll('.crumbled').forEach(blob => blob.remove());
                 document.querySelectorAll('.fire-emoji').forEach(fireEmoji => fireEmoji.remove());
                 document.querySelectorAll('.word').forEach(word => word.remove());
-                priceElement.remove();
                 submitButton.style.display = 'block';
-                clickCount = 0;
             }, 3000);
         }
 
