@@ -18,60 +18,65 @@
             display: flex;
             height: 100%;
             width: 100%;
-            justify-content: center;
-            align-items: center;
-            position: relative;
         }
-        .circle {
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
+        .left, .right {
+            flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
+            font-size: 4em;
+        }
+        .left, .right {
+            background-color: white;
+        }
+        .divider {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 2px;
+            background: black;
         }
         .blob {
+            position: absolute;
             width: 20px;
             height: 20px;
             background: black;
-            position: absolute;
-            transition: top 1s ease, left 1s ease;
+            transition: transform 1s linear;
         }
-        .price {
+        .crumbled {
             position: absolute;
-            font-size: 3em;
-            font-family: "Courier New", monospace;
-            text-align: center;
+            width: 20px;
+            height: 20px;
+            background: black;
+            transition: top 3s linear;
         }
         .levitate {
             transition: top 3s linear;
         }
-        .fire-emoji {
+        .image {
             position: absolute;
-            font-size: 2em;
-            transition: opacity 3s;
+            width: 100px;
+            height: 100px;
+            transition: opacity 1s linear;
         }
-        #submitBtn {
+        .submit-button {
             display: none;
-            padding: 20px 40px;
-            font-family: "Courier New", monospace;
-            font-size: 24px;
-            color: white;
-            background-color: black;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 200px;
-            height: 80px;
-            text-align: center;
-            line-height: 40px;
+            background-color: black;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1em;
+            font-family: 'Courier', serif;
+            cursor: pointer;
         }
-        #submitBtn:hover {
+        .submit-button:hover {
             background-color: grey;
         }
         .modal {
@@ -105,51 +110,57 @@
 </head>
 <body>
     <div class="container">
-        <div class="circle" id="circle">
-            <div class="price" id="price">$600</div>
+        <div class="left">
+            <div class="word">Here</div>
         </div>
+        <div class="right">
+            <div class="word">There</div>
+        </div>
+        <div class="divider"></div>
+        <div id="blobsContainer"></div>
     </div>
-    <button id="submitBtn" onclick="window.open('4c-reach.html', '_blank')">Submit</button>
-    <div class="modal" id="modal">
-        While finishing your application, you think about your next trip home...
-    </div>
+    <button class="submit-button" onclick="window.open('4c-reach.html', '_blank')">Submit</button>
+
+    <!-- Modal and Overlay -->
+    <div class="modal" id="modal">While finishing your application, you think about your next trip home...</div>
     <div class="overlay" id="overlay"></div>
 
     <script>
-        const blobsContainer = document.getElementById('circle');
-        const priceElement = document.getElementById('price');
-        const submitButton = document.getElementById('submitBtn');
-        const totalBlobs = 10;
+        const blobsContainer = document.getElementById('blobsContainer');
+        const submitButton = document.querySelector('.submit-button');
+        const image = document.getElementById('image');
+        const parts = 10;
         let blobs = [];
+        let crossCount = 0;
+        let lastSide = 'left';
         let clickCount = 0;
-        let price = 600;
 
-        // Function to increase price
-        function increasePrice() {
-            if (price < 1800) {
-                price += Math.floor(Math.random() * 100) + 1;
-                if (price > 1800) price = 1800;
-                priceElement.textContent = `$${price}`;
-            }
-        }
+        // Create blobs to form a stick figure and attach them to the mouse
+        const stickFigurePositions = [
+            { x: 0, y: -60 },  // Head
+            { x: 0, y: -40 },  // Body
+            { x: -20, y: -40 }, // Left arm
+            { x: 20, y: -40 },  // Right arm
+            { x: 0, y: -20 },  // Lower body
+            { x: -10, y: 0 },  // Left leg
+            { x: 10, y: 0 },   // Right leg
+            { x: -10, y: 20 }, // Left foot
+            { x: 10, y: 20 },  // Right foot
+        ];
 
-        // Create blobs in a circle
-        function createBlobs() {
-            const angleIncrement = (2 * Math.PI) / totalBlobs;
-            for (let i = 0; i < totalBlobs; i++) {
-                let blob = document.createElement('div');
-                blob.classList.add('blob');
-                let angle = i * angleIncrement;
-                let x = 150 * Math.cos(angle) + 150 - 10;
-                let y = 150 * Math.sin(angle) + 150 - 10;
-                blob.style.left = `${x}px`;
-                blob.style.top = `${y}px`;
-                blobsContainer.appendChild(blob);
-                blobs.push(blob);
-            }
-        }
+        stickFigurePositions.forEach((pos, index) => {
+            let blob = document.createElement('div');
+            blob.classList.add('blob');
+            blobsContainer.appendChild(blob);
+            blobs.push({ element: blob, ...pos });
+        });
 
         document.addEventListener('mousemove', function (e) {
+            blobs.forEach(blob => {
+                blob.element.style.left = e.clientX + blob.x + 'px';
+                blob.element.style.top = e.clientY + blob.y + 'px';
+            });
+
             let centerX = window.innerWidth / 2;
             let mouseX = e.clientX;
             if ((mouseX < centerX && lastSide === 'right') || (mouseX >= centerX && lastSide === 'left')) {
@@ -158,29 +169,38 @@
                 if (crossCount >= 2) {
                     crossCount = 0;
                     crumbleBlob();
-                    increasePrice();
                 }
             }
         });
 
         function crumbleBlob() {
             if (blobs.length > 0) {
-                let blob = blobs.pop();
+                let blob = blobs.pop().element;
                 blob.classList.add('crumbled');
-                blob.style.top = window.innerHeight - 20 + 'px';
+                document.body.appendChild(blob);
+                setTimeout(() => {
+                    blob.style.top = window.innerHeight - 20 + 'px';
+                }, 0);
+
+                // Reduce image opacity
+                image.style.opacity = (blobs.length / stickFigurePositions.length).toString();
+            } else {
+                image.style.opacity = 0;
             }
         }
 
         document.addEventListener('click', function (e) {
-            clickCount++;
-            if (clickCount >= 10) {
-                levitateBlobs();
+            if (e.clientY > window.innerHeight - 100) {
+                clickCount++;
+                if (clickCount >= 10) {
+                    levitateBlobs();
+                }
             }
         });
 
         function levitateBlobs() {
             const middleY = window.innerHeight / 2 - 20;
-            blobs.forEach(blob => {
+            document.querySelectorAll('.crumbled').forEach(blob => {
                 blob.classList.add('levitate');
                 blob.style.top = `${middleY}px`;
             });
@@ -202,9 +222,9 @@
             }
 
             setTimeout(() => {
-                document.querySelectorAll('.blob').forEach(blob => blob.remove());
+                document.querySelectorAll('.crumbled').forEach(blob => blob.remove());
                 document.querySelectorAll('.fire-emoji').forEach(fireEmoji => fireEmoji.remove());
-                priceElement.remove();
+                document.querySelectorAll('.word').forEach(word => word.remove());
                 submitButton.style.display = 'block';
                 clickCount = 0;
             }, 3000);
@@ -222,9 +242,6 @@
                 modal.style.display = 'none';
                 overlay.style.display = 'none';
             }, 6000); // 6 seconds
-
-            // Create blobs after the modal hides
-            createBlobs();
         };
     </script>
 </body>

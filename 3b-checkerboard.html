@@ -38,47 +38,35 @@
         .grid {
             display: grid;
             grid-template-columns: repeat(10, 1fr);
-            gap: 20px; /* Increase gap */
+            gap: 10px;
             padding: 10px;
         }
 
         .grid div {
             display: flex;
             align-items: center;
-            justify-content: center;
-            margin: 10px; /* Increase margin */
-        }
-
-        .grid input[type="checkbox"] {
-            width: 20px; /* Increase checkbox size */
-            height: 20px;
-        }
-
-        .grid label {
-            font-size: 1.5em; /* Increase label size */
-            margin-left: 10px; /* Space between checkbox and label */
+            margin: 5px;
         }
 
         #codeInput {
             font-family: "Courier New", monospace;
-            width: 300px; /* Adjust width */
+            width: 200px; /* Adjust width */
             height: 50px; /* Adjust height */
             padding: 10px; /* Ensure padding matches .code-text-top */
             box-sizing: border-box; /* Ensures padding is included in the height */
             margin-top: 10px;
-            font-size: 1.5em; /* Increase font size */
         }
 
         #reachButton {
-            padding: 15px 30px;
+            padding: 10px 20px;
             font-family: "Courier New", monospace;
-            font-size: 1.5em; /* Increase font size */
+            font-size: 16px;
             color: white;
             background-color: black;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            margin-left: 10px; /* Space between input field and button */
+            margin-top: 10px; /* Adds space between the button and the input field */
         }
 
         #reachButton:hover {
@@ -112,22 +100,6 @@
             background-color: rgba(0, 0, 0, 0.7);
             z-index: 9;
         }
-        .spiral {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            z-index: 0;
-            font-size: 10px;
-            animation: growSpiral 60s linear forwards;
-        }
-
-        @keyframes growSpiral {
-            to {
-                transform: translate(-50%, -50%) scale(80);
-                font-size: 100px;
-            }
-        }
     </style>
 </head>
 <body>
@@ -137,13 +109,12 @@
         <div class="code-text-top">
             <div id="timer">01:11</div>
         </div>
-        <input type="text" id="codeInput" class="code-text-small" style="display: none" placeholder="the word you reach for">
-        <button id="reachButton" style="display: none" onclick="navigateToPage()">maybe</button>
+        <input type="text" id="codeInput" class="code-text-small" style="display: none" placeholder="Now what?">
+        <button id="reachButton" style="display: none" onclick="navigateToPage()">for more</button>
     </div>
     <div class="container">
         <div id="checkboxes" class="grid"></div>
     </div>
-    <div class="spiral" id="spiral">𖦹</div>
     <script>
         function navigateToPage() {
             window.location.href = "https://deserve.vercel.app/3c-erase.html";
@@ -155,10 +126,10 @@
             const overlay = document.getElementById('overlay');
             modal.style.display = 'flex';
             overlay.style.display = 'block';
-            overlay.addEventListener('click', () => {
+            setTimeout(() => {
                 modal.style.display = 'none';
                 overlay.style.display = 'none';
-            });
+            }, 6000);
 
             const container = document.getElementById('checkboxes');
             for (let i = 0; i < 100; i++) {
@@ -172,9 +143,6 @@
                 checkbox.onchange = () => {
                     if (Array.from(document.querySelectorAll('input[type="checkbox"]')).every(cb => cb.checked)) {
                         document.getElementById('codeInput').style.display = 'block';
-                        document.getElementById('reachButton').style.display = 'block';
-                        stopTimer();
-                        document.getElementById('spiral').style.display = 'block';
                     }
                 };
 
@@ -188,7 +156,7 @@
 
             const inputField = document.getElementById('codeInput');
             inputField.oninput = () => {
-                if (inputField.value.includes('truth')) {
+                if (inputField.value.includes('reach')) {
                     document.getElementById('reachButton').style.display = 'block';
                 }
             };
@@ -196,27 +164,21 @@
             startTimer();
         });
 
-        let timerInterval;
-
         function startTimer() {
             let timer = 71; // 1 minute 11 seconds in seconds
             const timerElement = document.getElementById('timer');
 
-            timerInterval = setInterval(() => {
+            const interval = setInterval(() => {
                 const minutes = Math.floor(timer / 60);
                 const seconds = timer % 60;
                 timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
                 if (timer === 0) {
-                    clearInterval(timerInterval);
+                    clearInterval(interval);
                 }
 
                 timer--;
             }, 1000);
-        }
-
-        function stopTimer() {
-            clearInterval(timerInterval);
         }
     </script>
 </body>
