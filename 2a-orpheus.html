@@ -20,16 +20,16 @@
         height: auto;
         position: absolute;
         left: 10%;
-        transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+        transition: opacity 1s ease, transform 1s ease;
         z-index: 0;
-        cursor: pointer;
+        cursor: pointer; /* Hand cursor for Orpheus */
     }
     #eurydice {
         width: 500px;
         height: auto;
         position: absolute;
         right: 10%;
-        transition: opacity 60s ease-in-out;
+        transition: opacity 60s ease, transform 60s ease;
         z-index: 0;
     }
     .Btn {
@@ -41,7 +41,8 @@
         border: white;
         border-radius: 5px;
         cursor: pointer;
-        display: none;
+        display: none; /* Initially hidden */
+        margin-left: 10px;
     }
     .Btn:hover {
         background-color: grey;
@@ -62,7 +63,6 @@
         font-size: 16px;
         border: 2px solid black;
         border-radius: 5px;
-        margin-right: 10px;
     }
     .modal {
         display: flex;
@@ -131,16 +131,18 @@
                 orpheusElement.style.opacity = '0';
                 orpheusElement.style.transform = 'scale(0.95)';
                 setTimeout(() => {
+                    currentImage++;
                     orpheusElement.src = `assets/image${currentImage}.png`;
                     orpheusElement.style.opacity = '1';
                     orpheusElement.style.transform = 'scale(1)';
                     isTransitioning = false;
                     if (currentImage === totalImages) {
                         setTimeout(() => {
-                            eurydiceElement.style.opacity = '0'; // Eurydice starts disappearing
+                            eurydiceElement.style.opacity = '0';
+                            eurydiceElement.style.transform = 'translateX(100%)';
                             setTimeout(() => {
                                 inputContainer.style.display = 'flex';
-                            }, 60000); // Wait for Eurydice transition before showing input container
+                            }, 60000);
                         }, 0);
                     }
                 }, 1000);
@@ -152,7 +154,7 @@
             setTimeout(() => {
                 modal.style.display = 'none';
                 overlay.style.display = 'none';
-            }, 5000); // Hide modal and overlay after 5 seconds
+            }, 5000);
         };
     </script>
 </body>
