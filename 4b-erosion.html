@@ -70,11 +70,15 @@
             background-color: black;
             color: white;
             border: none;
-            padding: 15px 30px;
+            padding: 20px 40px;
             border-radius: 10px;
-            font-size: 1em;
-            font-family: 'Courier', serif;
+            font-size: 24px;
+            font-family: 'Courier New', monospace;
             cursor: pointer;
+            width: 200px;
+            height: 80px;
+            text-align: center;
+            line-height: 40px;
         }
         .submit-button:hover {
             background-color: grey;
@@ -118,8 +122,10 @@
         </div>
         <div class="divider"></div>
         <div id="blobsContainer"></div>
+        <img src="https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg" id="image" class="image" style="opacity: 1;">
+        <div id="price" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); font-size:2em; font-family:'Courier New', monospace;">$600</div>
     </div>
-    <button class="submit-button" onclick="window.open('4c-reach.html', '_blank')">Submit</button>
+    <button class="submit-button" id="submitBtn" onclick="window.open('4c-reach.html', '_blank')">Submit</button>
 
     <!-- Modal and Overlay -->
     <div class="modal" id="modal">While finishing your application, you think about your next trip home...</div>
@@ -127,40 +133,42 @@
 
     <script>
         const blobsContainer = document.getElementById('blobsContainer');
-        const submitButton = document.querySelector('.submit-button');
+        const submitButton = document.getElementById('submitBtn');
         const image = document.getElementById('image');
+        const priceElement = document.getElementById('price');
         const parts = 10;
         let blobs = [];
         let crossCount = 0;
         let lastSide = 'left';
         let clickCount = 0;
+        let price = 600;
+        let priceIncreaseInterval = null;
 
-        // Create blobs to form a stick figure and attach them to the mouse
-        const stickFigurePositions = [
-            { x: 0, y: -60 },  // Head
-            { x: 0, y: -40 },  // Body
-            { x: -20, y: -40 }, // Left arm
-            { x: 20, y: -40 },  // Right arm
-            { x: 0, y: -20 },  // Lower body
-            { x: -10, y: 0 },  // Left leg
-            { x: 10, y: 0 },   // Right leg
-            { x: -10, y: 20 }, // Left foot
-            { x: 10, y: 20 },  // Right foot
-        ];
+        // Generate circle positions for blobs
+        function generateCirclePositions(radius, count) {
+            let positions = [];
+            for (let i = 0; i < count; i++) {
+                let angle = (i / count) * 2 * Math.PI;
+                positions.push({
+                    x: radius * Math.cos(angle),
+                    y: radius * Math.sin(angle)
+                });
+            }
+            return positions;
+        }
 
-        stickFigurePositions.forEach((pos, index) => {
+        const circlePositions = generateCirclePositions(100, parts);
+
+        circlePositions.forEach((pos, index) => {
             let blob = document.createElement('div');
             blob.classList.add('blob');
+            blob.style.left = `calc(50% + ${pos.x}px)`;
+            blob.style.top = `calc(50% + ${pos.y}px)`;
             blobsContainer.appendChild(blob);
             blobs.push({ element: blob, ...pos });
         });
 
         document.addEventListener('mousemove', function (e) {
-            blobs.forEach(blob => {
-                blob.element.style.left = e.clientX + blob.x + 'px';
-                blob.element.style.top = e.clientY + blob.y + 'px';
-            });
-
             let centerX = window.innerWidth / 2;
             let mouseX = e.clientX;
             if ((mouseX < centerX && lastSide === 'right') || (mouseX >= centerX && lastSide === 'left')) {
@@ -169,6 +177,7 @@
                 if (crossCount >= 2) {
                     crossCount = 0;
                     crumbleBlob();
+                    increasePrice();
                 }
             }
         });
@@ -183,20 +192,43 @@
                 }, 0);
 
                 // Reduce image opacity
-                image.style.opacity = (blobs.length / stickFigurePositions.length).toString();
+                image.style.opacity = (blobs.length / circlePositions.length).toString();
             } else {
                 image.style.opacity = 0;
+                clearInterval(priceIncreaseInterval);
+            }
+        }
+
+        function increasePrice() {
+            if (price < 1800) {
+                price += Math.floor(Math.random() * 100) + 1;
+                priceElement.textContent = `$${price}`;
             }
         }
 
         document.addEventListener('click', function (e) {
-            if (e.clientY > window.innerHeight - 100) {
-                clickCount++;
-                if (clickCount >= 10) {
-                    levitateBlobs();
-                }
+            clickCount++;
+            if (clickCount <= 3) {
+                showSparkEmoji(e.clientX, e.clientY);
+            }
+            if (clickCount >= 10) {
+                levitateBlobs();
             }
         });
+
+        function showSparkEmoji(x, y) {
+            let sparkEmoji = document.createElement('div');
+            sparkEmoji.textContent = '✨';
+            sparkEmoji.style.position = 'absolute';
+            sparkEmoji.style.left = `${x}px`;
+            sparkEmoji.style.top = `${y - 30}px`;
+            sparkEmoji.style.fontSize = '2em';
+            document.body.appendChild(sparkEmoji);
+
+            setTimeout(() => {
+                sparkEmoji.remove();
+            }, 3000);
+        }
 
         function levitateBlobs() {
             const middleY = window.innerHeight / 2 - 20;
@@ -215,16 +247,18 @@
                 let fireEmoji = document.createElement('div');
                 fireEmoji.classList.add('fire-emoji');
                 fireEmoji.textContent = '🔥';
+                fireEmoji.style.position = 'absolute';
                 fireEmoji.style.left = `${Math.random() * 100}%`;
                 fireEmoji.style.top = `${Math.random() * 100}%`;
+                fireEmoji.style.fontSize = '2em';
                 document.body.appendChild(fireEmoji);
-                fireEmoji.style.display = 'block';
             }
 
             setTimeout(() => {
                 document.querySelectorAll('.crumbled').forEach(blob => blob.remove());
                 document.querySelectorAll('.fire-emoji').forEach(fireEmoji => fireEmoji.remove());
                 document.querySelectorAll('.word').forEach(word => word.remove());
+                priceElement.remove();
                 submitButton.style.display = 'block';
                 clickCount = 0;
             }, 3000);
@@ -241,7 +275,7 @@
             setTimeout(() => {
                 modal.style.display = 'none';
                 overlay.style.display = 'none';
-            }, 6000); // 6 seconds
+            }, 5000); // 5 seconds
         };
     </script>
 </body>

@@ -46,7 +46,6 @@
             display: flex;
             justify-content: space-between;
             width: 860px;
-            /* Match the width of the rectangle */
             background-color: white;
             padding: 10px;
             border: 1px solid #000;
@@ -88,6 +87,7 @@
         .progress-text.active {
             color: black;
         }
+
         .progress-dot.active {
             background-color: black;
         }
@@ -166,6 +166,7 @@
             border: 2px solid black;
             z-index: 1000;
             text-align: center;
+            font-size: 2.25em;
         }
 
         .overlay {
@@ -179,13 +180,29 @@
             z-index: 999;
         }
 
+        .new-modal {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 200px;
+            background-color: white;
+            color: black;
+            border: 1px solid black;
+            z-index: 11;
+            font-size: 1.5em;
+            text-align: center;
+            font-family: "Courier New", Courier, monospace;
+        }
+
         .sample-text-box {
             width: 860px;
-            /* Same width as the buttons container */
             height: 50px;
-            /* Adjust to match button height */
             padding: 15px;
-            /* Padding to match the button padding */
             border: 1px solid black;
             background-color: white;
             text-align: center;
@@ -193,15 +210,12 @@
             justify-content: center;
             align-items: center;
             margin: 20px auto;
-            /* Center the box horizontally */
             position: relative;
-            /* Ensure proper positioning */
         }
     </style>
 </head>
 
 <body>
-
     <div class="progress-container">
         <h1>(DS-160) Immigration i-765/485 EAD N400 Application Form</h1>
     </div>
@@ -251,12 +265,17 @@
         <button class="submit-button" onclick="window.open('2a-orpheus.html', '_blank')">Save</button>
         <button class="submit-button" onclick="window.open('2b-reporter-1-tv.html', '_blank')">Stray</button>
     </div>
+
+    <div class="new-modal" id="newModal">
+        Wait to be called on
+    </div>
     <div class="modal" id="modal">
         <p>Are you sure you would like to "EDIT"? This procedure will require 90 days and will
             reset your application.</p>
         <button class="submit-button" onclick="closeModal()">I made a mistake</button>
     </div>
     <div class="overlay" id="overlay"></div>
+
     <script>
         function generateRandomId() {
             const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -334,6 +353,21 @@
             document.getElementById('modal').style.display = 'none';
             document.getElementById('overlay').style.display = 'none';
         }
+
+        function showNewModal() {
+            document.getElementById('newModal').style.display = 'flex';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        function hideNewModal() {
+            document.getElementById('newModal').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            showNewModal();
+            document.getElementById('overlay').addEventListener('click', hideNewModal);
+        });
     </script>
 </body>
 

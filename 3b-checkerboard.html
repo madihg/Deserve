@@ -20,12 +20,12 @@
             border: 1px solid black;
             padding: 10px;
             background-color: white;
-            height: 90px; /* Adjust height */
+            height: 90px;
         }
 
         #timer {
             font-size: 3em;
-            margin-left: 10px; /* Adds space between "Answer correctly" and the timer */
+            margin-left: 10px;
         }
 
         .container {
@@ -37,36 +37,48 @@
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(10, 1fr);
-            gap: 10px;
-            padding: 10px;
+            grid-template-columns: repeat(5, 1fr); /* Adjust the number of columns for better spacing */
+            gap: 20px;
+            padding: 20px;
         }
 
         .grid div {
             display: flex;
             align-items: center;
-            margin: 5px;
+            margin: 15px;
+        }
+
+        .grid input[type="checkbox"] {
+            width: 30px;
+            height: 30px;
+        }
+
+        .grid label {
+            font-size: 2em;
+            margin-left: 10px;
         }
 
         #codeInput {
             font-family: "Courier New", monospace;
-            width: 200px; /* Adjust width */
-            height: 50px; /* Adjust height */
-            padding: 10px; /* Ensure padding matches .code-text-top */
-            box-sizing: border-box; /* Ensures padding is included in the height */
+            width: 300px;
+            height: 60px;
+            padding: 10px;
+            box-sizing: border-box;
             margin-top: 10px;
+            font-size: 1.5em;
         }
 
         #reachButton {
-            padding: 10px 20px;
+            padding: 15px 30px;
             font-family: "Courier New", monospace;
-            font-size: 16px;
+            font-size: 1.5em;
             color: white;
             background-color: black;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            margin-top: 10px; /* Adds space between the button and the input field */
+            margin-top: 10px;
+            margin-left: 10px;
         }
 
         #reachButton:hover {
@@ -91,6 +103,7 @@
             text-align: center;
             font-family: "Courier New", monospace;
         }
+
         .overlay {
             position: fixed;
             top: 0;
@@ -99,6 +112,26 @@
             height: 100%;
             background-color: rgba(0, 0, 0, 0.7);
             z-index: 9;
+        }
+
+        .spiral {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 10px;
+            color: rgba(0, 0, 0, 0.1);
+            z-index: 1;
+            animation: grow 60s forwards;
+        }
+
+        @keyframes grow {
+            from {
+                font-size: 10px;
+            }
+            to {
+                font-size: 400px;
+            }
         }
     </style>
 </head>
@@ -109,19 +142,21 @@
         <div class="code-text-top">
             <div id="timer">01:11</div>
         </div>
-        <input type="text" id="codeInput" class="code-text-small" style="display: none" placeholder="Now what?">
-        <button id="reachButton" style="display: none" onclick="navigateToPage()">for more</button>
+        <div style="display: flex;">
+            <input type="text" id="codeInput" class="code-text-small" style="display: none" placeholder="the word you reach for">
+            <button id="reachButton" style="display: none" onclick="navigateToPage()">maybe</button>
+        </div>
     </div>
     <div class="container">
         <div id="checkboxes" class="grid"></div>
     </div>
+    <div id="spiral" class="spiral" style="display: none;">𖦹</div>
     <script>
         function navigateToPage() {
             window.location.href = "https://deserve.vercel.app/3c-erase.html";
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Show modal for 5 seconds
             const modal = document.getElementById('modal');
             const overlay = document.getElementById('overlay');
             modal.style.display = 'flex';
@@ -143,6 +178,9 @@
                 checkbox.onchange = () => {
                     if (Array.from(document.querySelectorAll('input[type="checkbox"]')).every(cb => cb.checked)) {
                         document.getElementById('codeInput').style.display = 'block';
+                        document.getElementById('spiral').style.display = 'block';
+                        startSpiral();
+                        stopTimer();
                     }
                 };
 
@@ -156,7 +194,7 @@
 
             const inputField = document.getElementById('codeInput');
             inputField.oninput = () => {
-                if (inputField.value.includes('reach')) {
+                if (inputField.value.includes('truth')) {
                     document.getElementById('reachButton').style.display = 'block';
                 }
             };
@@ -164,21 +202,35 @@
             startTimer();
         });
 
+        let timerInterval;
+
         function startTimer() {
-            let timer = 71; // 1 minute 11 seconds in seconds
+            let timer = 71;
             const timerElement = document.getElementById('timer');
 
-            const interval = setInterval(() => {
+            timerInterval = setInterval(() => {
                 const minutes = Math.floor(timer / 60);
                 const seconds = timer % 60;
                 timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
                 if (timer === 0) {
-                    clearInterval(interval);
+                    clearInterval(timerInterval);
                 }
 
                 timer--;
             }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+        }
+
+        function startSpiral() {
+            const spiral = document.getElementById('spiral');
+            spiral.style.animation = 'grow 60s forwards';
+            setTimeout(() => {
+                spiral.style.animation = 'none';
+            }, 60000);
         }
     </script>
 </body>

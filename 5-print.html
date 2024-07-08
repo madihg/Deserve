@@ -157,13 +157,18 @@
             cursor: not-allowed;
         }
 
-        /* Flexbox layout for photo and name entry */
-        #photoAndName {
-            display: flex;
-            /* Enables flexbox layout */
-            align-items: center;
-            /* Aligns items vertically in the center */
-        }
+/* Add this to your existing CSS */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center items horizontally */
+}
+
+#photoAndName {
+    display: flex;
+    align-items: center; /* Aligns items vertically in the center */
+    justify-content: center; /* Center items horizontally */
+}
 
         #nameEntry {
             margin-left: 5px;
@@ -226,11 +231,6 @@
             font-family: "Courier New", monospace;
         }
 
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start; /* Align items to the start of the container */
-        }
     </style>
 </head>
 

@@ -20,16 +20,16 @@
         height: auto;
         position: absolute;
         left: 10%;
-        transition: opacity 0.5s ease; /* Faster and smoother transition */
+        transition: opacity 1s ease-in-out, transform 1s ease-in-out;
         z-index: 0;
-        cursor: pointer; /* Hand cursor for Orpheus */
+        cursor: pointer;
     }
     #eurydice {
         width: 500px;
         height: auto;
         position: absolute;
         right: 10%;
-        transition: opacity 60s ease;
+        transition: opacity 60s ease-in-out;
         z-index: 0;
     }
     .Btn {
@@ -38,10 +38,10 @@
         font-size: 16px;
         color: white;
         background-color: black;
-        border: none; /* Corrected border property */
+        border: white;
         border-radius: 5px;
         cursor: pointer;
-        display: none; /* Initially hidden */
+        display: none;
     }
     .Btn:hover {
         background-color: grey;
@@ -54,7 +54,6 @@
         bottom: 10%;
         left: 50%;
         transform: translateX(-50%);
-        display: flex; /* Ensuring flex display for proper alignment */
     }
     .input-field {
         width: 350px;
@@ -129,11 +128,12 @@
             if (isTransitioning) return;
             if (currentImage < totalImages) {
                 isTransitioning = true;
-                currentImage++;
                 orpheusElement.style.opacity = '0';
+                orpheusElement.style.transform = 'scale(0.95)';
                 setTimeout(() => {
                     orpheusElement.src = `assets/image${currentImage}.png`;
                     orpheusElement.style.opacity = '1';
+                    orpheusElement.style.transform = 'scale(1)';
                     isTransitioning = false;
                     if (currentImage === totalImages) {
                         setTimeout(() => {
@@ -143,7 +143,7 @@
                             }, 60000); // Wait for Eurydice transition before showing input container
                         }, 0);
                     }
-                }, 500); // Faster transition for Orpheus images
+                }, 1000);
             }
         }
 
@@ -152,7 +152,7 @@
             setTimeout(() => {
                 modal.style.display = 'none';
                 overlay.style.display = 'none';
-            }, 6000); // Hide modal and overlay after 6 seconds
+            }, 5000); // Hide modal and overlay after 5 seconds
         };
     </script>
 </body>
