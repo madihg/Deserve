@@ -187,7 +187,7 @@
         function crumbleBlob() {
             if (blobs.length > 0) {
                 let blob = blobs.pop().element;
-                if (blobs.length === 0) {
+                if (blobs.length === 1) {
                     allBlobsFallen = true;
                     clearInterval(priceIncreaseInterval);
                     priceElement.remove();
