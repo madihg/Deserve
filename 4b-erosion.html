@@ -138,6 +138,7 @@
         let crossCount = 0;
         let lastSide = 'left';
         let price = 600;
+        let priceIncreaseInterval;
         let allBlobsFallen = false;
 
         // Generate circle positions for blobs
@@ -188,9 +189,8 @@
             if (blobs.length > 0) {
                 let blob = blobs.pop().element;
                 if (blobs.length === 1) {
-                    allBlobsFallen = true;
-                    clearInterval(priceIncreaseInterval);
                     priceElement.remove();
+                    allBlobsFallen = true;
                 }
                 blob.classList.add('crumbled');
                 document.body.appendChild(blob);
