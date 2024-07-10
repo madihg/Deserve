@@ -259,7 +259,7 @@
         function handleNoClick() {
             if (currentQuestionIndex < questions.length - 1) {
                 currentQuestionIndex++;
-                document.getElementById('question').textContent = `Question ${currentQuestionIndex + 1} of ${questions.length + 1}: ${questions[currentQuestionIndex]}`;
+                document.getElementById('question').textContent = `Question ${currentQuestionIndex + 1} of ${questions.length}: ${questions[currentQuestionIndex]}`;
                 createFloatingCheckboxes();
             } else {
                 showSampleText();
